@@ -32,7 +32,7 @@
 
             foreach($processor->getNotLearnedWords() as $key => $word)
             {
-                print $key . $word->toCheckbox() . "&nbsp&nbsp&nbsp" . $word->getContext() . "<br>";
+                print $key . $word->toCheckbox() . "<b>" . $word . "</b>" . "&nbsp&nbsp&nbsp" . "<i>(" . $word->getContext() . ")</i>" . "<br>";
             }
             ?>
 			</div>
