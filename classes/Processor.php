@@ -4,69 +4,107 @@
 namespace classes;
 
 
-class processes
+use mysqli;
+
+class Processor
 {
     /**
      * @var array
      */
-    private $symbols;
+    private array $sentences;
     /**
-     * @var string
+     * @var array
      */
-    private $lastSymbol;
+    private array $words;
     /**
-     * @var int
+     * @var array
      */
-    private $lastKey;
+    private array $uniqWords;
+    /**
+     * @var array
+     */
+    private array $learnedWords;
+    /**
+     * @var array
+     */
+    private array $notLearnedWords;
+    /**
+     * Array of symbols.
+     * @var array
+     */
+    private array $symbols;
 
-	protected function processSymbols()
+    /**
+     * Set text's properties:
+     * <ul>
+     *      <li>sentences</li>
+     *      <li>words</li>
+     *      <li>unique words</li>
+     *      <li>learned words</li>
+     *      <li>not learned words.</li>
+     * </ul>
+     * @param $text string
+     */
+    public function __construct(string $text)
+    {
+        if (strlen($text) == 0) echo 'You give empty parameter';
+        $this->symbols = str_split($text);
+        $this->processEnter();
+        $this->processLastSpace();
+        $this->processSomeSpaceToOne();
+        $this->markEndsOfSentences();
+        $this->setSentences();
+        $this->setWords();
+        $this->setUniqWords();
+        $this->setLearnedWords();
+        $this->setNotLearnedWords();
+    }
+
+    private function processAll()
 	{
 
 		$this->processEnter();
-		$this->resetKeys();
 		/*echo "\nTHE END processEnter\n";
-		print_r($symbols);
+		print_r($this->symbols);
 		echo "\n";*/
 
-
 		$this->processBraked();
-		$this->resetKeys();
 		/*echo "\nTHE END processBraked\n";
-		print_r($symbols);
+		print_r($this->symbols);
 		echo "\n";*/
 
 		$this->processShortWordsWithPoint();
-		$this->resetKeys();
 		/*echo "\nTHE END processShortWordsWithPoint\n";
-		print_r($symbols);
+		print_r($this->symbols);
 		echo "\n";*/
 
 		$this->processShortWordsWithApostrophe();
-		$this->resetKeys();
 		/*echo "\nTHE END processShortWordsWithApostrophe\n";
-		print_r($symbols);
+		print_r($this->symbols);
 		echo "\n";*/
 
-		$this->filterOut();
-		$this->resetKeys();
+		$this->symbols = array_filter($this->symbols, function ($value){
+            return preg_match("/^[a-zA-Z\s]+$/", $value);
+        });
 		/*echo "\nTHE END filterOut\n";
-		print_r($symbols);
+		print_r($this->symbols);
 		echo "\n";*/
 
 		$this->processSomeSpaceToOne();
-		$this->resetKeys();
 		/*echo "\nTHE END processSomeSpaceToOne\n";
-		print_r($symbols);
+		print_r($this->symbols);
 		echo "\n";*/
 
 		$this->processLastSpace();
-		$this->resetKeys();
 		/*echo "\nTHE END processLastSpace\n";
-		print_r($symbols);
+		print_r($this->symbols);
 		echo "\n";*/
 	}
 
-	private function processEnter()
+    /**
+     * Find "\n" from $symbols and correct delete them.
+     */
+    private function processEnter()
 	{
 		for ($i=0, $size = count($this->symbols); $i < $size; $i++) {
 			if ($this->symbols[$i] == "\n")
@@ -74,20 +112,59 @@ class processes
 				unset ($this->symbols[$i-1]);
 				$this->symbols[$i] = " ";
 			}
-            /*if (current($this->symbols) == "\n")
-			{
-                prev($this->symbols);
-                $prevKey = key($this->symbols);
-                next($this->symbols);
-				unset ($this->symbols[$prevKey]);
-			    $currKey = key($this->symbols);
-				$this->symbols[$currKey] = " ";
-			}
-			next($this->symbols);*/
 		}
 	}
 
-	private function processBraked()
+    /**
+     * Correct add last space.
+     */
+    private function processLastSpace()
+	{
+		$lastKey = array_key_last($this->symbols);
+		if($this->symbols[$lastKey] === ' ')
+		    unset($this->symbols[$lastKey]);
+		$this->resetKeys();
+	}
+
+    /**
+     * Find some spaces in a row and leave one space.
+     */
+    private function processSomeSpaceToOne()
+	{
+		for ($i=0, $size = count($this->symbols); $i < $size; $i++) {
+			if ($this->symbols[$i] == " ")
+			{
+				if ($this->symbols[$i-1] == " ") {
+					unset ($this->symbols[$i-1]);
+				}
+			}
+		}
+		$this->resetKeys();
+	}
+
+    /**
+     * Find all '. ', '! ', '? ' and change on "\n".
+     */
+    private function markEndsOfSentences()
+    {
+        for ($i=0, $size = count($this->symbols); $i < $size; $i++) {
+			if ($this->symbols[$i] === "." ||
+                $this->symbols[$i] === "?" ||
+                $this->symbols[$i] === "!")
+			{
+				if (array_key_exists($i+1, $this->symbols) &&
+                    $this->symbols[$i+1] === " ")
+				{
+					$this->symbols[$i+1] = "\n";
+				}
+			}
+		}
+	}
+
+    /**
+     * Detect braked from $symbols and correct delete.
+     */
+    private function processBraked()
 	{
 		for ($i=0, $size = count($this->symbols); $i < $size; $i++) {
 			if ($this->symbols[$i] == "(" || $this->symbols[$i] == ")") {
@@ -98,9 +175,13 @@ class processes
 
 			}
 		}
+		$this->resetKeys();
 	}
 
-	private function processShortWordsWithPoint()
+    /**
+     * Detect short words with point from $symbols and delete.
+     */
+    private function processShortWordsWithPoint()
 	{
 		for ($i=0, $size = count($this->symbols); $i < $size; $i++) {
 			if ($this->symbols[$i] == ".") {
@@ -178,9 +259,13 @@ class processes
 
 			}
 		}
+		$this->resetKeys();
 	}
 
-	private function processShortWordsWithApostrophe()
+    /**
+     * Detect endings from short words with apostrophe from $symbols and delete.
+     */
+    private function processShortWordsWithApostrophe()
 	{
 		for ($i=0, $size = count($this->symbols); $i < $size; $i++) {
 			if ($this->symbols[$i] == "'") {
@@ -276,91 +361,90 @@ class processes
 
 			}
 		}
+		$this->resetKeys();
 	}
 
     /**
-     * Filter out EN alphabet and spaces.
-     * @return void
+     * Reset key in array of symbols.
      */
-    private function filterOut()
-    {
-        $this->symbols = array_filter($this->symbols, function ($value){
-            $en_alp = "a-zA-Z";
-            return preg_match("/^[$en_alp\s]+$/", $value);
-        });
-	}
-
-	private function processSomeSpaceToOne()
-	{
-		for ($i=0, $size = count($this->symbols); $i < $size; $i++) {
-			if ($this->symbols[$i] == " ")
-			{
-				if ($this->symbols[$i-1] == " ") {
-					unset ($this->symbols[$i-1]);
-				}
-			}
-		}
-	}
-
-	private function processLastSpace()
-	{
-		if($this->getLastSymbol() == ' ')
-			$this->unsetLastSymbol();
-	}
-
     private function resetKeys()
     {
         $this->symbols = array_values($this->symbols);
 	}
 
-    private function unsetLastSymbol()
+    /**
+     * Split $symbols on sentences.
+     * End of sentence detect with symbol - "\n". Before use this function
+     * execute functions:
+     * <ul>
+     *      <li>processEnter()</li>
+     *      <li>processLastSpace()</li>
+     *      <li>processSomeSpaceToOne()</li>
+     *      <li>markEndOfSentences()</li>
+     * </ul>
+     */
+    private function setSentences()
     {
-        unset($this->symbols[$this->getLastKey()]);
+        $text = implode("", $this->symbols);
+        $this->sentences = explode("\n", $text);
+    }
+
+    /**
+     * Split sentences on words.
+     * Take each sentence and create for each word new object(\classes\word).
+     * For creating object need transfer to him word and sentence. After creating
+     * objects add to array of words.
+     */
+    private function setWords()
+    {
+        foreach ($this->sentences as $sentence) {
+            $lowerSent = strtolower($sentence);
+            $this->symbols = str_split($lowerSent);
+            $this->processAll();
+            $line = implode("", $this->symbols);
+            $words = explode(" ", $line);
+            foreach ($words as $word) {
+                $this->words[] = new word($word, $sentence);
+            }
+        }
+    }
+
+    /**
+     * Take array of words and save to $uniqWords only unique words.
+     */
+    private function setUniqWords()
+    {
+        $this->uniqWords = array_unique($this->words);
+    }
+
+    /**
+     * Get words from database and add to properties $learnedWords.
+     */
+    private function setLearnedWords()
+    {
+        $mysqli = new mysqli("localhost", "slitch", "slitch-psw", "slitch");
+        $mysqli->set_charset('utf8');
+        $mysqli_result = $mysqli->query("SELECT `word` FROM `slitch`.`words`");
+        $mysqli->close();
+
+        while ($DB_row = $mysqli_result->fetch_assoc())
+            $this->learnedWords[] = $DB_row['word'];
+    }
+
+    /**
+     * Add array to $notLearnedWords from different of $uniqWords and $learnedWords.
+     */
+    private function setNotLearnedWords()
+    {
+        $NLW = array_diff($this->uniqWords, $this->learnedWords);
+        $this->notLearnedWords = array_values($NLW);
     }
 
     /**
      * @return array
      */
-    protected function getSymbols()
+    public function getNotLearnedWords()
     {
-        return $this->symbols;
-    }
-
-    /**
-     * @param array $symbols
-     */
-    protected function setSymbols($symbols): void
-    {
-        $this->symbols = $symbols;
-    }
-
-    /**
-     * @return string
-     */
-    private function getLastSymbol()
-    {
-        $this->setLastSymbol();
-        return $this->lastSymbol;
-    }
-
-    private function setLastSymbol(): void
-    {
-        $this->lastSymbol = $this->symbols[$this->getLastKey()];
-    }
-
-    /**
-     * @return int
-     */
-    private function getLastKey(): int
-    {
-        $this->setLastKey();
-        return $this->lastKey;
-    }
-
-    private function setLastKey(): void
-    {
-        $count = count($this->symbols);
-		$lastKey = $count - 1;
-        $this->lastKey = $lastKey;
+        return $this->notLearnedWords;
     }
 }
