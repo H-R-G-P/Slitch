@@ -34,4 +34,9 @@ class word
     {
         return $this->context;
     }
+
+    public function toCheckbox()
+    {
+
+    }
 }
