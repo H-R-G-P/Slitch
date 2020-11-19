@@ -23,8 +23,8 @@
 		<form method='POST' action='handler.php'>
 			<div id="div_checkboxes">
             <?php
+            require_once('classes/word.php');
             require_once('classes/Processor.php');
-            require_once ('classes/Checkboxes.php');
 
             use classes\Processor;
 
@@ -32,7 +32,7 @@
 
             foreach($processor->getNotLearnedWords() as $key => $word)
             {
-                echo $key . $word->toCheckbox();
+                print $key . $word->toCheckbox() . "&nbsp&nbsp&nbsp" . $word->getContext() . "<br>";
             }
             ?>
 			</div>
