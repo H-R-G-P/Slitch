@@ -27,12 +27,13 @@
             require_once ('classes/Checkboxes.php');
 
             use classes\Processor;
-            use classes\Checkboxes;
 
             $processor = new Processor($_POST['textarea']);
 
-            $Checkboxes = new Checkboxes();
-            $Checkboxes->echoIntoCheckboxes($processor->getNotLearnedWords());
+            foreach($processor->getNotLearnedWords() as $key => $word)
+            {
+                echo $key . $word->toCheckbox();
+            }
             ?>
 			</div>
 			<input type='submit' value='Send'>
