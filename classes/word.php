@@ -35,8 +35,12 @@ class word
         return $this->context;
     }
 
+    /**
+     * Create string for printing from word's properties.
+     * @return string 'html checkbox' + 'word' + 'context of word'.
+     */
     public function toCheckbox()
     {
-
+        return "<input type='checkbox' name='{$this->word}'>{$this->word}   {$this->context}<br>";
     }
 }
