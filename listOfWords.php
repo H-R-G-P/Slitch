@@ -23,22 +23,16 @@
 		<form method='POST' action='handler.php'>
 			<div id="div_checkboxes">
             <?php
-                require_once ('classes/processes.php');
-                require_once ('classes/slitch.php');
-                require_once ('classes/Checkboxes.php');
+            require_once('classes/Processor.php');
+            require_once ('classes/Checkboxes.php');
 
-                use classes\slitch;
-                use classes\Checkboxes;
+            use classes\Processor;
+            use classes\Checkboxes;
 
-                $receivedText = $_POST['textarea'];
+            $processor = new Processor($_POST['textarea']);
 
-                $slitch = new slitch($receivedText);
-                $slitch->splitTextIntoWords();
-                $slitch->setUniqReceivedWords();
-                $slitch->setNotLearnedWords();
-
-                $Checkboxes = new Checkboxes();
-                $Checkboxes->echoIntoCheckboxes($slitch->getNotLearnedWords());
+            $Checkboxes = new Checkboxes();
+            $Checkboxes->echoIntoCheckboxes($processor->getNotLearnedWords());
             ?>
 			</div>
 			<input type='submit' value='Send'>
