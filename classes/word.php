@@ -41,6 +41,6 @@ class word
      */
     public function toCheckbox()
     {
-        return "<input type='checkbox' name='{$this->word}'>";
+        return "<input type='checkbox' name='{$this->word}' class='checkbox'>";
     }
 }
