@@ -3,6 +3,7 @@
 	<head>
 		<title>Slitch</title>
 		<meta charset='utf-8'>
+        <script src="http://localhost/libraries/jquery-3.5.1.js"></script>
 	</head>
 	<body>
 		<form method='POST' action='handler.php'>
