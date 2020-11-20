@@ -35,13 +35,26 @@
 
 			function resetCheckboxes()
 			{
-				let size = div_checkboxes.childNodes.length;
-				let checkboxes;
-				for (let i = 1; i < size; i+=2) {
-			        checkboxes = div_checkboxes.childNodes[i];
-				    checkboxes.checked = false;
-			    }
+			    let checkboxes = $('.checkbox');
+				for (let i = 0; i < checkboxes.length; ++i) {
+				    checkboxes[i].checked = false;
+                }
 			}
+
+			function send() {
+                let re = $('.checkbox');
+
+                $.ajax({
+                    url: 'handler.php',
+                    type: 'POST',
+                    cache: false,
+                    data: {  },
+                    dataType: 'text',
+                    success: function (data) {
+                        alert(data);
+                    }
+                })
+            }
 		</script>
 	</body>
  </html>
