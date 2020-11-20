@@ -5,21 +5,6 @@
 		<meta charset='utf-8'>
 	</head>
 	<body>
-		<script type="text/javascript">
-			'use strict'
-
-			let div_checkboxes = document.getElementById('div_checkboxes');
-
-			function resetCheckboxes()
-			{
-				let size = div_checkboxes.childNodes.length;
-				let checkboxes;
-				for (let i = 1; i < size; i+=4) {
-			        checkboxes = div_checkboxes.childNodes[i];
-				    checkboxes.checked = false;
-			    }
-			}
-		</script>
 		<form method='POST' action='handler.php'>
 			<div id="div_checkboxes">
             <?php
@@ -43,5 +28,20 @@
             </div>
 		</form>
 		<button id='btn_reset' onclick="resetCheckboxes()">Reset checkboxes</button>
+        <script type="text/javascript">
+			'use strict'
+
+			let div_checkboxes = document.getElementById('div_checkboxes');
+
+			function resetCheckboxes()
+			{
+				let size = div_checkboxes.childNodes.length;
+				let checkboxes;
+				for (let i = 1; i < size; i+=2) {
+			        checkboxes = div_checkboxes.childNodes[i];
+				    checkboxes.checked = false;
+			    }
+			}
+		</script>
 	</body>
  </html>
