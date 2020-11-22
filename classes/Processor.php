@@ -83,6 +83,11 @@ class Processor
 		print_r($this->symbols);
 		echo "\n";*/
 
+		$this->processWhitespaces();
+		/*echo "\nTHE END processWhitespaces\n";
+		print_r($this->symbols);
+		echo "\n";*/
+
 		$this->symbols = array_filter($this->symbols, function ($value){
             return preg_match("/^[a-zA-Z\s]+$/", $value);
         });
@@ -362,6 +367,22 @@ class Processor
 			}
 		}
 		$this->resetKeys();
+	}
+
+    /**
+     * Find "_" from $symbols and correct delete them.
+     */
+    private function processWhitespaces()
+	{
+		for ($i=0, $size = count($this->symbols); $i < $size; $i++) {
+			if ($this->symbols[$i] == "_")
+			{
+				if ($this->symbols[$i-1] === " " ||
+                    $this->symbols[$i+1] === " ")
+                    unset ($this->symbols[$i]);
+				else $this->symbols[$i] = " ";
+			}
+		}
 	}
 
     /**
