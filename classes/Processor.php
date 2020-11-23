@@ -48,9 +48,9 @@ class Processor
     public function __construct(string $text)
     {
         if (strlen($text) == 0) echo 'You give empty parameter';
+        $text = trim($text);
         $this->symbols = str_split($text);
         $this->processEnter();
-        $this->processLastSpace();
         $this->processSomeSpaceToOne();
         $this->markEndsOfSentences();
         $this->setSentences();
@@ -83,20 +83,18 @@ class Processor
 		print_r($this->symbols);
 		echo "\n";*/
 
-		$this->symbols = array_filter($this->symbols, function ($value){
-            return preg_match("/^[a-zA-Z\s]+$/", $value);
-        });
+		$this->processWhitespaces();
+		/*echo "\nTHE END processWhitespaces\n";
+		print_r($this->symbols);
+		echo "\n";*/
+
+		$this->processABCSpaces();
 		/*echo "\nTHE END filterOut\n";
 		print_r($this->symbols);
 		echo "\n";*/
 
 		$this->processSomeSpaceToOne();
 		/*echo "\nTHE END processSomeSpaceToOne\n";
-		print_r($this->symbols);
-		echo "\n";*/
-
-		$this->processLastSpace();
-		/*echo "\nTHE END processLastSpace\n";
 		print_r($this->symbols);
 		echo "\n";*/
 	}
@@ -116,17 +114,6 @@ class Processor
 	}
 
     /**
-     * Correct add last space.
-     */
-    private function processLastSpace()
-	{
-		$lastKey = array_key_last($this->symbols);
-		if($this->symbols[$lastKey] === ' ')
-		    unset($this->symbols[$lastKey]);
-		$this->resetKeys();
-	}
-
-    /**
      * Find some spaces in a row and leave one space.
      */
     private function processSomeSpaceToOne()
@@ -137,42 +124,6 @@ class Processor
 				if ($this->symbols[$i-1] == " ") {
 					unset ($this->symbols[$i-1]);
 				}
-			}
-		}
-		$this->resetKeys();
-	}
-
-    /**
-     * Find all '. ', '! ', '? ' and change on "\n".
-     */
-    private function markEndsOfSentences()
-    {
-        for ($i=0, $size = count($this->symbols); $i < $size; $i++) {
-			if ($this->symbols[$i] === "." ||
-                $this->symbols[$i] === "?" ||
-                $this->symbols[$i] === "!")
-			{
-				if (array_key_exists($i+1, $this->symbols) &&
-                    $this->symbols[$i+1] === " ")
-				{
-					$this->symbols[$i+1] = "\n";
-				}
-			}
-		}
-	}
-
-    /**
-     * Detect braked from $symbols and correct delete.
-     */
-    private function processBraked()
-	{
-		for ($i=0, $size = count($this->symbols); $i < $size; $i++) {
-			if ($this->symbols[$i] == "(" || $this->symbols[$i] == ")") {
-
-				if ($this->symbols[$i-1] == " " ||
-					$this->symbols[$i+1] == " ") unset($this->symbols[$i]);
-				else $this->symbols[$i] = " ";
-
 			}
 		}
 		$this->resetKeys();
@@ -365,6 +316,66 @@ class Processor
 	}
 
     /**
+     * Find all '. ', '! ', '? ' and change " " to "\n".
+     * Last sentence don't marking.
+     */
+    private function markEndsOfSentences()
+    {
+        for ($i=0, $size = count($this->symbols); $i < $size; $i++) {
+			if ($this->symbols[$i] === "." ||
+                $this->symbols[$i] === "?" ||
+                $this->symbols[$i] === "!")
+			{
+				if (array_key_exists($i+1, $this->symbols) &&
+                    $this->symbols[$i+1] === " ")
+				{
+					$this->symbols[$i+1] = "\n";
+				}
+			}
+		}
+	}
+
+    private function processABCSpaces()
+    {
+        $this->symbols = array_filter($this->symbols, function ($value){
+            return preg_match("/^[a-zA-Z\s]+$/", $value);
+        });
+	}
+
+    /**
+     * Detect braked from $symbols and correct delete.
+     */
+    private function processBraked()
+	{
+		for ($i=0, $size = count($this->symbols); $i < $size; $i++) {
+			if ($this->symbols[$i] == "(" || $this->symbols[$i] == ")") {
+
+				if ($this->symbols[$i-1] == " " ||
+					$this->symbols[$i+1] == " ") unset($this->symbols[$i]);
+				else $this->symbols[$i] = " ";
+
+			}
+		}
+		$this->resetKeys();
+	}
+
+    /**
+     * Find "_" from $symbols and correct delete them.
+     */
+    private function processWhitespaces()
+	{
+		for ($i=0, $size = count($this->symbols); $i < $size; $i++) {
+			if ($this->symbols[$i] == "_")
+			{
+				if ($this->symbols[$i-1] === " " ||
+                    $this->symbols[$i+1] === " ")
+                    unset ($this->symbols[$i]);
+				else $this->symbols[$i] = " ";
+			}
+		}
+	}
+
+    /**
      * Reset key in array of symbols.
      */
     private function resetKeys()
@@ -404,7 +415,15 @@ class Processor
             $line = implode("", $this->symbols);
             $words = explode(" ", $line);
             foreach ($words as $word) {
-                $this->words[] = new word($word, $sentence);
+                $wordLen = strlen($word);
+                $wordPosL = stripos($sentence, $word);
+                $wordPosR = ($wordPosL + $wordLen - 1);
+                $beforeWord = substr($sentence, 0, $wordPosL);
+                $afterWord = substr($sentence, ($wordPosR+1));
+                if ($wordPosL === 0)
+                    $upSentence = $beforeWord . "<b>" . ucfirst($word) . "</b>" . $afterWord;
+                else $upSentence = $beforeWord . "<b>$word</b>" . $afterWord;
+                $this->words[] = new word($word, $upSentence);
             }
         }
     }

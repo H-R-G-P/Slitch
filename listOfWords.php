@@ -7,7 +7,7 @@
 	</head>
 	<body>
         <?php
-        require_once('classes/word.php');
+        require_once('classes/Word.php');
         require_once('classes/Processor.php');
 
         use classes\Processor;
