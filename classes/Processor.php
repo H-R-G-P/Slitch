@@ -415,7 +415,15 @@ class Processor
             $line = implode("", $this->symbols);
             $words = explode(" ", $line);
             foreach ($words as $word) {
-                $this->words[] = new word($word, $sentence);
+                $wordLen = strlen($word);
+                $wordPosL = stripos($sentence, $word);
+                $wordPosR = ($wordPosL + $wordLen - 1);
+                $beforeWord = substr($sentence, 0, $wordPosL);
+                $afterWord = substr($sentence, ($wordPosR+1));
+                if ($wordPosL === 0)
+                    $upSentence = $beforeWord . "<b>" . ucfirst($word) . "</b>" . $afterWord;
+                else $upSentence = $beforeWord . "<b>$word</b>" . $afterWord;
+                $this->words[] = new word($word, $upSentence);
             }
         }
     }
