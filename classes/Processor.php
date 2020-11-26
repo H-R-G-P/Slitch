@@ -277,9 +277,7 @@ class Processor
 						$this->symbols[$i-1] == "n" &&
 						$this->symbols[$i+1] == "t")
 					{
-						unset($this->symbols[$i-1]);
-						unset($this->symbols[$i]);
-						unset($this->symbols[$i+1]);
+					    $this->symbols = $this->removePrevSymbolsToSpace($this->symbols, $i+1);
 						$i += 1;
 					}
 				/***  'd  ***/
@@ -382,6 +380,26 @@ class Processor
     {
         $this->symbols = array_values($this->symbols);
 	}
+
+    /**
+     * Remove symbols from got $key to first space included.
+     * Iterates over the keys decreasing it with each recursive call.
+     * The first space encountered will be removed.
+     * @param array $symbols Array of symbols.
+     * @param int $key Key from start.
+     * @return array Modified $symbols.
+     */
+    private function removePrevSymbolsToSpace(array $symbols, int $key) : array
+    {
+        if (!isset($symbols[$key])) return $symbols;
+        elseif ($symbols[$key] === " ") {
+            unset($symbols[$key]);
+            return $symbols;
+        }else {
+            unset($symbols[$key]);
+            return $this->removePrevSymbolsToSpace($symbols, $key-1);
+        }
+    }
 
     /**
      * Split $symbols on sentences.
