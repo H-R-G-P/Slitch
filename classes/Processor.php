@@ -478,7 +478,7 @@ class Processor
     }
 
     /**
-     * @return array
+     * @return array Each value is object of class Word.
      */
     public function getNotLearnedWords()
     {

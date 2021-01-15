@@ -1,5 +1,5 @@
 <?php
-var_dump($_POST);
+
 
 /*
  * Received data:
@@ -11,6 +11,8 @@ var_dump($_POST);
 $mysqli = new mysqli("localhost", "slitch", "slitch-psw", "slitch");
 $mysqli->set_charset('utf8');
 
-$mysqli->query("DELETE from words WHERE word='{$_POST['deleteWord']}'");
+$result = $mysqli->query("DELETE from words WHERE word='{$_POST['deleteWord']}'");
+if ($result) echo "Success deleted.";
+else echo "Not deleted from database.";
 
 $mysqli->close();

@@ -7,37 +7,36 @@
 	</head>
 	<body>
         <?php
-        require_once('classes/Word.php');
-        require_once('classes/Processor.php');
+        require_once('../classes/Word.php');
+        require_once('../classes/Processor.php');
 
         use classes\Processor;
 
-        $processor = new Processor($_POST['textarea']);
+        $processor = new Processor($_POST['text']);
 
         foreach($processor->getNotLearnedWords() as $key => $word)
         {
-            print $key . $word->toCheckbox() . "<b>" . $word . "</b>" . "&nbsp&nbsp&nbsp" . "<i>(" . $word->getContext() . ")</i>" . "<br>";
+            print $key . $word->toCheckbox() . "<b>" . $word . "</b>" . "&nbsp&nbsp&nbsp" . "<i>( " . $word->getContext() . ")</i>" . "<br>";
         }
         ?>
         <hr>
 		<button id='btn_reset' onclick="resetCheckboxes()">Reset checkboxes</button>
         <button type="button" onclick="send()">send</button>
         <button type="button" onclick="deleteWord()">del</button>
+        <button type="button" onclick="generateListOfOnlyWords()">list of only words</button>
         <hr>
         <div class="deleteFun">
             <input type='text' name='deleteWord' placeholder='Word for deleting' id='delete'>
             <label for='delete'>Click 'Send' and word will deleted.</label>
         </div>
         <hr>
-        <div id="response"></div>
         <script type="text/javascript">
 			'use strict'
 
             let checkboxes = $('.checkbox');
             let deleteWords = $('#delete');
 
-			function resetCheckboxes()
-			{
+			function resetCheckboxes() {
 				for (let i = 0; i < checkboxes.length; ++i) {
 				    checkboxes[i].checked = false;
                 }
@@ -56,7 +55,7 @@
                     data: { checkboxes: ajaxData },
                     dataType: 'text',
                     success: function (data) {
-                        $('#response').html(data);
+                        alert(data);
                     }
                 })
             }
@@ -71,9 +70,31 @@
                     dataType: 'text',
                     success: function (data) {
                         deleteWords.val("");
-                        $('#response').html(data);
+                        alert(data);
                     }
                 })
+            }
+
+            function generateListOfOnlyWords() {
+                let input = document.createElement('input')
+                input.name = "words[]";
+
+                let innerHTML = "";
+
+                for (let i = 0; i < checkboxes.length; ++i) {
+                    input.setAttribute("value", checkboxes[i].name)
+                    innerHTML += input.outerHTML;
+                }
+
+                let form = document.createElement('form');
+                form.action = 'listOfOnlyWords.php';
+                form.method = 'POST';
+
+                form.innerHTML = innerHTML;
+
+                document.body.append(form);
+
+                form.submit();
             }
 		</script>
 	</body>
