@@ -19,7 +19,7 @@ class word
     public function __construct(string $word, string $context)
     {
         $this->word = $word;
-        $this->context = $context;
+        $this->context = rtrim($context);
     }
 
     public function __toString()
