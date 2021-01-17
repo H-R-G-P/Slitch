@@ -21,7 +21,7 @@
     <textarea name="listOfWords" id="listOfWords"></textarea><br>
     <label>
         How many words will be in 1 column?<br>
-        <input type="number" name="sumWordsInCol" value="61">
+        <input type="number" name="sumWordsInCol" value="93">
     </label><br>
 
     <input type="submit" value="split">
