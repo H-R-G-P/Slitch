@@ -49,7 +49,7 @@
                 }
 
                 $.ajax({
-                    url: 'ajax/add.php',
+                    url: '../ajax/add.php',
                     type: 'POST',
                     cache: false,
                     data: { checkboxes: ajaxData },
@@ -63,7 +63,7 @@
             function deleteWord() {
 
                 $.ajax({
-                    url: 'ajax/delete.php',
+                    url: '../ajax/delete.php',
                     type: 'POST',
                     cache: false,
                     data: { deleteWord: deleteWords.val() },
