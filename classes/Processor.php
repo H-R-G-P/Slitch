@@ -29,7 +29,7 @@ class Processor
      */
     private array $notLearnedWords;
     /**
-     * Array of symbols.
+     * Array of symbols in lowercase.
      * @var array
      */
     private array $symbols;
@@ -437,10 +437,11 @@ class Processor
                 $wordPosL = stripos($sentence, $word);
                 $wordPosR = ($wordPosL + $wordLen - 1);
                 $beforeWord = substr($sentence, 0, $wordPosL);
+                $wordFromSentence = substr($sentence, $wordPosL, $wordLen);
                 $afterWord = substr($sentence, ($wordPosR+1));
                 if ($wordPosL === 0)
-                    $upSentence = $beforeWord . "<b>" . ucfirst($word) . "</b>" . $afterWord;
-                else $upSentence = $beforeWord . "<b>$word</b>" . $afterWord;
+                    $upSentence = $beforeWord . "<b>" . $wordFromSentence . "</b>" . $afterWord;
+                else $upSentence = $beforeWord . "<b>$wordFromSentence</b>" . $afterWord;
                 $this->words[] = new word($word, $upSentence);
             }
         }
