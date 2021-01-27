@@ -88,7 +88,7 @@ class Processor
 		print_r($this->symbols);
 		echo "\n";*/
 
-		$this->remainABCSpaces();
+		$this->remainAlphabetAndSpaces();
 		/*echo "\nTHE END filterOut\n";
 		print_r($this->symbols);
 		echo "\n";*/
@@ -333,7 +333,7 @@ class Processor
 		}
 	}
 
-    private function remainABCSpaces()
+    private function remainAlphabetAndSpaces()
     {
         $this->symbols = array_filter($this->symbols, function ($value){
             return preg_match("/^[a-zA-Z\s-]+$/", $value);
