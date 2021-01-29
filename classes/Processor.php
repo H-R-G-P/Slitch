@@ -68,6 +68,11 @@ class Processor
 		print_r($this->symbols);
 		echo "\n";*/
 
+		$this->processMinus();
+		/*echo "\nTHE END processMinus\n";
+		print_r($this->symbols);
+		echo "\n";*/
+
 		$this->processBraked();
 		/*echo "\nTHE END processBraked\n";
 		print_r($this->symbols);
@@ -89,7 +94,7 @@ class Processor
 		echo "\n";*/
 
 		$this->remainAlphabetSpaceMinus();
-		/*echo "\nTHE END filterOut\n";
+		/*echo "\nTHE END remainAlphabetSpaceMinus\n";
 		print_r($this->symbols);
 		echo "\n";*/
 
@@ -127,6 +132,49 @@ class Processor
 		}
 		$this->resetKeys();
 	}
+
+    /**
+     * Correctly delete "-".
+     */
+    private function processMinus()
+    {
+        for ($i=0, $size = count($this->symbols); $i < $size; $i++) {
+			if ($this->symbols[$i] == "-") {
+
+			    if (!isset($this->symbols[$i-1]))
+                {
+                    unset($this->symbols[$i]);
+                    if ($this->symbols[$i+1] === " ")
+                    {
+                        unset($this->symbols[$i+1]);
+                        ++$i;
+                    }
+                }elseif (!isset($this->symbols[$i+1]))
+                {
+                    unset($this->symbols[$i]);
+                    if ($this->symbols[$i-1] === " ")
+                    {
+                        unset($this->symbols[$i-1]);
+                    }
+                }elseif (isset( $this->symbols[$i-1] ) &&
+                         $this->symbols[$i-1] == " " &&
+                         isset( $this->symbols[$i+1] ) &&
+                         $this->symbols[$i+1] == " ")
+			    {
+			        unset($this->symbols[$i]);
+			        unset($this->symbols[$i-1]);
+                }elseif (isset( $this->symbols[$i-1] ) &&
+                         $this->symbols[$i-1] == " " ||
+                         isset( $this->symbols[$i+1] ) &&
+                         $this->symbols[$i+1] == " ")
+                {
+			        unset($this->symbols[$i]);
+                }
+
+			}
+		}
+        $this->resetKeys();
+    }
 
     /**
      * Detect short words with point from $symbols and delete.
