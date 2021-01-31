@@ -4,6 +4,18 @@
 		<title>Slitch</title>
 		<meta charset='utf-8'>
         <script src="http://localhost/libraries/jquery-3.5.1.js"></script>
+        <style>
+            #buttonBack {
+                bottom: 8px;
+                position: absolute;
+                background-color: lightgray;
+                border: black 0.5px solid;
+                border-radius: 3px;
+                opacity: 80%;
+            }
+            #buttonBack:hover { background: darkgray; } /* при наведении курсора мышки */
+            #buttonBack:active { background: #dddcdc; } /* при нажатии */
+        </style>
 	</head>
 	<body>
         <?php
@@ -30,6 +42,10 @@
             <label for='delete'>Click 'Send' and word will deleted.</label>
         </div>
         <hr>
+        <form action="../index.php" method="post">
+            <button type="submit" id="buttonBack">Back</button>
+        </form>
+
         <script type="text/javascript">
 			'use strict'
 

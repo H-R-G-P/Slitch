@@ -112,6 +112,7 @@ class Processor
 		for ($i=0, $size = count($this->symbols); $i < $size; $i++) {
 			if ($this->symbols[$i] == "\n")
 			{
+			    unset ($this->symbols[$i-1]);
 				$this->symbols[$i] = " ";
 			}
 		}
