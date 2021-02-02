@@ -25,19 +25,19 @@ class database
         $query = "update history set text = '". $this->history[2] . "' where id = 3";
         $result = $this->mysqli->query($query);
         if (!$result) {
-            exit("Error: " . $this->mysqli->error);
+            exit("MySQL error: " . $this->mysqli->error);
         }
 
         $query = "update history set text = '". $this->history[1] . "' where id = 2";
         $result = $this->mysqli->query($query);
         if (!$result) {
-            exit("Error: " . $this->mysqli->error);
+            exit("MySQL error: " . $this->mysqli->error);
         }
 
         $query = "update history set text = '". $text . "' where id = 1";
         $result = $this->mysqli->query($query);
         if (!$result) {
-            exit("Error: " . $this->mysqli->error);
+            exit("MySQL error: " . $this->mysqli->error);
         }
     }
 

@@ -116,7 +116,8 @@ $mysqli->set_charset('utf8');
             dataType: 'text',
             success: function (data) {
                 if (data !== '') {
-                    alert(data);
+                    let message = "This text doesn't saved in history.\n"  + data;
+                    alert(message);
                 }
             }
         })
