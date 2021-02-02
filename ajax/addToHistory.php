@@ -14,7 +14,5 @@ else
 {
     $db = new database();
 
-    echo $text;
-
     $db->addToHistory($text);
 }

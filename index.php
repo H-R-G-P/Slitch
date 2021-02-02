@@ -112,7 +112,13 @@ $mysqli->set_charset('utf8');
             url: 'ajax/addToHistory.php',
             type: 'POST',
             cache: false,
-            data: {text : ajaxData}
+            data: {text : ajaxData},
+            dataType: 'text',
+            success: function (data) {
+                if (data !== '') {
+                    alert(data);
+                }
+            }
         })
     }
 

@@ -22,8 +22,6 @@ class database
     {
         $this->setHistory();
 
-        print_r($this->history);
-
         $query = "update history set text = '". $this->history[2] . "' where id = 3";
         $result = $this->mysqli->query($query);
         if (!$result) {
