@@ -11,7 +11,7 @@ class database
     private mysqli $mysqli;
 
     /**
-     * @var array Array where key is field 'id' and value is field 'text'.
+     * @var array Array where key is field 'id' and value is field 'text' from table 'history'.
      */
     private array $history = [];
 
@@ -22,17 +22,23 @@ class database
     {
         $this->setHistory();
 
-        $query = "update history set text = '". $this->history[2] . "' where id = 3";
+        $secondText = $this->mysqli->real_escape_string($this->history[2]);
+
+        $query = "update history set text = '". $secondText . "' where id = 3";
         $result = $this->mysqli->query($query);
         if (!$result) {
             exit("MySQL error: " . $this->mysqli->error);
         }
 
-        $query = "update history set text = '". $this->history[1] . "' where id = 2";
+        $firstText = $this->mysqli->real_escape_string($this->history[1]);
+
+        $query = "update history set text = '". $firstText . "' where id = 2";
         $result = $this->mysqli->query($query);
         if (!$result) {
             exit("MySQL error: " . $this->mysqli->error);
         }
+
+        $text = $this->mysqli->real_escape_string($text);
 
         $query = "update history set text = '". $text . "' where id = 1";
         $result = $this->mysqli->query($query);
