@@ -119,7 +119,22 @@ class database
 
         return $history;
     }
-    
+
+    /** Return text from database on received position.
+     * @param int $position
+     * @return string Text
+     */
+    public function getTextOnPosition(int $position)
+    {
+        $query = "select text from history inner join texts t on history.id_texts = t.id where position=$position";
+        $result = $this->mysqli->query($query);
+        if (!$result) {
+            exit("MySQL error: " . $this->mysqli->error);
+        }
+        $row = $result->fetch_assoc();
+        return $row['text'];
+    }
+
     public function __construct()
     {
         $mysqli = new mysqli("localhost", "slitch", "slitch-psw", "slitch");

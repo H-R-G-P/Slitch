@@ -48,41 +48,44 @@ $mysqli->set_charset('utf8');
     <div style="margin-left: 30px;margin-top: 5px">
         <div id="firstText">
             <?php
-            $result = $mysqli->query("select text from history where id=1");
+            $query = "select preview from history h inner JOIN texts t on h.id_texts = t.id where h.position=1";
+            $result = $mysqli->query($query);
             if ($result) {
                 $array = $result->fetch_assoc();
-                echo $array['text'];
+                echo $array['preview'];
             }
             else echo "Error. " . $mysqli->error;
             ?>
         </div>
-        <button type="button" style="margin-top: 3px" onclick="selectFirstText()">select</button>
+        <button type="button" style="margin-top: 3px" onclick="selectTextFromHistory(1)">select</button>
     </div>
     <div style="margin-left: 30px;margin-top: 5px">
         <div id="secondText">
             <?php
-            $result = $mysqli->query("select text from history where id=2");
+            $query = "select preview from history h inner JOIN texts t on h.id_texts = t.id where h.position=2";
+            $result = $mysqli->query($query);
             if ($result) {
                 $array = $result->fetch_assoc();
-                echo $array['text'];
+                echo $array['preview'];
             }
             else echo "Error. " . $mysqli->error;
             ?>
         </div>
-        <button type="button" style="margin-top: 3px" onclick="selectSecondText()">select</button>
+        <button type="button" style="margin-top: 3px" onclick="selectTextFromHistory(2)">select</button>
     </div>
     <div style="margin-left: 30px;margin-top: 5px">
         <div id="thirdText">
             <?php
-            $result = $mysqli->query("select text from history where id=3");
+            $query = "select preview from history h inner JOIN texts t on h.id_texts = t.id where h.position=3";
+            $result = $mysqli->query($query);
             if ($result) {
                 $array = $result->fetch_assoc();
-                echo $array['text'];
+                echo $array['preview'];
             }
             else echo "Error. " . $mysqli->error;
             ?>
         </div>
-        <button type="button" style="margin-top: 3px" onclick="selectThirdText()">select</button>
+        <button type="button" style="margin-top: 3px" onclick="selectTextFromHistory(3)">select</button>
     </div>
 </div>
 <hr>
@@ -123,19 +126,17 @@ $mysqli->set_charset('utf8');
         })
     }
 
-    function selectFirstText() {
-        let text = document.getElementById('firstText');
-        textarea1.value = text.innerText;
-    }
-
-    function selectSecondText() {
-        let text = document.getElementById('secondText');
-        textarea1.value = text.innerText;
-    }
-
-    function selectThirdText() {
-        let text = document.getElementById('thirdText');
-        textarea1.value = text.innerText;
+    function selectTextFromHistory(position) {
+        $.ajax({
+            url: 'ajax/selectTextFromHistory.php',
+            type: 'POST',
+            cache: false,
+            data: {position : position},
+            dataType: 'text',
+            success: function (data) {
+                textarea1.value = data;
+            }
+        })
     }
 </script>
 </body>
