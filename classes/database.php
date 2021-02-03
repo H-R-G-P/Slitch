@@ -10,55 +10,114 @@ class database
 {
     private mysqli $mysqli;
 
-    /**
-     * @var array Array where key is field 'id' and value is field 'text' from table 'history'.
-     */
-    private array $history = [];
-
     /** Shifts the texts so that the last one is removed and the first one is added.
      * @param string $text
      */
     public function addToHistory(string $text)
     {
-        $this->setHistory();
+        $this->addText($text);
+        $textId = $this->getLargestTextId();
+        $history = $this->getHistory();
 
-        $secondText = $this->mysqli->real_escape_string($this->history[2]);
-
-        $query = "update history set text = '". $secondText . "' where id = 3";
+        $query = "update history set id_texts = {$history[2]} where position = 3";
         $result = $this->mysqli->query($query);
         if (!$result) {
             exit("MySQL error: " . $this->mysqli->error);
         }
 
-        $firstText = $this->mysqli->real_escape_string($this->history[1]);
-
-        $query = "update history set text = '". $firstText . "' where id = 2";
+        $query = "update history set id_texts = {$history[1]} where position = 2";
         $result = $this->mysqli->query($query);
         if (!$result) {
             exit("MySQL error: " . $this->mysqli->error);
         }
 
-        $text = $this->mysqli->real_escape_string($text);
+        $query = "update history set id_texts = $textId where position = 1";
+        $result = $this->mysqli->query($query);
+        if (!$result) {
+            exit("MySQL error: " . $this->mysqli->error);
+        }
 
-        $query = "update history set text = '". $text . "' where id = 1";
+        $query = "DELETE FROM slitch.texts WHERE id = {$this->getSmallestTextId()}";
         $result = $this->mysqli->query($query);
         if (!$result) {
             exit("MySQL error: " . $this->mysqli->error);
         }
     }
 
-    public function setHistory()
+    /** Add text and preview (first 200 symbols) to table 'texts'.
+     * @param string $text
+     * @return void
+     */
+    private function addText(string $text)
     {
-        $result = $this->mysqli->query("select * from history");
+        $text = $this->mysqli->real_escape_string($text);
+        if (strlen($text) <= 200)
+        {
+            $query = "INSERT INTO slitch.texts (text, preview) VALUES ('$text', '$text')";
+            $result = $this->mysqli->query($query);
+        }
+        else
+        {
+            if (substr($text, 200, 1) === '\\')
+            {
+                $preview = substr($text, 0, 199);
+            }
+            else
+            {
+                $preview = substr($text, 0, 200);
+            }
+            $query = "INSERT INTO slitch.texts (text, preview) VALUES ('$text', '$preview')";
+            $result = $this->mysqli->query($query);
+        }
+        if (!$result) {
+            exit("MySQL error: " . $this->mysqli->error);
+        }
+    }
+
+    /**
+     * @return int Smallest id from table 'texts'.
+     */
+    private function getSmallestTextId()
+    {
+        $query = "select id from texts order by id asc limit 1";
+        $result = $this->mysqli->query($query);
+        if (!$result) {
+            exit("MySQL error: " . $this->mysqli->error);
+        }
+        $row = $result->fetch_assoc();
+        return $row['id'];
+    }
+
+    /**
+     * @return int Largest id from table 'texts'.
+     */
+    private function getLargestTextId()
+    {
+        $query = "select id from texts order by id desc limit 1";
+        $result = $this->mysqli->query($query);
+        if (!$result) {
+            exit("MySQL error: " . $this->mysqli->error);
+        }
+        $row = $result->fetch_assoc();
+        return $row['id'];
+    }
+
+    /**
+     * @return array Array where key is position in history and value is id of text.
+     */
+    private function getHistory()
+    {
+        $result = $this->mysqli->query("select position, id_texts from history");
         if (!$result) {
             exit("Error: " . $this->mysqli->error);
         }
 
         while ($row = $result->fetch_assoc()) {
-            $this->history[$row['id']] = $row['text'];
+            $history[$row['position']] = $row['id_texts'];
         }
-
         $result->free();
+
+        return $history;
     }
     
     public function __construct()
@@ -76,4 +135,8 @@ class database
     {
         $this->mysqli->close();
     }
-}
+}/*
+
+$db = new database();
+
+$db->addToHistory("ihiuhib'njoinnio'mjnijn");*/
