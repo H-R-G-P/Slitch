@@ -7,7 +7,7 @@
         <style>
             #buttonBack {
                 bottom: 8px;
-                position: absolute;
+                position: fixed;
                 background-color: lightgray;
                 border: black 0.5px solid;
                 border-radius: 3px;
@@ -41,7 +41,7 @@
             <input type='text' name='deleteWord' placeholder='Word for deleting' id='delete'>
             <label for='delete'>Click 'Send' and word will deleted.</label>
         </div>
-        <hr>
+        <hr style="margin-bottom: 30px">
         <form action="../index.php" method="post">
             <button type="submit" id="buttonBack">Back</button>
         </form>
