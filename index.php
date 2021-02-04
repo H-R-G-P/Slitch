@@ -41,6 +41,11 @@ $mysqli->set_charset('utf8');
     <textarea name="text" id="text"></textarea><br>
 
 	<input type="submit" value="handle words" onclick="addToHistory()">
+    <label for="selectLang">Select language:</label>
+	<select name="lang" id="selectLang">
+        <option value="EN">EN</option>
+        <option value="PL">PL</option>
+    </select>
 </form>
 <hr>
 <div>

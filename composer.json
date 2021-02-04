@@ -10,6 +10,7 @@
   "minimum-stability": "stable",
   "name": "vendor_name/slitch",
   "require": {
-    "ext-mysqli": "*"
+    "ext-mysqli": "*",
+    "ext-mbstring": "*"
   }
 }

@@ -24,7 +24,7 @@
 
         use classes\Processor;
 
-        $processor = new Processor($_POST['text']);
+        $processor = new Processor($_POST['text'], $_POST['lang']);
 
         foreach($processor->getNotLearnedWords() as $key => $word)
         {

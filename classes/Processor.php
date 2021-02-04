@@ -33,6 +33,10 @@ class Processor
      * @var array
      */
     private array $symbols;
+    /** Language of text that processing.
+     * @var string Short name of language.
+     */
+    private string $lang;
 
     /**
      * Set text's properties:
@@ -43,10 +47,12 @@ class Processor
      *      <li>learned words</li>
      *      <li>not learned words.</li>
      * </ul>
-     * @param $text string
+     * @param $text string Text that processing.
+     * @param string $lang Language of text that processing.
      */
-    public function __construct(string $text)
+    public function __construct(string $text, string $lang = 'EN')
     {
+        $this->setLang($lang);
         if (strlen($text) == 0) echo 'You give empty parameter';
         $text = trim($text);
         $this->symbols = str_split($text);
@@ -383,9 +389,18 @@ class Processor
 
     private function remainAlphabetSpaceMinus()
     {
-        $this->symbols = array_filter($this->symbols, function ($value){
-            return preg_match("/^[a-zA-Z\s-]+$/", $value);
-        });
+        if ($this->lang === 'EN')
+        {
+            $this->symbols = array_filter($this->symbols, function ($value){
+                return preg_match("/^[a-zA-Z\s-]+$/", $value);
+            });
+        }
+        elseif ($this->lang === 'PL')
+        {
+            $this->symbols = array_filter($this->symbols, function ($value){
+                return preg_match("/^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ\s-]+$/", $value);
+            });
+        }
 		$this->resetKeys();
 	}
 
@@ -476,7 +491,7 @@ class Processor
     private function setWords()
     {
         foreach ($this->sentences as $sentence) {
-            $lowerSent = strtolower($sentence);
+            $lowerSent = mb_strtolower($sentence);
             $this->symbols = str_split($lowerSent);
             $this->processAll();
             $line = implode("", $this->symbols);
@@ -533,5 +548,16 @@ class Processor
     public function getNotLearnedWords()
     {
         return $this->notLearnedWords;
+    }
+
+    /**
+     * @param string $lang Available: 'EN', 'PL'.
+     */
+    private function setLang(string $lang): void
+    {
+        if ($lang === 'EN' || $lang === 'PL')
+        {
+            $this->lang = $lang;
+        }
     }
 }
