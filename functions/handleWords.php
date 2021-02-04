@@ -92,13 +92,19 @@
             }
 
             function generateListOfOnlyWords() {
+                let wordsSeparatelyHTML = document.getElementsByClassName('wordsSeparately');
                 let input = document.createElement('input')
                 input.name = "words[]";
 
+                let wordsSeparately = [];
+			    for (let i = 0; i < wordsSeparatelyHTML.length; ++i) {
+				    wordsSeparately.push(wordsSeparatelyHTML[i].innerText);
+                }
+
                 let innerHTML = "";
 
-                for (let i = 0; i < checkboxes.length; ++i) {
-                    input.setAttribute("value", checkboxes[i].name)
+                for (let i = 0; i < wordsSeparately.length; ++i) {
+                    input.setAttribute("value", wordsSeparately[i])
                     innerHTML += input.outerHTML;
                 }
 
