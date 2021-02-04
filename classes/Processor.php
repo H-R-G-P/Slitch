@@ -489,8 +489,8 @@ class Processor
                 $wordFromSentence = substr($sentence, $wordPosL, $wordLen);
                 $afterWord = substr($sentence, ($wordPosR+1));
                 if ($wordPosL === 0)
-                    $upSentence = $beforeWord . "<b>" . $wordFromSentence . "</b>" . $afterWord;
-                else $upSentence = $beforeWord . "<b>$wordFromSentence</b>" . $afterWord;
+                    $upSentence = $beforeWord . "<b class='wordsInContext'>" . $wordFromSentence . "</b>" . $afterWord;
+                else $upSentence = $beforeWord . "<b class='wordsInContext'>$wordFromSentence</b>" . $afterWord;
                 $this->words[] = new word($word, $upSentence);
             }
         }

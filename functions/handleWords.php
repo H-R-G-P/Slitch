@@ -28,7 +28,7 @@
 
         foreach($processor->getNotLearnedWords() as $key => $word)
         {
-            print $key . $word->toCheckbox() . "<b>" . $word . "</b>" . "&nbsp&nbsp&nbsp" . "<i>( " . $word->getContext() . ")</i>" . "<br>";
+            print $key . $word->toCheckbox() . "<b class='wordsSeparately'>" . $word . "</b>" . "&nbsp&nbsp&nbsp" . "<i>( " . $word->getContext() . ")</i>" . "<br>";
         }
         ?>
         <hr>
@@ -36,6 +36,7 @@
         <button type="button" onclick="send()">send</button>
         <button type="button" onclick="deleteWord()">del</button>
         <button type="button" onclick="generateListOfOnlyWords()">list of only words</button>
+        <button type="button" onclick="generateWordsWithTranslatesInContext()">words with translates in context</button>
         <hr>
         <div class="deleteFun">
             <input type='text' name='deleteWord' placeholder='Word for deleting' id='delete'>
@@ -110,6 +111,45 @@
 
                 let form = document.createElement('form');
                 form.action = 'listOfOnlyWords.php';
+                form.method = 'POST';
+
+                form.innerHTML = innerHTML;
+
+                document.body.append(form);
+
+                form.submit();
+            }
+
+            function generateWordsWithTranslatesInContext() {
+                let wordsInContextHTML = document.getElementsByClassName('wordsInContext');
+
+			    let wordsInContext = [];
+			    for (let i = 0; i < wordsInContextHTML.length; ++i) {
+				    wordsInContext.push(wordsInContextHTML[i].innerText);
+                }
+
+                let input1 = document.createElement('input');
+                input1.name = "wordsSeparately[]";
+			    let inputWordsSeparately = input1;
+
+                let input2 = document.createElement('input');
+                input2.name = "wordsInContext[]";
+                let inputWordsInContext = input2;
+
+                let innerHTML = "";
+
+                for (let i = 0; i < checkboxes.length; ++i) {
+                    inputWordsSeparately.setAttribute("value", checkboxes[i].name)
+                    innerHTML += inputWordsSeparately.outerHTML;
+                }
+                for (let i = 0; i < wordsInContext.length; ++i) {
+                    inputWordsInContext.setAttribute("value", wordsInContext[i])
+                    innerHTML += inputWordsInContext.outerHTML;
+                }
+
+                let form = document.createElement('form');
+                form.style.hidden;
+                form.action = 'wordsWithTranslatesInContext.php';
                 form.method = 'POST';
 
                 form.innerHTML = innerHTML;
