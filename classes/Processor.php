@@ -527,7 +527,7 @@ class Processor
             $words = explode(" ", $line);
             foreach ($words as $word) {
                 $wordLen = strlen($word);
-                $wordPosL = stripos($sentence, $word);
+                if (!$wordPosL = stripos($sentence, $word)) continue;
                 $wordPosR = ($wordPosL + $wordLen - 1);
                 $beforeWord = substr($sentence, 0, $wordPosL);
                 $wordFromSentence = substr($sentence, $wordPosL, $wordLen);
