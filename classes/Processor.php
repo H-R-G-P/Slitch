@@ -66,8 +66,16 @@ class Processor
         $this->setNotLearnedWords();
     }
 
+    /**
+     * Process "$this->symbols".
+     */
     private function processAll()
 	{
+
+		$this->processThreeDots();
+		/*echo "\nTHE END processThreeDots\n";
+		print_r($this->symbols);
+		echo "\n";*/
 
 		$this->processEnter();
 		/*echo "\nTHE END processEnter\n";
@@ -178,6 +186,27 @@ class Processor
 			        unset($this->symbols[$i]);
                 }
 
+			}
+		}
+        $this->resetKeys();
+    }
+
+    /**
+     * Delete all three dots in the row.
+     */
+    private function processThreeDots()
+    {
+        for ($i=0, $size = count($this->symbols); $i < $size; $i++) {
+			if ($this->symbols[$i] == ".") {
+                if (isset($this->symbols[$i - 1]) &&
+                    $this->symbols[$i - 1] == "." &&
+                    isset($this->symbols[$i - 2]) &&
+                    $this->symbols[$i - 2] == ".")
+                {
+                    unset($this->symbols[$i]);
+                    unset($this->symbols[$i-1]);
+                    unset($this->symbols[$i-2]);
+                }
 			}
 		}
         $this->resetKeys();
