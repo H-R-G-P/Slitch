@@ -16,13 +16,13 @@
 $mysqli = new mysqli("localhost", "slitch", "slitch-psw", "slitch");
 $mysqli->set_charset('utf8');
 
-$query = "INSERT INTO words (word) values ('')";
+$query = "INSERT INTO EN_words (word) values ('')";
 foreach ($_POST['checkboxes'] as $value) $query .= ", ('$value')";
 $result = $mysqli->query($query);
 if ($result) echo "Success add words. \n";
 else echo "Words not added to database.";
 
-$result = $mysqli->query("DELETE from words WHERE word=''");
+$result = $mysqli->query("DELETE from EN_words WHERE word=''");
 if ($result) echo "Success additional query.";
 else echo "Additional query to database wasn't success.";
 

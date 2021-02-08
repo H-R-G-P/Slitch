@@ -555,7 +555,7 @@ class Processor
     {
         $mysqli = new mysqli("localhost", "slitch", "slitch-psw", "slitch");
         $mysqli->set_charset('utf8');
-        $mysqli_result = $mysqli->query("SELECT `word` FROM `slitch`.`words`");
+        $mysqli_result = $mysqli->query("SELECT `word` FROM `slitch`.`EN_words`");
         $mysqli->close();
 
         while ($DB_row = $mysqli_result->fetch_assoc())
