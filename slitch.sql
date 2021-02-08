@@ -16,59 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `history`
---
-
-DROP TABLE IF EXISTS `history`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `history` (
-  `position` int NOT NULL,
-  `id_texts` int DEFAULT NULL,
-  PRIMARY KEY (`position`),
-  UNIQUE KEY `history_position_uindex` (`position`),
-  KEY `history_texts_id_fk` (`id_texts`),
-  CONSTRAINT `history_texts_id_fk` FOREIGN KEY (`id_texts`) REFERENCES `texts` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `history`
---
-
-LOCK TABLES `history` WRITE;
-/*!40000 ALTER TABLE `history` DISABLE KEYS */;
-INSERT INTO `history` VALUES (3,16),(2,17),(1,18);
-/*!40000 ALTER TABLE `history` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `texts`
---
-
-DROP TABLE IF EXISTS `texts`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `texts` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `text` longtext,
-  `preview` varchar(200) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `history_id_uindex` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `texts`
---
-
-LOCK TABLES `texts` WRITE;
-/*!40000 ALTER TABLE `texts` DISABLE KEYS */;
-INSERT INTO `texts` VALUES (16,'ihiuhib\'njoinnio\'mjnijn','ihiuhib\'njoinnio\'mjnijn'),(17,'ihiuhib\'njoinnio\'mjnijn','ihiuhib\'njoinnio\'mjnijn'),(18,'ihiuhib\'njoinnio\'mjnijn','ihiuhib\'njoinnio\'mjnijn');
-/*!40000 ALTER TABLE `texts` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `EN_words`
 --
 
@@ -95,6 +42,84 @@ INSERT INTO `EN_words` VALUES (139,'a'),(442,'ability'),(9,'able'),(165,'about')
 UNLOCK TABLES;
 
 --
+-- Table structure for table `PL_words`
+--
+
+DROP TABLE IF EXISTS `PL_words`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `PL_words` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `word` varchar(25) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `PL_words_word_uindex` (`word`),
+  UNIQUE KEY `PL_words_id_uindex` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `PL_words`
+--
+
+LOCK TABLES `PL_words` WRITE;
+/*!40000 ALTER TABLE `PL_words` DISABLE KEYS */;
+/*!40000 ALTER TABLE `PL_words` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `history`
+--
+
+DROP TABLE IF EXISTS `history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `history` (
+  `position` int NOT NULL,
+  `id_texts` int DEFAULT NULL,
+  PRIMARY KEY (`position`),
+  UNIQUE KEY `history_position_uindex` (`position`),
+  KEY `history_texts_id_fk` (`id_texts`),
+  CONSTRAINT `history_texts_id_fk` FOREIGN KEY (`id_texts`) REFERENCES `texts` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `history`
+--
+
+LOCK TABLES `history` WRITE;
+/*!40000 ALTER TABLE `history` DISABLE KEYS */;
+INSERT INTO `history` VALUES (3,76),(2,77),(1,78);
+/*!40000 ALTER TABLE `history` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `texts`
+--
+
+DROP TABLE IF EXISTS `texts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `texts` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `text` longtext,
+  `preview` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `history_id_uindex` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `texts`
+--
+
+LOCK TABLES `texts` WRITE;
+/*!40000 ALTER TABLE `texts` DISABLE KEYS */;
+INSERT INTO `texts` VALUES (76,'gfsijgh dfijg kjsdfnk fjbkn dfb nksdjkf ','gfsijgh dfijg kjsdfnk fjbkn dfb nksdjkf '),(77,'I very fine today','I very fine today'),(78,'I ver fine today','I ver fine today');
+/*!40000 ALTER TABLE `texts` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Dumping routines for database 'slitch'
 --
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -107,4 +132,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-02-03 11:57:18
+-- Dump completed on 2021-02-08 13:56:03
