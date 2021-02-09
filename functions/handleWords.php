@@ -3,7 +3,7 @@
 $_POST['text'] = 'Rzeka plyla dlugo.';
 */?>
  <!DOCTYPE html>
- <html lang="en">
+ <html lang="<?php echo $_POST['lang'] ?>">
 	<head>
 		<title>Slitch</title>
 		<meta charset='utf-8'>
