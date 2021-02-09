@@ -11,23 +11,23 @@ class Processor
     /**
      * @var array
      */
-    private array $sentences;
+    private array $sentences = [];
     /**
      * @var array
      */
-    private array $words;
+    private array $words = [];
     /**
      * @var array
      */
-    private array $uniqWords;
+    private array $uniqWords = [];
     /**
      * @var array
      */
-    private array $learnedWords;
+    private array $learnedWords = [];
     /**
      * @var array
      */
-    private array $notLearnedWords;
+    private array $notLearnedWords = [];
     /**
      * Array of symbols in lowercase.
      * @var array
@@ -555,7 +555,7 @@ class Processor
     {
         $mysqli = new mysqli("localhost", "slitch", "slitch-psw", "slitch");
         $mysqli->set_charset('utf8');
-        $mysqli_result = $mysqli->query("SELECT `word` FROM `slitch`.`EN_words`");
+        $mysqli_result = $mysqli->query("SELECT `word` FROM " . $this->lang . "_words");
         $mysqli->close();
 
         while ($DB_row = $mysqli_result->fetch_assoc())
