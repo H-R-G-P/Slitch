@@ -1,18 +1,19 @@
 <?php
 
+require_once '../classes/database.php';
+
+use classes\database;
 
 /*
  * Received data:
  * $_POST = [
- *      'deleteWord' => "word"
+ *      'deleteWord' => "word",
+ *      'lang' => "EN"
  * ]
  */
 
-$mysqli = new mysqli("localhost", "slitch", "slitch-psw", "slitch");
-$mysqli->set_charset('utf8');
+$db = new database();
 
-$result = $mysqli->query("DELETE from EN_words WHERE word='{$_POST['deleteWord']}'");
-if ($result) echo "Success deleted.";
-else echo "Not deleted from database.";
+$response = $db->deleteWord($_POST['deleteWord'], $_POST['lang']);
 
-$mysqli->close();
+echo $response;

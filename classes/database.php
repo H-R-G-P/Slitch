@@ -74,6 +74,40 @@ class database
         }
     }
 
+    /** Add words in database.
+     * @param array $words
+     * @param string $lang
+     * @return string Response about success or fail.
+     */
+    public function addWords(array $words, string $lang)
+    {
+        $response = '';
+
+        $query = "INSERT INTO " . $lang . "_words (word) values ('')";
+        foreach ($words as $value) $query .= ", ('$value')";
+        $result = $this->mysqli->query($query);
+        if ($result) $response .= "Success add words. \n";
+        else $response .= "Words not added to database.";
+
+        $result = $this->mysqli->query("DELETE from " . $lang . "_words WHERE word=''");
+        if ($result) $response .= "Success additional query.";
+        else $response .= "Additional query to database wasn't success.";
+
+        return $response;
+    }
+
+    /** Delete word from database.
+     * @param string $word
+     * @param string $lang
+     * @return string Response about success or fail.
+     */
+    public function deleteWord(string $word, string $lang)
+    {
+        $result = $this->mysqli->query("DELETE from " . $lang . "_words WHERE word='{$word}'");
+        if ($result) return "Success deleted.";
+        else return "Not deleted from database.";
+    }
+
     /**
      * @return int Smallest id from table 'texts'.
      */

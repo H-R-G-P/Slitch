@@ -1,3 +1,7 @@
+<?php
+/*$_POST['lang'] = 'PL';
+$_POST['text'] = 'Rzeka plyla dlugo.';
+*/?>
  <!DOCTYPE html>
  <html lang="en">
 	<head>
@@ -40,7 +44,7 @@
         <hr>
         <div class="deleteFun">
             <input type='text' name='deleteWord' placeholder='Word for deleting' id='delete'>
-            <label for='delete'>Click 'Send' and word will deleted.</label>
+            <label for='delete'>Click 'Del' and word will deleted.</label>
         </div>
         <hr style="margin-bottom: 30px">
         <form action="../index.php" method="post">
@@ -69,7 +73,7 @@
                     url: '../ajax/add.php',
                     type: 'POST',
                     cache: false,
-                    data: { checkboxes: ajaxData },
+                    data: { checkboxes: ajaxData, lang: '<?php echo $_POST['lang'] ?>' },
                     dataType: 'text',
                     success: function (data) {
                         alert(data);
@@ -83,7 +87,7 @@
                     url: '../ajax/delete.php',
                     type: 'POST',
                     cache: false,
-                    data: { deleteWord: deleteWords.val() },
+                    data: { deleteWord: deleteWords.val(), lang: '<?php echo $_POST['lang'] ?>' },
                     dataType: 'text',
                     success: function (data) {
                         deleteWords.val("");
