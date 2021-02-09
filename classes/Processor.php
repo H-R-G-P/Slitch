@@ -126,6 +126,8 @@ class Processor
 		for ($i=0, $size = count($this->symbols); $i < $size; $i++) {
 			if ($this->symbols[$i] == "\n")
 			{
+			    // When text received from browser than next string must be, but if text received from code than next string must not be.
+			    unset ($this->symbols[$i-1]);
 				$this->symbols[$i] = " ";
 			}
 		}
