@@ -126,7 +126,6 @@ class Processor
 		for ($i=0, $size = count($this->symbols); $i < $size; $i++) {
 			if ($this->symbols[$i] == "\n")
 			{
-			    unset ($this->symbols[$i-1]);
 				$this->symbols[$i] = " ";
 			}
 		}
@@ -527,7 +526,8 @@ class Processor
             $words = explode(" ", $line);
             foreach ($words as $word) {
                 $wordLen = strlen($word);
-                if (!$wordPosL = stripos($sentence, $word)) continue;
+                $wordPosL = stripos($sentence, $word);
+                if ($wordPosL === false) continue;
                 $wordPosR = ($wordPosL + $wordLen - 1);
                 $beforeWord = substr($sentence, 0, $wordPosL);
                 $wordFromSentence = substr($sentence, $wordPosL, $wordLen);
