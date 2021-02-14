@@ -101,7 +101,7 @@ $mysqli->set_charset('utf8');
     <textarea name="listOfWords" id="listOfWords"></textarea><br>
     <label>
         How many words will be in 1 column?<br>
-        <input type="number" name="sumWordsInCol" value="93">
+        <input type="number" name="sumWordsInCol" value="94">
     </label><br>
 
     <input type="submit" value="split">
