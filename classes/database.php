@@ -87,11 +87,11 @@ class database
         foreach ($words as $value) $query .= ", ('$value')";
         $result = $this->mysqli->query($query);
         if ($result) $response .= "Success add words. \n";
-        else $response .= "Words not added to database.";
+        else $response .= "Words not added to database. Error: ".$this->mysqli->error;
 
         $result = $this->mysqli->query("DELETE from " . $lang . "_words WHERE word=''");
         if ($result) $response .= "Success additional query.";
-        else $response .= "Additional query to database wasn't success.";
+        else $response .= "Additional query to database wasn't success. Error: ".$this->mysqli->error;
 
         return $response;
     }
