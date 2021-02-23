@@ -71,37 +71,37 @@ class Processor
      */
     private function processAll()
 	{
-
+        // First
 		$this->processThreeDots();
 		/*echo "\nTHE END processThreeDots\n";
 		print_r($this->symbols);
 		echo "\n";*/
 
+        // Second
 		$this->processEnter();
 		/*echo "\nTHE END processEnter\n";
 		print_r($this->symbols);
 		echo "\n";*/
 
-		$this->processMinus();
-		/*echo "\nTHE END processMinus\n";
-		print_r($this->symbols);
-		echo "\n";*/
-
+        // Before remainAlphabetSpaceMinus()
 		$this->processBraked();
 		/*echo "\nTHE END processBraked\n";
 		print_r($this->symbols);
 		echo "\n";*/
 
+        // Before remainAlphabetSpaceMinus()
 		$this->processShortWordsWithPoint();
 		/*echo "\nTHE END processShortWordsWithPoint\n";
 		print_r($this->symbols);
 		echo "\n";*/
 
+        // Before remainAlphabetSpaceMinus()
 		$this->processShortWordsWithApostrophe();
 		/*echo "\nTHE END processShortWordsWithApostrophe\n";
 		print_r($this->symbols);
 		echo "\n";*/
 
+        // Before remainAlphabetSpaceMinus()
 		$this->processWhitespaces();
 		/*echo "\nTHE END processWhitespaces\n";
 		print_r($this->symbols);
@@ -112,8 +112,15 @@ class Processor
 		print_r($this->symbols);
 		echo "\n";*/
 
+        // After remainAlphabetSpaceMinus()
 		$this->processSomeSpaceToOne();
 		/*echo "\nTHE END processSomeSpaceToOne\n";
+		print_r($this->symbols);
+		echo "\n";*/
+
+        // After remainAlphabetSpaceMinus()
+		$this->processMinus();
+		/*echo "\nTHE END processMinus\n";
 		print_r($this->symbols);
 		echo "\n";*/
 	}
