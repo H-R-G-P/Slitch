@@ -23,6 +23,18 @@ $_POST['text'] = 'Rzeka plyla dlugo.';
 	</head>
 	<body>
         <?php
+        if ($_POST['lang'] === 'EN')
+            {
+                echo "<h3>This is english text.</h3>";
+            }elseif ($_POST['lang'] === 'EN')
+            {
+                echo "<h3>This is polish text.</h3>";
+            }else
+            {
+                echo "<h3>This is ".$_POST['lang']." text.</h3>";
+            }
+        ?>
+        <?php
         require_once('../classes/Word.php');
         require_once('../classes/Processor.php');
 

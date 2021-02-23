@@ -40,12 +40,14 @@ $mysqli->set_charset('utf8');
     </label><br>
     <textarea name="text" id="text"></textarea><br>
 
-	<input type="submit" value="handle words" onclick="addToHistory()">
+	<input id="btnSubmitForHandleWords" type="submit" value="handle words" onclick="checkLang(), addToHistory()">
     <label for="selectLang">Select language:</label>
 	<select name="lang" id="selectLang">
+        <option value="NULL">Not selected</option>
         <option value="EN">EN</option>
         <option value="PL">PL</option>
     </select>
+    <button type="button" onclick="cleanTextarea1(), resetLang()">Clean textarea</button>
 </form>
 <hr>
 <div>
@@ -62,7 +64,7 @@ $mysqli->set_charset('utf8');
             else echo "Error. " . $mysqli->error;
             ?>
         </div>
-        <button type="button" style="margin-top: 3px" onclick="selectTextFromHistory(1)">select</button>
+        <button type="button" style="margin-top: 3px" onclick="selectTextFromHistory(1), resetLang()">select</button>
     </div>
     <div style="margin-left: 30px;margin-top: 5px">
         <div id="secondText">
@@ -76,7 +78,7 @@ $mysqli->set_charset('utf8');
             else echo "Error. " . $mysqli->error;
             ?>
         </div>
-        <button type="button" style="margin-top: 3px" onclick="selectTextFromHistory(2)">select</button>
+        <button type="button" style="margin-top: 3px" onclick="selectTextFromHistory(2), resetLang()">select</button>
     </div>
     <div style="margin-left: 30px;margin-top: 5px">
         <div id="thirdText">
@@ -90,7 +92,7 @@ $mysqli->set_charset('utf8');
             else echo "Error. " . $mysqli->error;
             ?>
         </div>
-        <button type="button" style="margin-top: 3px" onclick="selectTextFromHistory(3)">select</button>
+        <button type="button" style="margin-top: 3px" onclick="selectTextFromHistory(3), resetLang()">select</button>
     </div>
 </div>
 <hr>
@@ -107,10 +109,13 @@ $mysqli->set_charset('utf8');
     <input type="submit" value="split">
 </form>
 <script>
+    let selectLang = document.getElementById('selectLang');
     let textarea1 = document.getElementById('text')
     let textarea2 = document.getElementById('listOfWords')
 
-    textarea1.value = "";
+    selectLang.addEventListener('click', checkLang)
+
+    cleanTextarea1();
     textarea2.value = "";
 
     function addToHistory() {
@@ -129,6 +134,20 @@ $mysqli->set_charset('utf8');
                 }
             }
         })
+    }
+
+    function checkLang() {
+        let btn = document.getElementById('btnSubmitForHandleWords');
+
+        btn.disabled = selectLang.value === 'NULL';
+    }
+
+    function resetLang() {
+        selectLang.value = 'NULL';
+    }
+
+    function cleanTextarea1() {
+        textarea1.value = "";
     }
 
     function selectTextFromHistory(position) {
