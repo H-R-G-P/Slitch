@@ -13,6 +13,9 @@ if (count($wordsSeparately) !== count($wordsInContext))
     echo count($wordsInContext);
     echo '<br>';
     print_r($wordsSeparately);
+    foreach ($wordsInContext as $key => $value) {
+        echo "$value<br>";
+    }
     print_r($wordsInContext);
     echo '</pre>';
     exit('Error: Both arrays must have equal the number of elements.');
