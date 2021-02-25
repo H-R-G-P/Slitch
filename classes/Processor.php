@@ -598,4 +598,20 @@ class Processor
             $this->lang = $lang;
         }
     }
+
+    /**
+     * @return array
+     */
+    public function getWords(): array
+    {
+        return $this->words;
+    }
+
+    /**
+     * @return array
+     */
+    public function getLearnedWords(): array
+    {
+        return $this->learnedWords;
+    }
 }
