@@ -1,7 +1,5 @@
 <?php
-/*$_POST['lang'] = 'PL';
-$_POST['text'] = 'Rzeka plyla dlugo.';
-*/?>
+?>
  <!DOCTYPE html>
  <html lang="<?php echo $_POST['lang'] ?>">
 	<head>
@@ -35,12 +33,13 @@ $_POST['text'] = 'Rzeka plyla dlugo.';
             }
         ?>
         <?php
+        require_once('../classes/TextProcessor.php');
         require_once('../classes/Word.php');
-        require_once('../classes/Processor.php');
+        require_once('../classes/Slitch.php');
 
-        use classes\Processor;
+        use classes\Slitch;
 
-        $processor = new Processor($_POST['text'], $_POST['lang']);
+        $processor = new Slitch($_POST['text'], $_POST['lang']);
 
         foreach($processor->getNotLearnedWords() as $key => $word)
         {
