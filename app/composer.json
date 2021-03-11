@@ -1,0 +1,15 @@
+{
+  "name": "vendor_name/libraries",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "danik",
+      "email": "email@example.com"
+    }
+  ],
+  "require": {
+    "erusev/parsedown": "*"
+  }
+}
