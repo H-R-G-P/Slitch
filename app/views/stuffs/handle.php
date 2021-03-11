@@ -12,7 +12,7 @@
         </div>
         <span class="input-group-text font-weight-bold myText"><?php echo $word; ?></span>
     </div>
-    <div class="form-control myText" style="background-color: #e9ecef"><?php echo $word->getContext(); ?></div>
+    <div class="form-control myText h-auto" style="background-color: #e9ecef"><?php echo $word->getContext(); ?></div>
 </div>
 <?php endforeach; ?>
 <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark text-center">
@@ -23,13 +23,32 @@
     </div>
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
-        <a class="nav-link" href="#">List of words</a>
+        <a class="nav-link" onclick="putInModalWords()" href="#" data-toggle="modal" data-target="#wordsModal">Words</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Words and words in context</a>
+        <a class="nav-link" onclick="putInModalWordsFormContext()" href="#" data-toggle="modal" data-target="#wordsModal">Words in context</a>
       </li>
     </ul>
 </nav>
+
+<div class="modal fade" id="wordsModal" tabindex="-1" role="dialog" aria-labelledby="wordsModalTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" onclick="copyToClipboard('listOfWordsInModal')" class="btn btn-primary">Copy</button>
+        <h5 class="modal-title ml-auto" id="wordsModalTitle">Words</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="listOfWordsInModal"></div>
+      <div class="modal-footer">
+        <button type="button" onclick="copyToClipboard('listOfWordsInModal')" class="btn btn-primary mr-auto">Copy</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 <script type="text/javascript">
     'use strict'
 
@@ -108,6 +127,48 @@
                 alert('Words added');
             }
         })
+    }
+
+    function getWordsFromCheckboxes() {
+        let checkboxes = document.getElementsByClassName('form_learned_words');
+
+        let words = [];
+        for (let i = 0; i < checkboxes.length; ++i) {
+            words.push(checkboxes[i].name);
+        }
+
+        return words;
+    }
+
+    function getWordsFromContext() {
+        let wordsInContextHTML = document.getElementsByClassName('wordsInContext');
+
+        let wordsInContext = [];
+        for (let i = 0; i < wordsInContextHTML.length; ++i) {
+            wordsInContext.push(wordsInContextHTML[i].innerText);
+        }
+
+        return wordsInContext;
+    }
+
+    function putInModalWords() {
+        let modalBody = document.getElementById('listOfWordsInModal');
+        let words = getWordsFromCheckboxes();
+        modalBody.innerHTML = '';
+
+        for (let i = 0; i < words.length; ++i) {
+            modalBody.innerHTML += (words[i]+'<br>');
+        }
+    }
+
+    function putInModalWordsFormContext() {
+        let modalBody = document.getElementById('listOfWordsInModal');
+        let wordsInContext = getWordsFromContext();
+        modalBody.innerHTML = '';
+
+        for (let i = 0; i < wordsInContext.length; ++i) {
+            modalBody.innerHTML += (wordsInContext[i]+'<br>');
+        }
     }
 </script>
 <?php require APPROOT.'/views/inc/footer.php'; ?>
