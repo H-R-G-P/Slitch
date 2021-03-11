@@ -11,7 +11,7 @@ class WordsTables
     }
 
     /**
-     * Get the words of the received language
+     * Get the words as objects of the received language
      * @param string $language
      * @return array
      */
@@ -22,7 +22,21 @@ class WordsTables
     }
 
     /**
-     * Get the not translated words of the received language
+     * Get array of the words of the received language
+     * @param string $language
+     * @return array
+     */
+    public function getArrayWords(string $language): array
+    {
+        $words = [];
+        foreach ($this->getWords($language) as $word) {
+            $words[] = $word->word;
+        }
+        return $words;
+    }
+
+    /**
+     * Get the not translated words as objects of the received language
      * @param string $language
      * @return array
      */
@@ -30,6 +44,20 @@ class WordsTables
     {
         $this->db->query('SELECT * FROM '.$language.'_notTranslatedWords');
         return $this->db->resultSet();
+    }
+
+    /**
+     * Get array of the not translated words as objects of the received language
+     * @param string $language
+     * @return array
+     */
+    public function getArrayNotTranslatedWords(string $language): array
+    {
+        $words = [];
+        foreach ($this->getNotTranslatedWords($language) as $word) {
+            $words[] = $word->word;
+        }
+        return $words;
     }
 
     /**
