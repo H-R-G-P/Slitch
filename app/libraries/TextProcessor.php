@@ -40,7 +40,7 @@ class TextProcessor
     public function __construct(string $text, string $lang = 'english')
     {
         $this->lang = $lang;
-        if (strlen($text) == 0) echo 'You give empty parameter';
+        if (strlen($text) == 0) return '';
         $text = trim($text);
         $this->symbols = str_split($text);
         $this->processEnter();
