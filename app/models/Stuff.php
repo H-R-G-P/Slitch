@@ -138,7 +138,7 @@ class Stuff
     {
         if ($languagesTable->getById($languageId) === false)
         {
-            return "Invalid stuff language";
+            return "Invalid language";
         }
         $this->languageId = $languageId;
         return '';
