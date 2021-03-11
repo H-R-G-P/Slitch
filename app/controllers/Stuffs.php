@@ -354,7 +354,6 @@ class Stuffs extends Controller
                     redirect('stuffs');
                 }
             }
-            echo true;
         }
         else
         {

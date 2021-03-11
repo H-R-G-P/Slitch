@@ -20,7 +20,6 @@
     <div class="btn-group">
         <button onclick="save()" class="btn btn-danger nav-item">Save</button>
         <button onclick="resetCheckboxes()" class="btn btn-danger nav-item">Reset</button>
-        <button onclick="disableSelectedWords()" class="btn btn-danger nav-item">Disable</button>
     </div>
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
@@ -104,11 +103,9 @@
                 language: "<?php echo $data['stuff']->language; ?>"
             },
             dataType: 'text',
-            success: function (data) {
-                if (data === true) {
-                    disableSelectedWords();
-                }
-                alert(data);
+            success: function () {
+                disableSelectedWords();
+                alert('Words added');
             }
         })
     }
