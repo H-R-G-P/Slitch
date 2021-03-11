@@ -368,8 +368,13 @@ class Stuffs extends Controller
             {
                 $learnedWords[] = $word->word;
             }
+            $notTranslatedWords = [];
+            foreach ($this->wordsTablesModel->getNotTranslatedWords($stuff->language) as $word)
+            {
+                $learnedWords[] = $word->word;
+            }
             $uniqWords = (new TextProcessor($stuff->text, $stuff->language))->getUniqWords();
-            $notLearnedWords = array_diff($uniqWords, $learnedWords);
+            $notLearnedWords = array_diff($uniqWords, $learnedWords, $notTranslatedWords);
 
             if (count($notLearnedWords) === 0)
             {
