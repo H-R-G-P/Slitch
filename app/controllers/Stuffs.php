@@ -127,7 +127,7 @@ class Stuffs extends Controller
                 }
                 else
                 {
-                    flash('stuffAdded_error', 'Stuff not added');
+                    flash('stuffAdded_error', 'Stuff not added', 'alert alert-warning');
                     redirect('stuffs');
                 }
             }
