@@ -6,5 +6,5 @@ define('DB_PASS', 'slitch-psw');
 define('DB_NAME', 'slitch');
 
 define('APPROOT', dirname(dirname(__FILE__)));
-define('URLROOT', 'http://fw');
+define('URLROOT', 'http://slitch');
 define('SITENAME', 'Slitch');
