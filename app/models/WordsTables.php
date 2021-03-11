@@ -22,6 +22,17 @@ class WordsTables
     }
 
     /**
+     * Get the not translated words of the received language
+     * @param string $language
+     * @return array
+     */
+    public function getNotTranslatedWords(string $language): array
+    {
+        $this->db->query('SELECT * FROM '.$language.'_notTranslatedWords');
+        return $this->db->resultSet();
+    }
+
+    /**
      * Add to database the words of the received language
      * @param array $words
      * @param string $language
