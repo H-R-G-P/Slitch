@@ -363,16 +363,8 @@ class Stuffs extends Controller
                 redirect('stuffs');
             }
 
-            $learnedWords = [];
-            foreach ($this->wordsTablesModel->getWords($stuff->language) as $word)
-            {
-                $learnedWords[] = $word->word;
-            }
-            $notTranslatedWords = [];
-            foreach ($this->wordsTablesModel->getNotTranslatedWords($stuff->language) as $word)
-            {
-                $learnedWords[] = $word->word;
-            }
+            $learnedWords = $this->wordsTablesModel->getArrayWords($stuff->language);
+            $notTranslatedWords = $this->wordsTablesModel->getArrayNotTranslatedWords($stuff->language);
             $uniqWords = (new TextProcessor($stuff->text, $stuff->language))->getUniqWords();
             $notLearnedWords = array_diff($uniqWords, $learnedWords, $notTranslatedWords);
 
