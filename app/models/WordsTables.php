@@ -3,7 +3,7 @@
 
 class WordsTables
 {
-    private $db;
+    private Database $db;
 
     public function __construct()
     {
@@ -108,5 +108,27 @@ class WordsTables
         {
             return false;
         }
+    }
+
+    /**
+     * Delete from database the words of the received language
+     * @param array $words
+     * @param string $language
+     * @return bool
+     */
+    public function deleteWords(array $words, string $language): bool
+    {
+        $learnedWords = $this->getArrayWords($language);
+        $wordsForDeleting = array_intersect($learnedWords, $words);
+
+        $this->db->query('DELETE FROM '.$language.'_words WHERE word = :word');
+        foreach ($wordsForDeleting as $word)
+        {
+            if (!$this->db->execute(array(':word' => $word)))
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }
