@@ -131,4 +131,26 @@ class WordsTables
         }
         return true;
     }
+
+    /**
+     * Delete from database the not translated words of the received language
+     * @param array $words
+     * @param string $language
+     * @return bool
+     */
+    public function deleteNotTranslatedWords(array $words, string $language): bool
+    {
+        $notTranslatedWords = $this->getArrayNotTranslatedWords($language);
+        $wordsForDeleting = array_intersect($notTranslatedWords, $words);
+
+        $this->db->query('DELETE FROM '.$language.'_notTranslatedWords WHERE word = :word');
+        foreach ($wordsForDeleting as $word)
+        {
+            if (!$this->db->execute(array(':word' => $word)))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 }
