@@ -69,9 +69,9 @@ class Database
     }
 
     /** Execute the prepared statement */
-    public function execute()
+    public function execute(array $input_parameters = null) : bool
     {
-        return $this->stmt->execute();
+        return $this->stmt->execute($input_parameters);
     }
 
     /** Get result set as array of objects */
