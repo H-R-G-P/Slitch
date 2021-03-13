@@ -115,6 +115,89 @@ class Words extends Controller
 
     public function delete()
     {
+        // Check for POST
+        if ($_SERVER['REQUEST_METHOD'] === 'POST')
+        {
+            // Process form
 
+            // Sanitize POST data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            // Init data
+            $languages = $this->languagesTableModel->getLanguages();
+            $data = [
+                'languages' => $languages,
+                'learnedText' => trim($_POST['learnedText']),
+                'notTranslatedText' => trim($_POST['notTranslatedText']),
+                'languageId' => $_POST['languageId'],
+                'languageId_err' => '',
+            ];
+
+            // Validate Language ID
+            if (empty($data['languageId']))
+            {
+                $data['languageId_err'] = 'Please select language';
+            }
+            else
+            {
+                $data['languageId_err'] = $this->stuffModel
+                    ->setLanguageId($data['languageId'], $this->languagesTableModel);
+            }
+
+            // Make sure errors are empty
+            if (empty($data['languageId_err']))
+            {
+                // Validated
+                $language = ($this->languagesTableModel->getById($data['languageId']))->name;
+
+                if (!empty($data['learnedText']))
+                {
+                    // Process learned text
+                    $uniqWords = (new TextProcessor($data['learnedText'], $language))->getUniqWords();
+
+                    // Delete learned words
+                    if ($this->wordsTablesModel->deleteWords($uniqWords, $language)) {
+                        flash('deleteWords_success', 'Learned words deleted');
+                    } else {
+                        flash('deleteWords_error', 'Learned words not deleted', 'alert alert-warning');
+                    }
+                }
+
+                if (!empty($data['notTranslatedText']))
+                {
+                    // Process not translated text
+                    $uniqWords = (new TextProcessor($data['notTranslatedText'], $language))->getUniqWords();
+
+                    // Add not translated words
+                    if ($this->wordsTablesModel->deleteNotTranslatedWords($uniqWords, $language)) {
+                        flash('deleteNotTranslatedWords_success', 'Not translated words deleted');
+                    } else {
+                        flash('deleteNotTranslatedWords_error', 'Not translated words not deleted', 'alert alert-warning');
+                    }
+                }
+
+                redirect('words/delete');
+            }
+            else
+            {
+                // Load view with errors
+                $this->view('words/delete', $data);
+            }
+
+
+        }
+        else
+        {
+            $languages = $this->languagesTableModel->getLanguages();
+            $data = [
+                'languages' => $languages,
+                'learnedText' => '',
+                'notTranslatedText' => '',
+                'languageId' => '',
+                'languageId_err' => '',
+            ];
+
+            $this->view('words/delete', $data);
+        }
     }
 }

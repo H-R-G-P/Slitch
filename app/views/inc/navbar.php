@@ -17,6 +17,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="<?php echo URLROOT; ?>/words/add">Add words</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?php echo URLROOT; ?>/words/delete">Delete words</a>
+                </li>
                 <?php endif; ?>
             </ul>
 
