@@ -344,13 +344,13 @@ class Stuffs extends Controller
                     redirect('stuffs');
                 }
             }
-            // Add not translated words
-            if (isset($_POST['notTranslatedWords']))
+            // Add untranslatable words
+            if (isset($_POST['untranslatableWords']))
             {
-                if (!$this->wordsTablesModel->addNotTranslatedWords($_POST['notTranslatedWords'], $_POST['language']))
+                if (!$this->wordsTablesModel->addUntranslatableWords($_POST['untranslatableWords'], $_POST['language']))
                 {
                     // Error
-                    flash('handleStuff_error', "Can't add not translated words to database", 'alert alert-danger');
+                    flash('handleStuff_error', "Can't add untranslatable words to database", 'alert alert-danger');
                     redirect('stuffs');
                 }
             }
@@ -364,9 +364,9 @@ class Stuffs extends Controller
             }
 
             $learnedWords = $this->wordsTablesModel->getArrayWords($stuff->language);
-            $notTranslatedWords = $this->wordsTablesModel->getArrayNotTranslatedWords($stuff->language);
+            $untranslatableWords = $this->wordsTablesModel->getArrayUntranslatableWords($stuff->language);
             $uniqWords = (new TextProcessor($stuff->text, $stuff->language))->getUniqWords();
-            $notLearnedWords = array_diff($uniqWords, $learnedWords, $notTranslatedWords);
+            $notLearnedWords = array_diff($uniqWords, $learnedWords, $untranslatableWords);
 
             if (count($notLearnedWords) === 0)
             {

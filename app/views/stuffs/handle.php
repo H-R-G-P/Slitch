@@ -7,7 +7,7 @@
                 <input type="checkbox" name="<?php echo $word; ?>" class="myCheckboxes form_learned_words" autocomplete="off"> Learned
             </label>
             <label class="btn btn-outline-secondary">
-                <input type="checkbox" name="<?php echo $word; ?>" class="myCheckboxes form_not_translated_words" autocomplete="off"> Not translated
+                <input type="checkbox" name="<?php echo $word; ?>" class="myCheckboxes form_untranslatable_words" autocomplete="off"> Untranslatable
             </label>
         </div>
         <span class="input-group-text font-weight-bold myText"><?php echo $word; ?></span>
@@ -88,7 +88,7 @@
                     texts[i].classList.add('bg-light', 'text-info', 'veryLightText');
                 }
                 // If second checkbox in group
-                if (checkboxes[i].classList.contains('form_not_translated_words')) {
+                if (checkboxes[i].classList.contains('form_untranslatable_words')) {
                     // Disable prev checkbox
                     checkboxes[i-1].labels[0].classList.add('disabled');
                     // Disable prev text
@@ -102,14 +102,14 @@
 
     function save() {
         let learnedWordsData = [];
-        let notTranslatedWordsData = [];
+        let untranslatableWordsData = [];
         let learnedWords = $('.form_learned_words');
-        let notTranslatedWords = $('.form_not_translated_words');
+        let untranslatableWords = $('.form_untranslatable_words');
         for (let i = 0; i < learnedWords.length; ++i) {
             if (learnedWords[i].checked) learnedWordsData.push(learnedWords[i].name);
         }
-        for (let i = 0; i < notTranslatedWords.length; ++i) {
-            if (notTranslatedWords[i].checked) notTranslatedWordsData.push(notTranslatedWords[i].name);
+        for (let i = 0; i < untranslatableWords.length; ++i) {
+            if (untranslatableWords[i].checked) untranslatableWordsData.push(untranslatableWords[i].name);
         }
 
         $.ajax({
@@ -118,7 +118,7 @@
             cache: false,
             data: {
                 learnedWords: learnedWordsData,
-                notTranslatedWords: notTranslatedWordsData,
+                untranslatableWords: untranslatableWordsData,
                 language: "<?php echo $data['stuff']->language; ?>"
             },
             dataType: 'text',

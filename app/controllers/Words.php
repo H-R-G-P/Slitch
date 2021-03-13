@@ -34,7 +34,7 @@ class Words extends Controller
             $data = [
                 'languages' => $languages,
                 'learnedText' => trim($_POST['learnedText']),
-                'notTranslatedText' => trim($_POST['notTranslatedText']),
+                'untranslatableText' => trim($_POST['untranslatableText']),
                 'languageId' => $_POST['languageId'],
                 'languageId_err' => '',
             ];
@@ -60,9 +60,9 @@ class Words extends Controller
                 {
                     // Process learned text
                     $learnedWords = $this->wordsTablesModel->getArrayWords($language);
-                    $notTranslatedWords = $this->wordsTablesModel->getArrayNotTranslatedWords($language);
+                    $untranslatableWords = $this->wordsTablesModel->getArrayUntranslatableWords($language);
                     $uniqWords = (new TextProcessor($data['learnedText'], $language))->getUniqWords();
-                    $notLearnedWords = array_diff($uniqWords, $learnedWords, $notTranslatedWords);
+                    $notLearnedWords = array_diff($uniqWords, $learnedWords, $untranslatableWords);
 
                     // Add learned words
                     if ($this->wordsTablesModel->addWords($notLearnedWords, $language)) {
@@ -72,19 +72,19 @@ class Words extends Controller
                     }
                 }
 
-                if (!empty($data['notTranslatedText']))
+                if (!empty($data['untranslatableText']))
                 {
-                    // Process not translated text
+                    // Process untranslatable text
                     $learnedWords = $this->wordsTablesModel->getArrayWords($language);
-                    $notTranslatedWords = $this->wordsTablesModel->getArrayNotTranslatedWords($language);
-                    $uniqWords = (new TextProcessor($data['notTranslatedText'], $language))->getUniqWords();
-                    $notLearnedWords = array_diff($uniqWords, $learnedWords, $notTranslatedWords);
+                    $untranslatableWords = $this->wordsTablesModel->getArrayUntranslatableWords($language);
+                    $uniqWords = (new TextProcessor($data['untranslatableText'], $language))->getUniqWords();
+                    $notLearnedWords = array_diff($uniqWords, $learnedWords, $untranslatableWords);
 
-                    // Add not translated words
-                    if ($this->wordsTablesModel->addNotTranslatedWords($notLearnedWords, $language)) {
-                        flash('addNotTranslatedWords_success', 'Not translated words added');
+                    // Add untranslatable words
+                    if ($this->wordsTablesModel->addUntranslatableWords($notLearnedWords, $language)) {
+                        flash('addUntranslatableWords_success', 'Untranslatable words added');
                     } else {
-                        flash('addNotTranslatedWords_error', 'Not translated words not added', 'alert alert-warning');
+                        flash('addUntranslatableWords_error', 'Untranslatable words not added', 'alert alert-warning');
                     }
                 }
 
@@ -104,7 +104,7 @@ class Words extends Controller
             $data = [
                 'languages' => $languages,
                 'learnedText' => '',
-                'notTranslatedText' => '',
+                'untranslatableText' => '',
                 'languageId' => '',
                 'languageId_err' => '',
             ];
@@ -128,7 +128,7 @@ class Words extends Controller
             $data = [
                 'languages' => $languages,
                 'learnedText' => trim($_POST['learnedText']),
-                'notTranslatedText' => trim($_POST['notTranslatedText']),
+                'untranslatableText' => trim($_POST['untranslatableText']),
                 'languageId' => $_POST['languageId'],
                 'languageId_err' => '',
             ];
@@ -163,16 +163,16 @@ class Words extends Controller
                     }
                 }
 
-                if (!empty($data['notTranslatedText']))
+                if (!empty($data['untranslatableText']))
                 {
-                    // Process not translated text
-                    $uniqWords = (new TextProcessor($data['notTranslatedText'], $language))->getUniqWords();
+                    // Process untranslatable text
+                    $uniqWords = (new TextProcessor($data['untranslatableText'], $language))->getUniqWords();
 
-                    // Add not translated words
-                    if ($this->wordsTablesModel->deleteNotTranslatedWords($uniqWords, $language)) {
-                        flash('deleteNotTranslatedWords_success', 'Not translated words deleted');
+                    // Add untranslatable words
+                    if ($this->wordsTablesModel->deleteUntranslatableWords($uniqWords, $language)) {
+                        flash('deleteUntranslatableWords_success', 'Untranslatable words deleted');
                     } else {
-                        flash('deleteNotTranslatedWords_error', 'Not translated words not deleted', 'alert alert-warning');
+                        flash('deleteUntranslatableWords_error', 'Untranslatable words not deleted', 'alert alert-warning');
                     }
                 }
 
@@ -192,7 +192,7 @@ class Words extends Controller
             $data = [
                 'languages' => $languages,
                 'learnedText' => '',
-                'notTranslatedText' => '',
+                'untranslatableText' => '',
                 'languageId' => '',
                 'languageId_err' => '',
             ];

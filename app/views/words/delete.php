@@ -21,10 +21,10 @@
         </div>
         <div class="card">
             <div class="card-header">
-                <h5 class="text-center">Paste text that contain <strong>only not translated</strong> words</h5>
+                <h5 class="text-center">Paste text that contain <strong>only Untranslatable</strong> words</h5>
             </div>
             <div class="card-body">
-                <textarea name="notTranslatedText" class="w-100"><?php echo $data['notTranslatedText']; ?></textarea>
+                <textarea name="untranslatableText" class="w-100"><?php echo $data['untranslatableText']; ?></textarea>
             </div>
         </div>
     </div>
@@ -34,6 +34,6 @@
 </form>
 <?php flash('deleteWords_success'); ?>
 <?php flash('deleteWords_error'); ?>
-<?php flash('deleteNotTranslatedWords_success'); ?>
-<?php flash('deleteNotTranslatedWords_error'); ?>
+<?php flash('deleteUntranslatableWords_success'); ?>
+<?php flash('deleteUntranslatableWords_error'); ?>
 <?php require APPROOT.'/views/inc/footer.php'; ?>

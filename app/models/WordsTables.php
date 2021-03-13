@@ -36,25 +36,25 @@ class WordsTables
     }
 
     /**
-     * Get the not translated words as objects of the received language
+     * Get the untranslatable words as objects of the received language
      * @param string $language
      * @return array
      */
-    public function getNotTranslatedWords(string $language): array
+    public function getUntranslatableWords(string $language): array
     {
-        $this->db->query('SELECT * FROM '.$language.'_notTranslatedWords');
+        $this->db->query('SELECT * FROM '.$language.'_untranslatableWords');
         return $this->db->resultSet();
     }
 
     /**
-     * Get array of the not translated words as objects of the received language
+     * Get array of the untranslatable words as objects of the received language
      * @param string $language
      * @return array
      */
-    public function getArrayNotTranslatedWords(string $language): array
+    public function getArrayUntranslatableWords(string $language): array
     {
         $words = [];
-        foreach ($this->getNotTranslatedWords($language) as $word) {
+        foreach ($this->getUntranslatableWords($language) as $word) {
             $words[] = $word->word;
         }
         return $words;
@@ -86,14 +86,14 @@ class WordsTables
     }
 
     /**
-     * Add to database the not translated words of the received language
+     * Add to database the untranslatable words of the received language
      * @param array $words
      * @param string $language
      * @return bool
      */
-    public function addNotTranslatedWords(array $words, string $language): bool
+    public function addUntranslatableWords(array $words, string $language): bool
     {
-        $sql = 'INSERT INTO '.$language.'_notTranslatedWords (word) VALUES ';
+        $sql = 'INSERT INTO '.$language.'_untranslatableWords (word) VALUES ';
         foreach ($words as $word) {
             $sql .= "('$word'), ";
         }
@@ -133,17 +133,17 @@ class WordsTables
     }
 
     /**
-     * Delete from database the not translated words of the received language
+     * Delete from database the untranslatable words of the received language
      * @param array $words
      * @param string $language
      * @return bool
      */
-    public function deleteNotTranslatedWords(array $words, string $language): bool
+    public function deleteUntranslatableWords(array $words, string $language): bool
     {
-        $notTranslatedWords = $this->getArrayNotTranslatedWords($language);
-        $wordsForDeleting = array_intersect($notTranslatedWords, $words);
+        $untranslatableWords = $this->getArrayUntranslatableWords($language);
+        $wordsForDeleting = array_intersect($untranslatableWords, $words);
 
-        $this->db->query('DELETE FROM '.$language.'_notTranslatedWords WHERE word = :word');
+        $this->db->query('DELETE FROM '.$language.'_untranslatableWords WHERE word = :word');
         foreach ($wordsForDeleting as $word)
         {
             if (!$this->db->execute(array(':word' => $word)))
