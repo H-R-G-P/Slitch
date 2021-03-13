@@ -15,6 +15,8 @@
     <div class="form-control myText h-auto" style="background-color: #e9ecef"><?php echo $word->getContext(); ?></div>
 </div>
 <?php endforeach; ?>
+<br>
+<br>
 <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark text-center">
   <a class="navbar-brand" href="#">Functions</a>
     <div class="btn-group">
