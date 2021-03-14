@@ -1,20 +1,22 @@
 <?php require APPROOT.'/views/inc/header.php'; ?>
+<div id="content">
 <?php foreach ($data['notLearnedWords'] as $word) : ?>
-<div class="input-group mb-3">
-    <div class="input-group-prepend">
-        <div class="btn-group-toggle btn-group" data-toggle="buttons">
-            <label class="btn btn-outline-secondary">
-                <input type="checkbox" name="<?php echo $word; ?>" class="myCheckboxes form_learned_words" autocomplete="off"> Learned
-            </label>
-            <label class="btn btn-outline-secondary">
-                <input type="checkbox" name="<?php echo $word; ?>" class="myCheckboxes form_untranslatable_words" autocomplete="off"> Untranslatable
-            </label>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <div class="btn-group-toggle btn-group" data-toggle="buttons">
+                <label class="btn btn-outline-secondary">
+                    <input type="checkbox" name="<?php echo $word; ?>" class="myCheckboxes form_learned_words" autocomplete="off"> Learned
+                </label>
+                <label class="btn btn-outline-secondary">
+                    <input type="checkbox" name="<?php echo $word; ?>" class="myCheckboxes form_untranslatable_words" autocomplete="off"> Untranslatable
+                </label>
+            </div>
+            <span class="input-group-text font-weight-bold myText"><?php echo $word; ?></span>
         </div>
-        <span class="input-group-text font-weight-bold myText"><?php echo $word; ?></span>
+        <div class="form-control myText h-auto" style="background-color: #e9ecef"><?php echo $word->getContext(); ?></div>
     </div>
-    <div class="form-control myText h-auto" style="background-color: #e9ecef"><?php echo $word->getContext(); ?></div>
-</div>
 <?php endforeach; ?>
+</div>
 <br>
 <br>
 <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark text-center">
@@ -176,8 +178,9 @@
         return words;
     }
 
-    function getWordsFromContext() {
-        let wordsInContextHTML = document.getElementsByClassName('wordsInContext');
+    function getWordsFromContext(idElement) {
+        let elem = document.getElementById(idElement);
+        let wordsInContextHTML = elem.getElementsByClassName('wordsInContext');
 
         let wordsInContext = [];
         for (let i = 0; i < wordsInContextHTML.length; ++i) {
@@ -199,7 +202,7 @@
 
     function putInModalWordsFormContext() {
         let modalBody = document.getElementById('listOfWordsInModal');
-        let wordsInContext = getWordsFromContext();
+        let wordsInContext = getWordsFromContext('content');
         modalBody.innerHTML = '';
 
         for (let i = 0; i < wordsInContext.length; ++i) {
