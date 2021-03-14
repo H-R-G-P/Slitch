@@ -27,6 +27,9 @@
     </div>
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
+        <a class="nav-link" onclick="putSentencesIn('listOfSentencesInModal')" href="#" data-toggle="modal" data-target="#sentencesModal">Sentences</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="#" data-toggle="modal" data-target="#sortSettingsModal">Sort words</a>
       </li>
       <li class="nav-item">
@@ -37,6 +40,25 @@
       </li>
     </ul>
 </nav>
+
+<div class="modal fade" id="sentencesModal" tabindex="-1" role="dialog" aria-labelledby="sentencesModalTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" onclick="copyWordsInContextFrom('listOfSentencesInModal')" class="btn btn-primary">Copy bolded words</button>
+        <h5 class="modal-title ml-auto" id="sentencesModalTitle">Sentences</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="listOfSentencesInModal"></div>
+      <div class="modal-footer">
+        <button type="button" onclick="copyWordsInContextFrom('listOfSentencesInModal')" class="btn btn-primary mr-auto">Copy bolded words</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="modal fade" id="wordsModal" tabindex="-1" role="dialog" aria-labelledby="wordsModalTitle" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -208,6 +230,42 @@
         for (let i = 0; i < wordsInContext.length; ++i) {
             modalBody.innerHTML += (wordsInContext[i]+'<br>');
         }
+    }
+
+    function putSentencesIn(id) {
+        let output = document.getElementById(id);
+        let myTexts = document.getElementsByClassName('myText');
+
+        let outputHTML = '';
+        let sentence = document.createElement('div');
+        sentence.className = 'sentences';
+        for (let i = 1; i < myTexts.length; i += 2) {
+            sentence.innerHTML = myTexts[i].innerHTML;
+            outputHTML += (sentence.outerHTML + '<br>');
+        }
+        output.innerHTML = outputHTML;
+    }
+
+    function copyWordsInContextFrom(id) {
+        let input = document.getElementById(id);
+        let sentencesHTML = input.getElementsByClassName('sentences');
+        // let wordsInContext = getWordsFromContext(id);
+
+        let div = document.createElement('div');
+        div.id = 'temporaryStorage';
+        for (let i = 0; i < sentencesHTML.length; i++) {
+            let wordsInContextHTML = sentencesHTML[i].getElementsByClassName('wordsInContext');
+            let row = '';
+            for (let j = 0; j < wordsInContextHTML.length; j++) {
+                if (wordsInContextHTML[j].innerHTML !== '') {
+                    row += (wordsInContextHTML[j].innerHTML + ' ');
+                }
+            }
+            div.innerHTML += (row + '<br>');
+        }
+        input.appendChild(div);
+        copyToClipboard('temporaryStorage');
+        input.removeChild(div);
     }
 
     function sort() {
