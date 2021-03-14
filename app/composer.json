@@ -9,7 +9,7 @@
       "email": "email@example.com"
     }
   ],
-  "require": {
-    "erusev/parsedown": "*"
+  "require-dev": {
+    "phpunit/phpunit": "^9"
   }
 }
