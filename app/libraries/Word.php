@@ -31,13 +31,4 @@ class Word
     {
         return $this->context;
     }
-
-    /**
-     * Create checkbox with name as $word.
-     * @return string Html checkbox.
-     */
-    public function toCheckbox(): string
-    {
-        return "<input type='checkbox' name='{$this->word}' class='checkbox'>";
-    }
 }
