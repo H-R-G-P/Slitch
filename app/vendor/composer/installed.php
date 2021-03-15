@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '68ca98ca30637bb5af13384ddf7283c3e2bc25bf',
+    'reference' => 'e38d31b5d39e8ef4166f5f5cec9b91b7c70e6eff',
     'name' => 'vendor_name/libraries',
   ),
   'versions' => 
@@ -319,7 +319,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '68ca98ca30637bb5af13384ddf7283c3e2bc25bf',
+      'reference' => 'e38d31b5d39e8ef4166f5f5cec9b91b7c70e6eff',
     ),
     'webmozart/assert' => 
     array (

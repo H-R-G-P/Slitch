@@ -6,7 +6,3 @@ require_once 'helpers/url_helper.php';
 require_once 'helpers/session_helper.php';
 // Composer autoload
 require_once 'vendor/autoload.php';
-// Autoload Core Libraries
-spl_autoload_register(function ($className) {
-    require_once ('libraries/'.ucwords($className).'.php');
-});

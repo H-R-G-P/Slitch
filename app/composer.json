@@ -9,6 +9,11 @@
       "email": "email@example.com"
     }
   ],
+  "autoload": {
+      "classmap": [
+          "libraries/"
+      ]
+  },
   "require-dev": {
     "phpunit/phpunit": "^9"
   }
