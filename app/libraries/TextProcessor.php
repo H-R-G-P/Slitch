@@ -449,6 +449,13 @@ class TextProcessor
         $this->symbols = array_values($this->symbols);
 	}
 
+    public function splitOnChars(string $string)
+    {
+        mb_regex_encoding('UTF-8');
+        mb_internal_encoding("UTF-8");
+        return preg_split('/(?<!^)(?!$)/u', $string);
+	}
+
     /**
      * Remove symbols from got $key to first space included.
      * Iterates over the keys decreasing it with each recursive call.
