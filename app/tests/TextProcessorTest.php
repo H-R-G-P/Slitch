@@ -47,6 +47,14 @@ class TextProcessorTest extends TestCase
             $processor->processHyphens(str_split($text)),
             "Not correctly process some hyphens in a word."
         );
+
+        $text = "Start ----- End";
+        $expectedText = "Start End";
+        self::assertSame(
+            str_split($expectedText),
+            $processor->processHyphens(str_split($text)),
+            "Not correctly process some hyphens between words."
+        );
     }
 
     public function testProcessDots()
