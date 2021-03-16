@@ -144,44 +144,25 @@ class TextProcessor
     /**
      * Correctly delete "-".
      */
-    private function processHyphens()
+    public function processHyphens(array $symbols)
     {
-        for ($i=0, $size = count($this->symbols); $i < $size; $i++) {
-			if ($this->symbols[$i] == "-") {
-
-			    if (!isset($this->symbols[$i-1]))
-                {
-                    unset($this->symbols[$i]);
-                    if ($this->symbols[$i+1] === " ")
-                    {
-                        unset($this->symbols[$i+1]);
-                        ++$i;
-                    }
-                }elseif (!isset($this->symbols[$i+1]))
-                {
-                    unset($this->symbols[$i]);
-                    if ($this->symbols[$i-1] === " ")
-                    {
-                        unset($this->symbols[$i-1]);
-                    }
-                }elseif (isset( $this->symbols[$i-1] ) &&
-                         $this->symbols[$i-1] == " " &&
-                         isset( $this->symbols[$i+1] ) &&
-                         $this->symbols[$i+1] == " ")
-			    {
-			        unset($this->symbols[$i]);
-			        unset($this->symbols[$i-1]);
-                }elseif (isset( $this->symbols[$i-1] ) &&
-                         $this->symbols[$i-1] == " " ||
-                         isset( $this->symbols[$i+1] ) &&
-                         $this->symbols[$i+1] == " ")
-                {
-			        unset($this->symbols[$i]);
-                }
-
-			}
-		}
-        $this->resetKeys();
+        $str = implode("", $symbols);
+        $pattern = array(
+                '/^-+(\w)/',
+                '/(\w)-+$/',
+                '/(\W)-+(\w)/',
+                '/(\w)-+(\W)/',
+                '/(\w)-+(\w)/'
+            );
+        $replacement = array(
+                '$1',
+                '$1',
+                '$1$2',
+                '$1$2',
+                '$1-$2'
+            );
+        $str = preg_replace($pattern, $replacement, $str);
+        return str_split($str);
     }
 
     /**
