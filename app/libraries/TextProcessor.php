@@ -144,7 +144,7 @@ class TextProcessor
     /**
      * Correctly delete "-".
      */
-    private function processMinus()
+    private function processHyphens()
     {
         for ($i=0, $size = count($this->symbols); $i < $size; $i++) {
 			if ($this->symbols[$i] == "-") {
