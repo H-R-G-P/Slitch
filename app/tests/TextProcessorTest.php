@@ -100,6 +100,14 @@ class TextProcessorTest extends TestCase
             $processor->processDots(str_split($text)),
             "Not correctly process many dots in the row when 1'st of 2 sentences ends with it."
         );
+
+        $text = "Start ...... End";
+        $expectedText = "Start End";
+        self::assertSame(
+            str_split($expectedText),
+            $processor->processDots(str_split($text)),
+            "Not correctly process many dots in the row between words."
+        );
     }
 
     public function testSplitOnChars()
