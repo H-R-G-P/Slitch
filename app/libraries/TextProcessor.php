@@ -172,17 +172,25 @@ class TextProcessor
      */
     public function processDots(array $symbols)
     {
-        for ($i=0, $size = count($symbols); $i < $size; $i++) {
-			if ($symbols[$i] === ".") {
-			    if (isset($symbols[$i + 1]) &&
-                    ($symbols[$i + 1] === "." ||
-                     $symbols[$i + 1] !== " "))
-                {
-                    unset($symbols[$i]);
-                }
-			}
-		}
-        return array_values($symbols);
+        $str = implode("", $symbols);
+        $pattern = array(
+                '/^\.+(\w)/',
+                '/(\w)\.+$/',
+                '/(\W)\.+(\w)/',
+                '/(\w)\.+(\W)/',
+                '/(\w)\.+(\w)/',
+                '/\s+\.+\s+/'
+            );
+        $replacement = array(
+                '$1',
+                '$1.',
+                '$1$2',
+                '$1.$2',
+                '$1$2',
+                ' '
+            );
+        $str = preg_replace($pattern, $replacement, $str);
+        return $this->splitOnChars($str);
     }
 
     /**
