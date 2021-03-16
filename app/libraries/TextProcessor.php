@@ -166,24 +166,21 @@ class TextProcessor
     }
 
     /**
-     * Delete all three dots in the row.
+     * Correctly delete some (1 - infinity) dots in the row.
      */
-    private function processThreeDots()
+    public function processDots(array $symbols)
     {
-        for ($i=0, $size = count($this->symbols); $i < $size; $i++) {
-			if ($this->symbols[$i] == ".") {
-                if (isset($this->symbols[$i - 1]) &&
-                    $this->symbols[$i - 1] == "." &&
-                    isset($this->symbols[$i - 2]) &&
-                    $this->symbols[$i - 2] == ".")
+        for ($i=0, $size = count($symbols); $i < $size; $i++) {
+			if ($symbols[$i] === ".") {
+			    if (isset($symbols[$i + 1]) &&
+                    ($symbols[$i + 1] === "." ||
+                     $symbols[$i + 1] !== " "))
                 {
-                    unset($this->symbols[$i]);
-                    unset($this->symbols[$i-1]);
-                    unset($this->symbols[$i-2]);
+                    unset($symbols[$i]);
                 }
 			}
 		}
-        $this->resetKeys();
+        return array_values($symbols);
     }
 
     /**
