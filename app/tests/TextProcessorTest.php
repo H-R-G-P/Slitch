@@ -93,4 +93,46 @@ class TextProcessorTest extends TestCase
             "Not correctly process many dots in the row when 1'st of 2 sentences ends with it."
         );
     }
+
+    public function testSplitOnChars()
+    {
+        $processor = new TextProcessor();
+
+        // Test english
+        $text = 'qwertyuiopasdfghjklzxcvbnm';
+        $expectedSymbols = array(
+            'q', 'w', 'e',
+            'r', 't', 'y',
+            'u', 'i', 'o',
+            'p', 'a', 's',
+            'd', 'f', 'g',
+            'h', 'j', 'k',
+            'l', 'z', 'x',
+            'c', 'v', 'b',
+            'n', 'm'
+        );
+        self::assertSame(
+            $expectedSymbols,
+            $processor->splitOnChars($text),
+            "Not correctly split on chars english text."
+        );
+        // Test polish
+        $text = 'aąbcćdeęfghijklłmnńoópqrsśtuvwxyzźż';
+        $expectedSymbols = array(
+            'a', 'ą', 'b', 'c',
+            'ć', 'd', 'e', 'ę',
+            'f', 'g', 'h', 'i',
+            'j', 'k', 'l', 'ł',
+            'm', 'n', 'ń', 'o',
+            'ó', 'p', 'q', 'r',
+            's', 'ś', 't', 'u',
+            'v', 'w', 'x', 'y',
+            'z', 'ź', 'ż'
+        );
+        self::assertSame(
+            $expectedSymbols,
+            $processor->splitOnChars($text),
+            "Not correctly split on chars polish text."
+        );
+    }
 }
