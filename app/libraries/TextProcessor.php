@@ -164,7 +164,7 @@ class TextProcessor
                 ' '
             );
         $str = preg_replace($pattern, $replacement, $str);
-        return str_split($str);
+        return $this->splitOnChars($str);
     }
 
     /**
