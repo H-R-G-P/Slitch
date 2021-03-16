@@ -152,14 +152,16 @@ class TextProcessor
                 '/(\w)-+$/',
                 '/(\W)-+(\w)/',
                 '/(\w)-+(\W)/',
-                '/(\w)-+(\w)/'
+                '/(\w)-+(\w)/',
+                '/\s+-+\s+/'
             );
         $replacement = array(
                 '$1',
                 '$1',
                 '$1$2',
                 '$1$2',
-                '$1-$2'
+                '$1-$2',
+                ' '
             );
         $str = preg_replace($pattern, $replacement, $str);
         return str_split($str);
