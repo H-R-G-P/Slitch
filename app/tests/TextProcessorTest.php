@@ -206,48 +206,48 @@ class TextProcessorTest extends TestCase
         $text = ".......Start";
         $expectedText = "Start";
         self::assertSame(
-            str_split($expectedText),
-            $processor->processDots(str_split($text)),
+            $expectedText,
+            $processor->processDots($text),
             "Not correctly process some dots in the row in the begin of text."
         );
 
         $text = "Sta.....rt";
         $expectedText = "Start";
         self::assertSame(
-            str_split($expectedText),
-            $processor->processDots(str_split($text)),
+            $expectedText,
+            $processor->processDots($text),
             "Not correctly process some dots in the row in a word."
         );
 
         $text = "Start ......End";
         $expectedText = "Start End";
         self::assertSame(
-            str_split($expectedText),
-            $processor->processDots(str_split($text)),
+            $expectedText,
+            $processor->processDots($text),
             "Not correctly process some dots in the row when 2'nd of 2 sentences begins with it."
         );
 
         $text = "Start......";
         $expectedText = "Start.";
         self::assertSame(
-            str_split($expectedText),
-            $processor->processDots(str_split($text)),
+            $expectedText,
+            $processor->processDots($text),
             "Not correctly process many dots in the row in the end of text."
         );
 
         $text = "Start...... End";
         $expectedText = "Start. End";
         self::assertSame(
-            str_split($expectedText),
-            $processor->processDots(str_split($text)),
+            $expectedText,
+            $processor->processDots($text),
             "Not correctly process many dots in the row when 1'st of 2 sentences ends with it."
         );
 
         $text = "Start ...... End";
         $expectedText = "Start End";
         self::assertSame(
-            str_split($expectedText),
-            $processor->processDots(str_split($text)),
+            $expectedText,
+            $processor->processDots($text),
             "Not correctly process many dots in the row between words."
         );
     }
