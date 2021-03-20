@@ -304,7 +304,7 @@ class TextProcessorTest extends TestCase
 
         // Test not processed language
         try {
-            $processor->remainAlphabetSpaceMinus("Start", 'notExistingLanguage');
+            $processor->remainAlphabetSpacesHyphens("Start", 'notExistingLanguage');
         } catch (Exception $e) {
             self::assertSame(
                 "This language (notExistingLanguage) not process in function 'remainAlphabetSpaceMinus()'.",
@@ -313,23 +313,23 @@ class TextProcessorTest extends TestCase
         }
 
         // Test english
-        $actual = $processor->remainAlphabetSpaceMinus("@#~`':;|><,?=][}{St!@$^%#%564+_)(**&&^^%\\//-art.# %%#E564nd#$%765", 'english');
+        $actual = $processor->remainAlphabetSpacesHyphens("@#~`':;|><,?=][}{St!@$^%#%564+_)(**&&^^%\\//-art.# %%#E564nd#$%765", 'english');
         self::assertSame("St-art End", $actual);
 
-        $actual = $processor->remainAlphabetSpaceMinus("StartйцукенгшщзхъфывапролджэячсмитьбюЁёЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ. End", 'english');
+        $actual = $processor->remainAlphabetSpacesHyphens("StartйцукенгшщзхъфывапролджэячсмитьбюЁёЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ. End", 'english');
         self::assertSame("Start End", $actual);
 
-        $actual = $processor->remainAlphabetSpaceMinus("StartąćęłńóśźżĄĆĘŁŃÓŚŹŻ. End", 'english');
+        $actual = $processor->remainAlphabetSpacesHyphens("StartąćęłńóśźżĄĆĘŁŃÓŚŹŻ. End", 'english');
         self::assertSame("Start End", $actual);
 
         // Test polish
-        $actual = $processor->remainAlphabetSpaceMinus("@#~`':;|><,?=][}{St!@$^%#%564+_)(**&&^^%\\//-art.# %%#E564nd#$%765", 'polish');
+        $actual = $processor->remainAlphabetSpacesHyphens("@#~`':;|><,?=][}{St!@$^%#%564+_)(**&&^^%\\//-art.# %%#E564nd#$%765", 'polish');
         self::assertSame("St-art End", $actual);
 
-        $actual = $processor->remainAlphabetSpaceMinus("StartйцукенгшщзхъфывапролджэячсмитьбюЁёЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ. End", 'polish');
+        $actual = $processor->remainAlphabetSpacesHyphens("StartйцукенгшщзхъфывапролджэячсмитьбюЁёЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ. End", 'polish');
         self::assertSame("Start End", $actual);
 
-        $actual = $processor->remainAlphabetSpaceMinus("StartąćęłńóśźżĄĆĘŁŃÓŚŹŻ. End", 'polish');
+        $actual = $processor->remainAlphabetSpacesHyphens("StartąćęłńóśźżĄĆĘŁŃÓŚŹŻ. End", 'polish');
         self::assertSame("StartąćęłńóśźżĄĆĘŁŃÓŚŹŻ End", $actual);
     }
 
