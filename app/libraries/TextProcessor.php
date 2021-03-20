@@ -296,23 +296,27 @@ class TextProcessor
 	}
 
     /**
-     * Find all '. ', '! ', '? ' and change " " to "\n".
+     * Find all '. ', '! ', '? ' and change " " to "\n" then return updated text.
      * Last sentence don't marking.
+     * @param string $text
+     * @return string
      */
-    private function markEndsOfSentences()
+    public function markEndsOfSentences(string $text) : string
     {
-        for ($i=0, $size = count($this->symbols); $i < $size; $i++) {
-			if ($this->symbols[$i] === "." ||
-                $this->symbols[$i] === "?" ||
-                $this->symbols[$i] === "!")
+        $symbols = $this->splitOnChars($text);
+        for ($i=0, $size = count($symbols); $i < $size; $i++) {
+			if ($symbols[$i] === "." ||
+                $symbols[$i] === "?" ||
+                $symbols[$i] === "!")
 			{
-				if (array_key_exists($i+1, $this->symbols) &&
-                    $this->symbols[$i+1] === " ")
+				if (array_key_exists($i+1, $symbols) &&
+                    $symbols[$i+1] === " ")
 				{
-					$this->symbols[$i+1] = "\n";
+					$symbols[$i+1] = "\n";
 				}
 			}
 		}
+        return implode("", $symbols);
 	}
 
     private function remainAlphabetSpaceMinus()
