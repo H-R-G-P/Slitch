@@ -111,18 +111,31 @@ class TextProcessor
 	}
 
     /**
-     * Find "\n" from $symbols and correct delete them.
+     * Correct delete "\n".
+     * @param string $text
+     * @return string Processed text
      */
-    private function processEnter()
+    public function processEnter(string $text) : string
 	{
-		for ($i=0, $size = count($this->symbols); $i < $size; $i++) {
-			if ($this->symbols[$i] == "\n")
-			{
-			    // When text received from browser than next string must be, but if text received from code than next string must not be.
-			    unset ($this->symbols[$i-1]);
-				$this->symbols[$i] = " ";
-			}
-		}
+		$pattern = array(
+                '/(\w)\n+(\w)/',
+                '/^\n+(\w)/',
+                '/\n+(\w)/',
+                '/(\w)\n+/',
+                '/(\s)\n+(\s)/',
+                '/\n+(\s)/',
+                '/(\s)\n+/'
+            );
+        $replacement = array(
+                '$1 $2',
+                '$1',
+                '$1',
+                '$1',
+                '$1',
+                '$1',
+                '$1',
+            );
+        return preg_replace($pattern, $replacement, $text);
 	}
 
     /**
