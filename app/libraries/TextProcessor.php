@@ -319,25 +319,24 @@ class TextProcessor
         return implode("", $symbols);
 	}
 
-    private function remainAlphabetSpaceMinus()
+    public function remainAlphabetSpaceMinus(string $text, string $language) : string
     {
-        if ($this->lang === 'english')
+        if ($language === 'english')
         {
-            $this->symbols = array_filter($this->symbols, function ($value){
-                return preg_match("/^[a-zA-Z\s-]+$/", $value);
-            });
+            return preg_replace("/[^a-zA-Z\s-]+/", '', $text);
         }
-        elseif ($this->lang === 'polish')
+        elseif ($language === 'polish')
         {
-            $this->symbols = array_filter($this->symbols, function ($value){
+            $symbols = $this->splitOnChars($text);
+            $symbols = array_filter($symbols, function ($value){
                 return preg_match("/^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ\s-]+$/", $value);
             });
+            return implode('', $symbols);
         }
         else
         {
-            die("Error: This language ($this->lang) not process in function 'remainAlphabetSpaceMinus()'.");
+            throw new Exception("This language ($language) not process in function 'remainAlphabetSpaceMinus()'.");
         }
-		$this->resetKeys();
 	}
 
     /**
