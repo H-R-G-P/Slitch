@@ -110,6 +110,29 @@ class TextProcessorTest extends TestCase
         );
     }
 
+    public function testProcessShortWordsWithApostrophe()
+    {
+        $processor = new TextProcessor();
+
+        $actual = $processor->processShortWordsWithApostrophe(str_split("I'm End"));
+        self::assertSame(str_split("I End"), $actual);
+
+        $actual = $processor->processShortWordsWithApostrophe(str_split("Start i'm End"));
+        self::assertSame(str_split("Start i End"), $actual);
+
+        $actual = $processor->processShortWordsWithApostrophe(str_split("Start I'm End"));
+        self::assertSame(str_split("Start I End"), $actual);
+
+        $actual = $processor->processShortWordsWithApostrophe(str_split("Start I'm."));
+        self::assertSame(str_split("Start I."), $actual);
+
+        $actual = $processor->processShortWordsWithApostrophe(str_split("Start. I'm End"));
+        self::assertSame(str_split("Start. I End"), $actual);
+
+        $actual = $processor->processShortWordsWithApostrophe(str_split("Start I'm. End"));
+        self::assertSame(str_split("Start I. End"), $actual);
+    }
+
     public function testSplitOnChars()
     {
         $processor = new TextProcessor();
