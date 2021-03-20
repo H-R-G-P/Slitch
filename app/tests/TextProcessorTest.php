@@ -257,22 +257,31 @@ class TextProcessorTest extends TestCase
         $processor = new TextProcessor();
 
         $actual = $processor->processShortWordsWithApostrophe("I'm End");
+        self::assertSame("I am End", $actual);
+
+        $actual = $processor->processShortWordsWithApostrophe("you're End");
+        self::assertSame("you are End", $actual);
+
+        $actual = $processor->processShortWordsWithApostrophe("It's End");
+        self::assertSame("It is End", $actual);
+
+        $actual = $processor->processShortWordsWithApostrophe("we'll End");
+        self::assertSame("we will End", $actual);
+
+        $actual = $processor->processShortWordsWithApostrophe("didn't End");
+        self::assertSame("did not End", $actual);
+
+        $actual = $processor->processShortWordsWithApostrophe("He'd End");
+        self::assertSame("He had End", $actual);
+
+        $actual = $processor->processShortWordsWithApostrophe("I've End");
+        self::assertSame("I have End", $actual);
+
+        $actual = $processor->processShortWordsWithApostrophe("I' End");
         self::assertSame("I End", $actual);
 
-        $actual = $processor->processShortWordsWithApostrophe("Start i'm End");
-        self::assertSame("Start i End", $actual);
-
-        $actual = $processor->processShortWordsWithApostrophe("Start I'm End");
-        self::assertSame("Start I End", $actual);
-
-        $actual = $processor->processShortWordsWithApostrophe("Start I'm.");
-        self::assertSame("Start I.", $actual);
-
-        $actual = $processor->processShortWordsWithApostrophe("Start. I'm End");
-        self::assertSame("Start. I End", $actual);
-
-        $actual = $processor->processShortWordsWithApostrophe("Start I'm. End");
-        self::assertSame("Start I. End", $actual);
+        $actual = $processor->processShortWordsWithApostrophe("won't End");
+        self::assertSame("will not End", $actual);
     }
 
     public function testMarkEndsOfSentences()
