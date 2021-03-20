@@ -340,20 +340,29 @@ class TextProcessor
 	}
 
     /**
-     * Detect braked from $symbols and correct delete.
+     * Correct delete braked.
+     * @param string $text
+     * @return string Processed text
      */
-    private function processBraked()
+    public function processBraked(string $text) : string
 	{
-		for ($i=0, $size = count($this->symbols); $i < $size; $i++) {
-			if ($this->symbols[$i] == "(" || $this->symbols[$i] == ")") {
-
-				if ($this->symbols[$i-1] == " " ||
-					$this->symbols[$i+1] == " ") unset($this->symbols[$i]);
-				else $this->symbols[$i] = " ";
-
-			}
-		}
-		$this->resetKeys();
+        $pattern = array(
+                '/^[\(\)]+(\w)/',
+                '/(\w)[\(\)]+([$.!?])/',
+                '/[\(\)]\s/',
+                '/\s[\(\)]/',
+                '/[\(\)]+(\w)/',
+                '/(\w)[\(\)]+/'
+            );
+        $replacement = array(
+                '$1',
+                '$1$2',
+                ' ',
+                ' ',
+                ' $1',
+                '$1 '
+            );
+        return preg_replace($pattern, $replacement, $text);
 	}
 
     /**
