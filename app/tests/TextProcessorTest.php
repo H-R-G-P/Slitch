@@ -75,7 +75,7 @@ class TextProcessorTest extends TestCase
         self::assertSame("Start End", $actual);
     }
 
-    public function testProcessSomeSpaceToOne()
+    public function testProcessSpaces()
     {
         $processor = new TextProcessor();
 
