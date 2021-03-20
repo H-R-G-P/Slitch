@@ -133,6 +133,29 @@ class TextProcessorTest extends TestCase
         self::assertSame(str_split("Start I. End"), $actual);
     }
 
+    public function testMarkEndsOfSentences()
+    {
+        $processor = new TextProcessor();
+
+        $actual = $processor->markEndsOfSentences("Start. End");
+        self::assertSame("Start.\nEnd", $actual);
+
+        $actual = $processor->markEndsOfSentences("End.");
+        self::assertSame("End.", $actual);
+
+        $actual = $processor->markEndsOfSentences("Start! End");
+        self::assertSame("Start!\nEnd", $actual);
+
+        $actual = $processor->markEndsOfSentences("End!");
+        self::assertSame("End!", $actual);
+
+        $actual = $processor->markEndsOfSentences("Start? End");
+        self::assertSame("Start?\nEnd", $actual);
+
+        $actual = $processor->markEndsOfSentences("End?");
+        self::assertSame("End?", $actual);
+    }
+
     public function testSplitOnChars()
     {
         $processor = new TextProcessor();
