@@ -214,11 +214,12 @@ class TextProcessor
 
     /**
      * Delete endings from short words with apostrophe from $symbols.
-     * @param array $symbols Symbols without endings from short words with apostrophe
-     * @return array
+     * @param string $text
+     * @return string Text without endings from short words with apostrophe
      */
-    public function processShortWordsWithApostrophe(array $symbols) : array
+    public function processShortWordsWithApostrophe(string $text) : string
 	{
+	    $symbols = $this->splitOnChars($text);
 		for ($i=0, $size = count($symbols); $i < $size; $i++) {
 			if ($symbols[$i] == "'") {
 
@@ -311,7 +312,7 @@ class TextProcessor
 
 			}
 		}
-		return array_values($symbols);
+		return implode('', $symbols);
 	}
 
     /**
