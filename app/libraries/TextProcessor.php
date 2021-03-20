@@ -26,88 +26,31 @@ class TextProcessor
     private string $lang;
 
     /**
-     * Set text's properties:
-     * <ul>
-     *      <li>sentences</li>
-     *      <li>words</li>
-     *      <li>unique words</li>
-     *      <li>learned words</li>
-     *      <li>not learned words.</li>
-     * </ul>
-     * @param $text string Text that processing.
-     * @param string $lang Language of text that processing.
+     * Remain only letters, spaces, hyphens.
+     * @param string $text
+     * @param string $language
+     * @return string Processed text
+     * @throws Exception
      */
-    public function __construct(string $text, string $lang = 'english')
-    {
-        $this->lang = $lang;
-        if (strlen($text) == 0) return '';
-        $text = trim($text);
-        $this->symbols = str_split($text);
-        $this->processEnter();
-        $this->processSomeSpaceToOne();
-        $this->markEndsOfSentences();
-        $this->setSentences();
-        $this->setWords();
-        $this->setUniqWords();
-    }
-
-    /**
-     * Process "$this->symbols".
-     */
-    private function processAll()
+    public function clean(string $text, string $language) : string
 	{
-        // First
-		$this->processThreeDots();
-		/*echo "\nTHE END processThreeDots\n";
-		print_r($this->symbols);
-		echo "\n";*/
+		$text = $this->processEnter($text);
 
-        // Second
-		$this->processEnter();
-		/*echo "\nTHE END processEnter\n";
-		print_r($this->symbols);
-		echo "\n";*/
+		$text = $this->processDots($text);
 
-        // Before remainAlphabetSpaceMinus()
-		$this->processBraked();
-		/*echo "\nTHE END processBraked\n";
-		print_r($this->symbols);
-		echo "\n";*/
+		$text = $this->processBraked($text);
 
-        // Before remainAlphabetSpaceMinus()
-		$this->processShortWordsWithPoint();
-		/*echo "\nTHE END processShortWordsWithPoint\n";
-		print_r($this->symbols);
-		echo "\n";*/
+		$text = $this->processShortWordsWithApostrophe($text);
 
-        // Before remainAlphabetSpaceMinus()
-		$this->processShortWordsWithApostrophe();
-		/*echo "\nTHE END processShortWordsWithApostrophe\n";
-		print_r($this->symbols);
-		echo "\n";*/
+		$text = $this->processWhitespaces($text);
 
-        // Before remainAlphabetSpaceMinus()
-		$this->processWhitespaces();
-		/*echo "\nTHE END processWhitespaces\n";
-		print_r($this->symbols);
-		echo "\n";*/
+		$text = $this->processSpaces($text);
 
-		$this->remainAlphabetSpaceMinus();
-		/*echo "\nTHE END remainAlphabetSpaceMinus\n";
-		print_r($this->symbols);
-		echo "\n";*/
+		$text = $this->processHyphens($text);
 
-        // After remainAlphabetSpaceMinus()
-		$this->processSomeSpaceToOne();
-		/*echo "\nTHE END processSomeSpaceToOne\n";
-		print_r($this->symbols);
-		echo "\n";*/
+		$text = $this->remainAlphabetSpacesHyphens($text, $language);
 
-        // After remainAlphabetSpaceMinus()
-		$this->processMinus();
-		/*echo "\nTHE END processMinus\n";
-		print_r($this->symbols);
-		echo "\n";*/
+		return $text;
 	}
 
     /**
