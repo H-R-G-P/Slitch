@@ -348,6 +348,7 @@ class TextProcessor
 	{
         $pattern = array(
                 '/^[\(\)]+(\w)/',
+                '/(\w)[\(\)]+$/',
                 '/(\w)[\(\)]+([$.!?])/',
                 '/[\(\)]\s/',
                 '/\s[\(\)]/',
@@ -355,6 +356,7 @@ class TextProcessor
                 '/(\w)[\(\)]+/'
             );
         $replacement = array(
+                '$1',
                 '$1',
                 '$1$2',
                 ' ',
