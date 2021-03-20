@@ -162,10 +162,11 @@ class TextProcessor
 
     /**
      * Correctly delete "-".
+     * @param string $text
+     * @return string Processed text
      */
-    public function processHyphens(array $symbols)
+    public function processHyphens(string $text) : string
     {
-        $str = implode("", $symbols);
         $pattern = array(
                 '/^-+(\w)/',
                 '/(\w)-+$/',
@@ -182,8 +183,7 @@ class TextProcessor
                 '$1-$2',
                 ' '
             );
-        $str = preg_replace($pattern, $replacement, $str);
-        return $this->splitOnChars($str);
+        return preg_replace($pattern, $replacement, $text);
     }
 
     /**
