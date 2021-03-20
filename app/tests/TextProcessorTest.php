@@ -232,6 +232,47 @@ class TextProcessorTest extends TestCase
         self::assertSame("Start. something End", $actual);
     }
 
+    public function testProcessWhitespaces()
+    {
+        $processor = new TextProcessor();
+
+        $actual = $processor->processWhitespaces("_something End");
+        self::assertSame("something End", $actual);
+
+        $actual = $processor->processWhitespaces("Start something_.");
+        self::assertSame("Start something.", $actual);
+
+        $actual = $processor->processWhitespaces("Start something_!");
+        self::assertSame("Start something!", $actual);
+
+        $actual = $processor->processWhitespaces("Start something_?");
+        self::assertSame("Start something?", $actual);
+
+        $actual = $processor->processWhitespaces("Start something_");
+        self::assertSame("Start something", $actual);
+
+        $actual = $processor->processWhitespaces("Start_something End");
+        self::assertSame("Start something End", $actual);
+
+        $actual = $processor->processWhitespaces("Start _something_ End");
+        self::assertSame("Start something End", $actual);
+
+        $actual = $processor->processWhitespaces("Start something_End");
+        self::assertSame("Start something End", $actual);
+
+        $actual = $processor->processWhitespaces("Start something_. End");
+        self::assertSame("Start something. End", $actual);
+
+        $actual = $processor->processWhitespaces("Start something_! End");
+        self::assertSame("Start something! End", $actual);
+
+        $actual = $processor->processWhitespaces("Start something_? End");
+        self::assertSame("Start something? End", $actual);
+
+        $actual = $processor->processWhitespaces("Start. _something End");
+        self::assertSame("Start. something End", $actual);
+    }
+
     public function testSplitOnChars()
     {
         $processor = new TextProcessor();
