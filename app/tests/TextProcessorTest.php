@@ -153,48 +153,48 @@ class TextProcessorTest extends TestCase
         $text = "-----Start";
         $expectedText = "Start";
         self::assertSame(
-            str_split($expectedText),
-            $processor->processHyphens(str_split($text)),
+            $expectedText,
+            $processor->processHyphens($text),
             "Not correctly process some hyphens in the begin of text."
         );
 
         $text = "End-----";
         $expectedText = "End";
         self::assertSame(
-            str_split($expectedText),
-            $processor->processHyphens(str_split($text)),
+            $expectedText,
+            $processor->processHyphens($text),
             "Not correctly process some hyphens in the end of text."
         );
 
         $text = "Start----- End";
         $expectedText = "Start End";
         self::assertSame(
-            str_split($expectedText),
-            $processor->processHyphens(str_split($text)),
+            $expectedText,
+            $processor->processHyphens($text),
             "Not correctly process some hyphens when 1'st of 2 sentences ends with it."
         );
 
         $text = "Start -----End";
         $expectedText = "Start End";
         self::assertSame(
-            str_split($expectedText),
-            $processor->processHyphens(str_split($text)),
+            $expectedText,
+            $processor->processHyphens($text),
             "Not correctly process some hyphens when 2'nd of 2 sentences begins with it."
         );
 
         $text = "Start-----End";
         $expectedText = "Start-End";
         self::assertSame(
-            str_split($expectedText),
-            $processor->processHyphens(str_split($text)),
+            $expectedText,
+            $processor->processHyphens($text),
             "Not correctly process some hyphens in a word."
         );
 
         $text = "Start ----- End";
         $expectedText = "Start End";
         self::assertSame(
-            str_split($expectedText),
-            $processor->processHyphens(str_split($text)),
+            $expectedText,
+            $processor->processHyphens($text),
             "Not correctly process some hyphens between words."
         );
     }
