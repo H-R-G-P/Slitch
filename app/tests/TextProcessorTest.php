@@ -207,6 +207,9 @@ class TextProcessorTest extends TestCase
         $actual = $processor->processBraked("Start(something)?");
         self::assertSame("Start something?", $actual);
 
+        $actual = $processor->processBraked("Start(something)");
+        self::assertSame("Start something", $actual);
+
         $actual = $processor->processBraked("Start(something) End");
         self::assertSame("Start something End", $actual);
 
