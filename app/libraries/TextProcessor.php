@@ -368,19 +368,31 @@ class TextProcessor
 	}
 
     /**
-     * Find "_" from $symbols and correct delete them.
+     * Correct delete "_".
+     * @param string $text
+     * @return string Processed text
      */
-    private function processWhitespaces()
+    public function processWhitespaces(string $text) : string
 	{
-		for ($i=0, $size = count($this->symbols); $i < $size; $i++) {
-			if ($this->symbols[$i] == "_")
-			{
-				if ($this->symbols[$i-1] === " " ||
-                    $this->symbols[$i+1] === " ")
-                    unset ($this->symbols[$i]);
-				else $this->symbols[$i] = " ";
-			}
-		}
+        $pattern = array(
+                '/^_+(\w)/',
+                '/(\w)_+$/',
+                '/(\w)_+([$.!?])/',
+                '/_\s/',
+                '/\s_/',
+                '/_+(\w)/',
+                '/(\w)_+/'
+            );
+        $replacement = array(
+                '$1',
+                '$1',
+                '$1$2',
+                ' ',
+                ' ',
+                ' $1',
+                '$1 '
+            );
+        return preg_replace($pattern, $replacement, $text);
 	}
 
     /**
