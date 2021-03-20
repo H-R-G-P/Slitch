@@ -26,7 +26,7 @@ class TextProcessor
     private string $lang;
 
     /**
-     * Remain only letters, spaces, hyphens.
+     * Remain words separated spaces.
      * @param string $text
      * @param string $language
      * @return string Processed text
