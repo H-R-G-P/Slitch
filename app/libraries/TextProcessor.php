@@ -194,103 +194,105 @@ class TextProcessor
     }
 
     /**
-     * Detect endings from short words with apostrophe from $symbols and delete.
+     * Delete endings from short words with apostrophe from $symbols.
+     * @param array $symbols Symbols without endings from short words with apostrophe
+     * @return array
      */
-    private function processShortWordsWithApostrophe()
+    public function processShortWordsWithApostrophe(array $symbols) : array
 	{
-		for ($i=0, $size = count($this->symbols); $i < $size; $i++) {
-			if ($this->symbols[$i] == "'") {
+		for ($i=0, $size = count($symbols); $i < $size; $i++) {
+			if ($symbols[$i] == "'") {
 
 				/***  're  ***/
-					if ($this->symbols[$i-1] != " " &&
-						$this->symbols[$i+1] == "r" &&
-						$this->symbols[$i+2] == "e")
+					if ($symbols[$i-1] != " " &&
+						$symbols[$i+1] == "r" &&
+						$symbols[$i+2] == "e")
 					{
-						unset($this->symbols[$i]);
-						unset($this->symbols[$i+1]);
-						unset($this->symbols[$i+2]);
+						unset($symbols[$i]);
+						unset($symbols[$i+1]);
+						unset($symbols[$i+2]);
 						$i += 2;
 					}
 				/***  's  ***/
 					elseif (
-						$this->symbols[$i-1] != " " &&
-						$this->symbols[$i+1] == "s")
+						$symbols[$i-1] != " " &&
+						$symbols[$i+1] == "s")
 					{
-						unset($this->symbols[$i]);
-						unset($this->symbols[$i+1]);
+						unset($symbols[$i]);
+						unset($symbols[$i+1]);
 						$i += 1;
 					}
 				/***  'm  ***/
 					elseif (
-						$this->symbols[$i-1] != " " &&
-						$this->symbols[$i+1] == "m")
+						$symbols[$i-1] != " " &&
+						$symbols[$i+1] == "m")
 					{
-						unset($this->symbols[$i]);
-						unset($this->symbols[$i+1]);
+						unset($symbols[$i]);
+						unset($symbols[$i+1]);
 						$i += 1;
 					}
 				/***  'em  ***/
 					elseif (
-						$this->symbols[$i-1] != " " &&
-						$this->symbols[$i+1] == "e" &&
-						$this->symbols[$i+2] == "m")
+						$symbols[$i-1] != " " &&
+						$symbols[$i+1] == "e" &&
+						$symbols[$i+2] == "m")
 					{
-						unset($this->symbols[$i]);
-						unset($this->symbols[$i+1]);
-						unset($this->symbols[$i+2]);
+						unset($symbols[$i]);
+						unset($symbols[$i+1]);
+						unset($symbols[$i+2]);
 						$i += 2;
 					}
 				/***  'll  ***/
 					elseif (
-						$this->symbols[$i-1] != " " &&
-						$this->symbols[$i+1] == "l" &&
-						$this->symbols[$i+2] == "l")
+						$symbols[$i-1] != " " &&
+						$symbols[$i+1] == "l" &&
+						$symbols[$i+2] == "l")
 					{
-						unset($this->symbols[$i]);
-						unset($this->symbols[$i+1]);
-						unset($this->symbols[$i+2]);
+						unset($symbols[$i]);
+						unset($symbols[$i+1]);
+						unset($symbols[$i+2]);
 						$i += 2;
 					}
 				/***  n't  ***/
 					elseif (
-						$this->symbols[$i-2] != " " &&
-						$this->symbols[$i-1] == "n" &&
-						$this->symbols[$i+1] == "t")
+						$symbols[$i-2] != " " &&
+						$symbols[$i-1] == "n" &&
+						$symbols[$i+1] == "t")
 					{
-					    $this->symbols = $this->removePrevSymbolsToSpace($this->symbols, $i+1);
+					    $symbols = $this->removePrevSymbolsToSpace($symbols, $i+1);
 						$i += 1;
 					}
 				/***  'd  ***/
 					elseif (
-						$this->symbols[$i-1] != " " &&
-						$this->symbols[$i+1] == "d")
+						$symbols[$i-1] != " " &&
+						$symbols[$i+1] == "d")
 					{
-						unset($this->symbols[$i]);
-						unset($this->symbols[$i+1]);
+						unset($symbols[$i]);
+						unset($symbols[$i+1]);
 						$i += 1;
 					}
 				/***  've  ***/
 					elseif (
-						$this->symbols[$i-1] != " " &&
-						$this->symbols[$i+1] == "v" &&
-						$this->symbols[$i+2] == "e")
+						$symbols[$i-1] != " " &&
+						$symbols[$i+1] == "v" &&
+						$symbols[$i+2] == "e")
 					{
-						unset($this->symbols[$i]);
-						unset($this->symbols[$i+1]);
-						unset($this->symbols[$i+2]);
+						unset($symbols[$i]);
+						unset($symbols[$i+1]);
+						unset($symbols[$i+2]);
 						$i += 2;
 					}
 				/***  '(space)  ***/
 					elseif (
-						$this->symbols[$i-1] != " " &&
-						$this->symbols[$i+1] == " ")
+						$symbols[$i-1] != " " &&
+						$symbols[$i+1] == " ")
 					{
-						unset($this->symbols[$i]);
+						unset($symbols[$i]);
 					}
 
 			}
 		}
-		$this->resetKeys();
+		return array_values($symbols);
 	}
 
     /**
