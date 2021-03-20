@@ -156,106 +156,34 @@ class TextProcessor
     }
 
     /**
-     * Delete endings from short words with apostrophe from $symbols.
+     * Inserts full words instead of abbreviations.
      * @param string $text
-     * @return string Text without endings from short words with apostrophe
+     * @return string Processed text
      */
     public function processShortWordsWithApostrophe(string $text) : string
 	{
-	    $symbols = $this->splitOnChars($text);
-		for ($i=0, $size = count($symbols); $i < $size; $i++) {
-			if ($symbols[$i] == "'") {
-
-				/***  're  ***/
-					if ($symbols[$i-1] != " " &&
-						$symbols[$i+1] == "r" &&
-						$symbols[$i+2] == "e")
-					{
-						unset($symbols[$i]);
-						unset($symbols[$i+1]);
-						unset($symbols[$i+2]);
-						$i += 2;
-					}
-				/***  's  ***/
-					elseif (
-						$symbols[$i-1] != " " &&
-						$symbols[$i+1] == "s")
-					{
-						unset($symbols[$i]);
-						unset($symbols[$i+1]);
-						$i += 1;
-					}
-				/***  'm  ***/
-					elseif (
-						$symbols[$i-1] != " " &&
-						$symbols[$i+1] == "m")
-					{
-						unset($symbols[$i]);
-						unset($symbols[$i+1]);
-						$i += 1;
-					}
-				/***  'em  ***/
-					elseif (
-						$symbols[$i-1] != " " &&
-						$symbols[$i+1] == "e" &&
-						$symbols[$i+2] == "m")
-					{
-						unset($symbols[$i]);
-						unset($symbols[$i+1]);
-						unset($symbols[$i+2]);
-						$i += 2;
-					}
-				/***  'll  ***/
-					elseif (
-						$symbols[$i-1] != " " &&
-						$symbols[$i+1] == "l" &&
-						$symbols[$i+2] == "l")
-					{
-						unset($symbols[$i]);
-						unset($symbols[$i+1]);
-						unset($symbols[$i+2]);
-						$i += 2;
-					}
-				/***  n't  ***/
-					elseif (
-						$symbols[$i-2] != " " &&
-						$symbols[$i-1] == "n" &&
-						$symbols[$i+1] == "t")
-					{
-					    $symbols = $this->removePrevSymbolsToSpace($symbols, $i+1);
-						$i += 1;
-					}
-				/***  'd  ***/
-					elseif (
-						$symbols[$i-1] != " " &&
-						$symbols[$i+1] == "d")
-					{
-						unset($symbols[$i]);
-						unset($symbols[$i+1]);
-						$i += 1;
-					}
-				/***  've  ***/
-					elseif (
-						$symbols[$i-1] != " " &&
-						$symbols[$i+1] == "v" &&
-						$symbols[$i+2] == "e")
-					{
-						unset($symbols[$i]);
-						unset($symbols[$i+1]);
-						unset($symbols[$i+2]);
-						$i += 2;
-					}
-				/***  '(space)  ***/
-					elseif (
-						$symbols[$i-1] != " " &&
-						$symbols[$i+1] == " ")
-					{
-						unset($symbols[$i]);
-					}
-
-			}
-		}
-		return implode('', $symbols);
+        $text = preg_replace('/(\b)won\'t(\b)/', '$1will not$2', $text);
+	    $pattern = array(
+                '/(\w)\'m/',
+                '/(\w)\'re/',
+                '/(\w)\'s/',
+                '/(\w)\'ll/',
+                '/(\w)n\'t/',
+                '/(\w)\'d/',
+                '/(\w)\'ve/',
+                '/(\w)\'\s/',
+            );
+        $replacement = array(
+                '$1 am',
+                '$1 are',
+                '$1 is',
+                '$1 will',
+                '$1 not',
+                '$1 had',
+                '$1 have',
+                '$1 ',
+            );
+        return preg_replace($pattern, $replacement, $text);
 	}
 
     /**
