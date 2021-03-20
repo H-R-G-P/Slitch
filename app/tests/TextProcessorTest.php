@@ -191,6 +191,44 @@ class TextProcessorTest extends TestCase
         self::assertSame("StartąćęłńóśźżĄĆĘŁŃÓŚŹŻ End", $actual);
     }
 
+    public function testProcessBraked()
+    {
+        $processor = new TextProcessor();
+
+        $actual = $processor->processBraked("(something) End");
+        self::assertSame("something End", $actual);
+
+        $actual = $processor->processBraked("Start(something).");
+        self::assertSame("Start something.", $actual);
+
+        $actual = $processor->processBraked("Start(something)!");
+        self::assertSame("Start something!", $actual);
+
+        $actual = $processor->processBraked("Start(something)?");
+        self::assertSame("Start something?", $actual);
+
+        $actual = $processor->processBraked("Start(something) End");
+        self::assertSame("Start something End", $actual);
+
+        $actual = $processor->processBraked("Start (something) End");
+        self::assertSame("Start something End", $actual);
+
+        $actual = $processor->processBraked("Start (something)End");
+        self::assertSame("Start something End", $actual);
+
+        $actual = $processor->processBraked("Start(something). End");
+        self::assertSame("Start something. End", $actual);
+
+        $actual = $processor->processBraked("Start(something)! End");
+        self::assertSame("Start something! End", $actual);
+
+        $actual = $processor->processBraked("Start(something)? End");
+        self::assertSame("Start something? End", $actual);
+
+        $actual = $processor->processBraked("Start. (something) End");
+        self::assertSame("Start. something End", $actual);
+    }
+
     public function testSplitOnChars()
     {
         $processor = new TextProcessor();
