@@ -298,7 +298,7 @@ class TextProcessorTest extends TestCase
         self::assertSame("End?", $actual);
     }
 
-    public function testRemainAlphabetSpaceMinus()
+    public function testRemainAlphabetSpacesHyphens()
     {
         $processor = new TextProcessor();
 
