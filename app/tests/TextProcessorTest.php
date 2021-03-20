@@ -4,6 +4,77 @@ use PHPUnit\Framework\TestCase;
 
 class TextProcessorTest extends TestCase
 {
+    public function testProcessEnter()
+    {
+        $processor = new TextProcessor();
+
+        $actual = $processor->processEnter("\nStart End");
+        self::assertSame("Start End", $actual);
+
+        $actual = $processor->processEnter("\n\n\n\nStart End");
+        self::assertSame("Start End", $actual);
+
+        $actual = $processor->processEnter("Start\nEnd");
+        self::assertSame("Start End", $actual);
+
+        $actual = $processor->processEnter("Start\n\n\n\nEnd");
+        self::assertSame("Start End", $actual);
+
+        $actual = $processor->processEnter("Start. \nEnd");
+        self::assertSame("Start. End", $actual);
+
+        $actual = $processor->processEnter("Start. \n\n\n\nEnd");
+        self::assertSame("Start. End", $actual);
+
+        $actual = $processor->processEnter("Start! \nEnd");
+        self::assertSame("Start! End", $actual);
+
+        $actual = $processor->processEnter("Start! \n\n\n\nEnd");
+        self::assertSame("Start! End", $actual);
+
+        $actual = $processor->processEnter("Start? \nEnd");
+        self::assertSame("Start? End", $actual);
+
+        $actual = $processor->processEnter("Start? \n\n\n\nEnd");
+        self::assertSame("Start? End", $actual);
+
+        $actual = $processor->processEnter("Start \nEnd");
+        self::assertSame("Start End", $actual);
+
+        $actual = $processor->processEnter("Start \n\n\n\nEnd");
+        self::assertSame("Start End", $actual);
+
+        $actual = $processor->processEnter("Start\n End");
+        self::assertSame("Start End", $actual);
+
+        $actual = $processor->processEnter("Start\n\n\n\n End");
+        self::assertSame("Start End", $actual);
+
+        $actual = $processor->processEnter("Start\n. End");
+        self::assertSame("Start. End", $actual);
+
+        $actual = $processor->processEnter("Start\n\n\n\n. End");
+        self::assertSame("Start. End", $actual);
+
+        $actual = $processor->processEnter("Start\n! End");
+        self::assertSame("Start! End", $actual);
+
+        $actual = $processor->processEnter("Start\n\n\n\n! End");
+        self::assertSame("Start! End", $actual);
+
+        $actual = $processor->processEnter("Start\n? End");
+        self::assertSame("Start? End", $actual);
+
+        $actual = $processor->processEnter("Start\n\n\n\n? End");
+        self::assertSame("Start? End", $actual);
+
+        $actual = $processor->processEnter("Start End\n");
+        self::assertSame("Start End", $actual);
+
+        $actual = $processor->processEnter("Start End\n\n\n\n");
+        self::assertSame("Start End", $actual);
+    }
+
     public function testProcessHyphens()
     {
         $processor = new TextProcessor();
