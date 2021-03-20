@@ -75,6 +75,77 @@ class TextProcessorTest extends TestCase
         self::assertSame("Start End", $actual);
     }
 
+    public function testProcessSomeSpaceToOne()
+    {
+        $processor = new TextProcessor();
+
+        $actual = $processor->processSpaces(" Start End");
+        self::assertSame("Start End", $actual);
+
+        $actual = $processor->processSpaces("    Start End");
+        self::assertSame("Start End", $actual);
+
+        $actual = $processor->processSpaces("Start End");
+        self::assertSame("Start End", $actual);
+
+        $actual = $processor->processSpaces("Start    End");
+        self::assertSame("Start End", $actual);
+
+        $actual = $processor->processSpaces("Start.  End");
+        self::assertSame("Start. End", $actual);
+
+        $actual = $processor->processSpaces("Start.     End");
+        self::assertSame("Start. End", $actual);
+
+        $actual = $processor->processSpaces("Start!  End");
+        self::assertSame("Start! End", $actual);
+
+        $actual = $processor->processSpaces("Start!     End");
+        self::assertSame("Start! End", $actual);
+
+        $actual = $processor->processSpaces("Start?  End");
+        self::assertSame("Start? End", $actual);
+
+        $actual = $processor->processSpaces("Start?     End");
+        self::assertSame("Start? End", $actual);
+
+        $actual = $processor->processSpaces("Start  End");
+        self::assertSame("Start End", $actual);
+
+        $actual = $processor->processSpaces("Start     End");
+        self::assertSame("Start End", $actual);
+
+        $actual = $processor->processSpaces("Start  End");
+        self::assertSame("Start End", $actual);
+
+        $actual = $processor->processSpaces("Start     End");
+        self::assertSame("Start End", $actual);
+
+        $actual = $processor->processSpaces("Start . End");
+        self::assertSame("Start. End", $actual);
+
+        $actual = $processor->processSpaces("Start    . End");
+        self::assertSame("Start. End", $actual);
+
+        $actual = $processor->processSpaces("Start ! End");
+        self::assertSame("Start! End", $actual);
+
+        $actual = $processor->processSpaces("Start    ! End");
+        self::assertSame("Start! End", $actual);
+
+        $actual = $processor->processSpaces("Start ? End");
+        self::assertSame("Start? End", $actual);
+
+        $actual = $processor->processSpaces("Start    ? End");
+        self::assertSame("Start? End", $actual);
+
+        $actual = $processor->processSpaces("Start End ");
+        self::assertSame("Start End", $actual);
+
+        $actual = $processor->processSpaces("Start End    ");
+        self::assertSame("Start End", $actual);
+    }
+
     public function testProcessHyphens()
     {
         $processor = new TextProcessor();
