@@ -139,19 +139,25 @@ class TextProcessor
 	}
 
     /**
-     * Find some spaces in a row and leave one space.
+     * Correct delete spaces.
+     * @param string $text
+     * @return string Processed text
      */
-    private function processSomeSpaceToOne()
+    public function processSpaces(string $text) : string
 	{
-		for ($i=0, $size = count($this->symbols); $i < $size; $i++) {
-			if ($this->symbols[$i] == " ")
-			{
-				if ($this->symbols[$i-1] == " ") {
-					unset ($this->symbols[$i-1]);
-				}
-			}
-		}
-		$this->resetKeys();
+		$pattern = array(
+                '/^\s+/',
+                '/\s+$/',
+                '/\s+([.!?])/',
+                '/\s+/',
+            );
+        $replacement = array(
+                '',
+                '',
+                '$1',
+                ' ',
+            );
+        return preg_replace($pattern, $replacement, $text);
 	}
 
     /**
