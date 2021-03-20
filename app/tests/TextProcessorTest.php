@@ -156,6 +156,41 @@ class TextProcessorTest extends TestCase
         self::assertSame("End?", $actual);
     }
 
+    public function testRemainAlphabetSpaceMinus()
+    {
+        $processor = new TextProcessor();
+
+        // Test not processed language
+        try {
+            $processor->remainAlphabetSpaceMinus("Start", 'notExistingLanguage');
+        } catch (Exception $e) {
+            self::assertSame(
+                "This language (notExistingLanguage) not process in function 'remainAlphabetSpaceMinus()'.",
+                $e->getMessage()
+            );
+        }
+
+        // Test english
+        $actual = $processor->remainAlphabetSpaceMinus("@#~`':;|><,?=][}{St!@$^%#%564+_)(**&&^^%\\//-art.# %%#E564nd#$%765", 'english');
+        self::assertSame("St-art End", $actual);
+
+        $actual = $processor->remainAlphabetSpaceMinus("StartйцукенгшщзхъфывапролджэячсмитьбюЁёЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ. End", 'english');
+        self::assertSame("Start End", $actual);
+
+        $actual = $processor->remainAlphabetSpaceMinus("StartąćęłńóśźżĄĆĘŁŃÓŚŹŻ. End", 'english');
+        self::assertSame("Start End", $actual);
+
+        // Test polish
+        $actual = $processor->remainAlphabetSpaceMinus("@#~`':;|><,?=][}{St!@$^%#%564+_)(**&&^^%\\//-art.# %%#E564nd#$%765", 'polish');
+        self::assertSame("St-art End", $actual);
+
+        $actual = $processor->remainAlphabetSpaceMinus("StartйцукенгшщзхъфывапролджэячсмитьбюЁёЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ. End", 'polish');
+        self::assertSame("Start End", $actual);
+
+        $actual = $processor->remainAlphabetSpaceMinus("StartąćęłńóśźżĄĆĘŁŃÓŚŹŻ. End", 'polish');
+        self::assertSame("StartąćęłńóśźżĄĆĘŁŃÓŚŹŻ End", $actual);
+    }
+
     public function testSplitOnChars()
     {
         $processor = new TextProcessor();
