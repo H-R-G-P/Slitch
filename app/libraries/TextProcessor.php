@@ -339,7 +339,7 @@ class TextProcessor
         return implode("", $symbols);
 	}
 
-    public function remainAlphabetSpaceMinus(string $text, string $language) : string
+    public function remainAlphabetSpacesHyphens(string $text, string $language) : string
     {
         if ($language === 'english')
         {
