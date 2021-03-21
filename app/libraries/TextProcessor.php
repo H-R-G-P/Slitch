@@ -134,13 +134,13 @@ class TextProcessor
     }
 
     /**
-     * Inserts full words instead of abbreviations.
+     * Correct delete abbreviations with apostrophe.
      * @param string $text
      * @return string Processed text
      */
     public function processShortWordsWithApostrophe(string $text) : string
 	{
-        $text = preg_replace('/(\b)won\'t(\b)/', '$1will not$2', $text);
+        $text = preg_replace('/(\b)won\'t(\b)/', '$1will$2', $text);
 	    $pattern = array(
                 '/(\w)\'m/',
                 '/(\w)\'re/',
@@ -152,13 +152,13 @@ class TextProcessor
                 '/(\w)\'\s/',
             );
         $replacement = array(
-                '$1 am',
-                '$1 are',
-                '$1 is',
-                '$1 will',
-                '$1 not',
-                '$1 had',
-                '$1 have',
+                '$1',
+                '$1',
+                '$1',
+                '$1',
+                '$1',
+                '$1',
+                '$1',
                 '$1 ',
             );
         return preg_replace($pattern, $replacement, $text);
