@@ -26,7 +26,7 @@ class TextProcessor
 
 		$text = $this->processHyphens($text);
 
-		$text = $this->remainAlphabetSpacesHyphensApostrophe($text, $language);
+		$text = $this->remainAlphabetSpacesHyphens($text, $language);
 
 		return $text;
 	}
@@ -214,17 +214,17 @@ class TextProcessor
         return implode("", $symbols);
 	}
 
-    public function remainAlphabetSpacesHyphensApostrophe(string $text, string $language) : string
+    public function remainAlphabetSpacesHyphens(string $text, string $language) : string
     {
         if ($language === 'english')
         {
-            return preg_replace("/[^a-zA-Z\s\-']+/", '', $text);
+            return preg_replace("/[^a-zA-Z\s-]+/", '', $text);
         }
         elseif ($language === 'polish')
         {
             $symbols = $this->splitOnChars($text);
             $symbols = array_filter($symbols, function ($value){
-                return preg_match("/^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ\s\-']+$/", $value);
+                return preg_match("/^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ\s-]+$/", $value);
             });
             return implode('', $symbols);
         }
