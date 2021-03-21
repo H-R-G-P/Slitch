@@ -165,32 +165,6 @@ class TextProcessor
 	}
 
     /**
-     * Correctly delete apostrophe.
-     * @param string $text
-     * @return string Processed text
-     */
-    public function processApostrophe(string $text) : string
-    {
-        $pattern = array(
-                '/(\s)\'(\s)/',
-                '/(\W)\'(\W)/',
-                '/(\w)\'(\W)/',
-                '/(\W)\'(\w)/',
-                '/^\'/',
-                '/\'$/',
-            );
-        $replacement = array(
-                ' ',
-                '$1$2',
-                '$1$2',
-                '$1$2',
-                '',
-                '',
-            );
-        return preg_replace($pattern, $replacement, $text);
-	}
-
-    /**
      * Find all '. ', '! ', '? ' and change " " to "\n" then return updated text.
      * Last sentence don't marking.
      * @param string $text
