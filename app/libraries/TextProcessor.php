@@ -309,7 +309,7 @@ class TextProcessor
      */
     public function getUniqWords(string $text, string $language): array
     {
-        return array_values(array_unique($this->getWords($text, $language)));
+        return self::array_uniqueCaseInsensitive($this->getWords($text, $language));
     }
 
     public static function array_uniqueCaseInsensitive(array $array) : array
