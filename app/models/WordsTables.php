@@ -162,16 +162,27 @@ class WordsTables
      */
     public function getNotLearnedWordsFrom(array $words, string $language) : array
     {
-        return array_udiff(
+        return $this->array_diff_inLowercase(
             $words,
             $this->getArrayWords($language),
-            $this->getArrayUntranslatableWords($language),
-            function ($a, $b) {
-                $a = mb_strtolower($a);
-                $b = mb_strtolower($b);
-                if ($a === $b) return 0;
-                else return -1;
-            }
+            $this->getArrayUntranslatableWords($language)
         );
+    }
+
+    /**
+     * Comparing values of arrays in lower case
+     * @param array $array1
+     * @param array $array2
+     * @param array $array3
+     * @return array
+     */
+    public function array_diff_inLowercase(array $array1, array $array2, array $array3) : array
+    {
+        return array_udiff($array1, $array2, $array3, function ($a, $b) {
+            $a = mb_strtolower($a);
+            $b = mb_strtolower($b);
+            if ($a === $b) return 0;
+            else return -1;
+        });
     }
 }
