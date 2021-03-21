@@ -365,7 +365,8 @@ class Stuffs extends Controller
 
             $learnedWords = $this->wordsTablesModel->getArrayWords($stuff->language);
             $untranslatableWords = $this->wordsTablesModel->getArrayUntranslatableWords($stuff->language);
-            $uniqWords = (new TextProcessor($stuff->text, $stuff->language))->getUniqWords();
+            $decodeText = html_entity_decode($stuff->text, ENT_QUOTES, 'utf-8');
+            $uniqWords = (new TextProcessor())->getUniqWordsObj($decodeText, $stuff->language);
             $notLearnedWords = array_diff($uniqWords, $learnedWords, $untranslatableWords);
 
             if (count($notLearnedWords) === 0)
