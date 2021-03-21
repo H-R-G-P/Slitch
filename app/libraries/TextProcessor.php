@@ -26,7 +26,7 @@ class TextProcessor
 
 		$text = $this->processHyphens($text);
 
-		$text = $this->remainAlphabetSpacesHyphens($text, $language);
+		$text = $this->remainAlphabetSpacesHyphensApostrophe($text, $language);
 
 		return $text;
 	}
