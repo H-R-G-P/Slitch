@@ -493,4 +493,17 @@ class TextProcessorTest extends TestCase
         self::assertCount(8, $words);
         self::assertContainsOnlyInstancesOf('Word', $words);
     }
+
+    public function testGetUniqWords()
+    {
+        $processor = new TextProcessor();
+
+        // Test english
+        $actual = $processor->getUniqWords("Start something. Start something End!", 'english');
+        self::assertSame(['Start','something','End'], $actual);
+
+        // Test polish
+        $actual = $processor->getUniqWords("Start coś tu zostanie napisane. Start Jeśli End?", 'polish');
+        self::assertSame(['Start','coś','tu','zostanie','napisane','Jeśli','End'], $actual);
+    }
 }
