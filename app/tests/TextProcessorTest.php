@@ -465,4 +465,17 @@ class TextProcessorTest extends TestCase
             "Not correctly split on chars polish text."
         );
     }
+
+    public function testGetWords()
+    {
+        $processor = new TextProcessor();
+
+        // Test english
+        $actual = $processor->getWords("Start something. Start something End!", 'english');
+        self::assertSame(['Start','something','Start','something','End'], $actual);
+
+        // Test polish
+        $actual = $processor->getWords("Start coś tu zostanie napisane. Start Jeśli End?", 'polish');
+        self::assertSame(['Start','coś','tu','zostanie','napisane','Start','Jeśli','End'], $actual);
+    }
 }
