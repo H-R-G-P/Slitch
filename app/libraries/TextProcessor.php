@@ -18,7 +18,7 @@ class TextProcessor
 
 		$text = $this->processBraked($text);
 
-		$text = $this->processShortWordsWithApostrophe($text);
+		$text = $this->processApostrophe($text);
 
 		$text = $this->processWhitespaces($text);
 
