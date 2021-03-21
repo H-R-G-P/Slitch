@@ -313,20 +313,23 @@ class TextProcessor
 	}
 
     /**
-     * @return array
-     */
-    public function getSentences(): array
-    {
-        return $this->sentences;
-    }
-
-    /**
+     * @param string $text
+     * @param string $language
      * @return Word[]
+     * @throws Exception
      */
-    public function getWords(): array
+    public function getWordsObj(string $text, string $language) : array
     {
-        return $this->words;
-    }
+        $sentences = $this->getSentences($text);
+        $words = [];
+        foreach ($sentences as $sentence) {
+            $wordsInSent = $this->getWords($sentence, $language);
+            foreach ($wordsInSent as $word) {
+                $words[] = new Word($word, $sentence);
+            }
+        }
+        return $words;
+	}
 
     /**
      * @return Word[]
