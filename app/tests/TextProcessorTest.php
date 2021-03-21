@@ -346,7 +346,7 @@ class TextProcessorTest extends TestCase
 
         // Test english
         $actual = $processor->remainAlphabetSpacesHyphens("@#~`':;|><,?=][}{St!@$^%#%564+_)(**&&^^%\\//-art.# %%#E564nd#$%765", 'english');
-        self::assertSame("St-art End", $actual);
+        self::assertSame("'St-art End", $actual);
 
         $actual = $processor->remainAlphabetSpacesHyphens("StartйцукенгшщзхъфывапролджэячсмитьбюЁёЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ. End", 'english');
         self::assertSame("Start End", $actual);
@@ -356,7 +356,7 @@ class TextProcessorTest extends TestCase
 
         // Test polish
         $actual = $processor->remainAlphabetSpacesHyphens("@#~`':;|><,?=][}{St!@$^%#%564+_)(**&&^^%\\//-art.# %%#E564nd#$%765", 'polish');
-        self::assertSame("St-art End", $actual);
+        self::assertSame("'St-art End", $actual);
 
         $actual = $processor->remainAlphabetSpacesHyphens("StartйцукенгшщзхъфывапролджэячсмитьбюЁёЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ. End", 'polish');
         self::assertSame("Start End", $actual);
