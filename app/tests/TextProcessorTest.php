@@ -544,4 +544,23 @@ class TextProcessorTest extends TestCase
         self::assertSame('Start something.', "$sentences[0]");
         self::assertSame('Start something End!', "$sentences[1]");
     }
+
+    public function testArray_uniqueCaseInsensitive()
+    {
+        $input = [
+            'Case',
+            'CASE',
+            'inst',
+            'case',
+            'insT',
+            'ONE',
+        ];
+        $actual = TextProcessor::array_uniqueCaseInsensitive($input);
+        $expected = [
+            'Case',
+            'inst',
+            'ONE',
+        ];
+        self::assertSame($expected, $actual);
+    }
 }
