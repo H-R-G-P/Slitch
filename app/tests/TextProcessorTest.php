@@ -502,6 +502,9 @@ class TextProcessorTest extends TestCase
         $actual = $processor->getUniqWords("Start something. Start something End!", 'english');
         self::assertSame(['Start','something','End'], $actual);
 
+        $actual = $processor->getUniqWords("Start something. start Something End!", 'english');
+        self::assertSame(['Start','something','End'], $actual);
+
         // Test polish
         $actual = $processor->getUniqWords("Start coś tu zostanie napisane. Start Jeśli End?", 'polish');
         self::assertSame(['Start','coś','tu','zostanie','napisane','Jeśli','End'], $actual);
@@ -513,6 +516,11 @@ class TextProcessorTest extends TestCase
 
         // Test english
         $words = $processor->getUniqWordsObj("Start something. Start something End!", 'english');
+        self::assertSame('Start', "$words[0]");
+        self::assertSame('something', "$words[1]");
+        self::assertSame('End', "$words[2]");
+
+        $words = $processor->getUniqWordsObj("Start something. start Something End!", 'english');
         self::assertSame('Start', "$words[0]");
         self::assertSame('something', "$words[1]");
         self::assertSame('End', "$words[2]");
