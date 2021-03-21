@@ -332,10 +332,13 @@ class TextProcessor
 	}
 
     /**
-     * @return Word[]
+     * @param string $text
+     * @param string $language
+     * @return string[]
+     * @throws Exception
      */
-    public function getUniqWords(): array
+    public function getUniqWords(string $text, string $language): array
     {
-        return $this->uniqWords;
+        return array_values(array_unique($this->getWords($text, $language)));
     }
 }
