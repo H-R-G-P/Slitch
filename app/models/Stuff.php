@@ -197,9 +197,9 @@ class Stuff
         {
             return 'Text is bigger then can added to database. You have '.$bytes;
         }
-        $textProcessor = new TextProcessor($text, $language);
+        $textProcessor = new TextProcessor();
         $this->text = $text;
-        $this->setWords($textProcessor->getWords());
+        $this->setWords($textProcessor->getWords($text, $language));
         return '';
     }
 
