@@ -478,4 +478,19 @@ class TextProcessorTest extends TestCase
         $actual = $processor->getWords("Start coś tu zostanie napisane. Start Jeśli End?", 'polish');
         self::assertSame(['Start','coś','tu','zostanie','napisane','Start','Jeśli','End'], $actual);
     }
+
+    public function testGetWordsObj()
+    {
+        $processor = new TextProcessor();
+
+        // Test english
+        $words = $processor->getWordsObj("Start something. Start something End!", 'english');
+        self::assertCount(5, $words);
+        self::assertContainsOnlyInstancesOf('Word', $words);
+
+        // Test polish
+        $words = $processor->getWordsObj("Start coś tu zostanie napisane. Start Jeśli End?", 'polish');
+        self::assertCount(8, $words);
+        self::assertContainsOnlyInstancesOf('Word', $words);
+    }
 }
