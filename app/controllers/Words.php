@@ -61,7 +61,7 @@ class Words extends Controller
                     // Process learned text
                     $learnedWords = $this->wordsTablesModel->getArrayWords($language);
                     $untranslatableWords = $this->wordsTablesModel->getArrayUntranslatableWords($language);
-                    $uniqWords = (new TextProcessor($data['learnedText'], $language))->getUniqWords();
+                    $uniqWords = (new TextProcessor())->getUniqWordsObj($data['learnedText'], $language);
                     $notLearnedWords = array_diff($uniqWords, $learnedWords, $untranslatableWords);
 
                     // Add learned words
@@ -77,7 +77,7 @@ class Words extends Controller
                     // Process untranslatable text
                     $learnedWords = $this->wordsTablesModel->getArrayWords($language);
                     $untranslatableWords = $this->wordsTablesModel->getArrayUntranslatableWords($language);
-                    $uniqWords = (new TextProcessor($data['untranslatableText'], $language))->getUniqWords();
+                    $uniqWords = (new TextProcessor())->getUniqWordsObj($data['untranslatableText'], $language);
                     $notLearnedWords = array_diff($uniqWords, $learnedWords, $untranslatableWords);
 
                     // Add untranslatable words
@@ -153,7 +153,7 @@ class Words extends Controller
                 if (!empty($data['learnedText']))
                 {
                     // Process learned text
-                    $uniqWords = (new TextProcessor($data['learnedText'], $language))->getUniqWords();
+                    $uniqWords = (new TextProcessor())->getUniqWordsObj($data['learnedText'], $language);
 
                     // Delete learned words
                     if ($this->wordsTablesModel->deleteWords($uniqWords, $language)) {
@@ -166,7 +166,7 @@ class Words extends Controller
                 if (!empty($data['untranslatableText']))
                 {
                     // Process untranslatable text
-                    $uniqWords = (new TextProcessor($data['untranslatableText'], $language))->getUniqWords();
+                    $uniqWords = (new TextProcessor())->getUniqWordsObj($data['untranslatableText'], $language);
 
                     // Add untranslatable words
                     if ($this->wordsTablesModel->deleteUntranslatableWords($uniqWords, $language)) {
