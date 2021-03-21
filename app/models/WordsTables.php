@@ -153,4 +153,25 @@ class WordsTables
         }
         return true;
     }
+
+    /**
+     * Get
+     * @param array $words
+     * @param string $language
+     * @return array
+     */
+    public function getNotLearnedWordsFrom(array $words, string $language) : array
+    {
+        return array_udiff(
+            $words,
+            $this->getArrayWords($language),
+            $this->getArrayUntranslatableWords($language),
+            function ($a, $b) {
+                $a = mb_strtolower($a);
+                $b = mb_strtolower($b);
+                if ($a === $b) return 0;
+                else return -1;
+            }
+        );
+    }
 }
