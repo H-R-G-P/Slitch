@@ -302,87 +302,15 @@ class TextProcessor
 	}
 
     /**
-     * Remove symbols from got $key to first space included.
-     * Iterates over the keys decreasing it with each recursive call.
-     * The first space encountered will be removed.
-     * @param array $symbols Array of symbols.
-     * @param int $key Key from start.
-     * @return array Modified $symbols.
+     * @param string $text
+     * @param string $language
+     * @return string[]
+     * @throws Exception
      */
-    private function removePrevSymbolsToSpace(array $symbols, int $key) : array
+    public function getWords(string $text, string $language) : array
     {
-        if (!isset($symbols[$key])) return $symbols;
-        elseif ($symbols[$key] === " ") {
-            unset($symbols[$key]);
-            return $symbols;
-        }else {
-            unset($symbols[$key]);
-            return $this->removePrevSymbolsToSpace($symbols, $key-1);
-        }
-    }
-
-    /**
-     * Split $symbols on sentences.
-     * End of sentence detect with symbol - "\n". Before use this function
-     * execute functions:
-     * <ul>
-     *      <li>processEnter()</li>
-     *      <li>processLastSpace()</li>
-     *      <li>processSomeSpaceToOne()</li>
-     *      <li>markEndOfSentences()</li>
-     * </ul>
-     */
-    private function setSentences()
-    {
-        $text = implode("", $this->symbols);
-        $this->sentences = explode("\n", $text);
-    }
-
-    /**
-     * Split sentences on words.
-     * Take each sentence and create for each word new object(\classes\word).
-     * For creating object need transfer to him word and sentence. After creating
-     * objects add to array of words.
-     */
-    private function setWords()
-    {
-        foreach ($this->sentences as $sentence) {
-            $lowerSent = mb_strtolower($sentence);
-            $this->symbols = str_split($lowerSent);
-            $this->processAll();
-            $line = implode("", $this->symbols);
-            $words = explode(" ", $line);
-            foreach ($words as $word) {
-                $wordLen = strlen($word);
-                $wordPosL = stripos($sentence, $word);
-                if ($wordPosL === false) continue;
-                $wordPosR = ($wordPosL + $wordLen - 1);
-                $beforeWord = substr($sentence, 0, $wordPosL);
-                $wordFromSentence = substr($sentence, $wordPosL, $wordLen);
-                $afterWord = substr($sentence, ($wordPosR+1));
-                if ($wordPosL === 0)
-                    $upSentence = $beforeWord . "<b class='wordsInContext'>" . $wordFromSentence . "</b>" . $afterWord;
-                else $upSentence = $beforeWord . "<b class='wordsInContext'>$wordFromSentence</b>" . $afterWord;
-                $this->words[] = new Word($word, $upSentence);
-            }
-        }
-    }
-
-    /**
-     * Take array of words and save to $uniqWords only unique words.
-     */
-    private function setUniqWords()
-    {
-        $this->uniqWords = array_unique($this->words);
-    }
-
-    /**
-     * @return string
-     */
-    public function getLang(): string
-    {
-        return $this->lang;
-    }
+        return explode(" ", $this->clean($text, $language));
+	}
 
     /**
      * @return array
