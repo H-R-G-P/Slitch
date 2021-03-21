@@ -321,6 +321,7 @@ class TextProcessor
                 $values[] = $value;
             }
         }
+        return $values;
     }
 
     /**
