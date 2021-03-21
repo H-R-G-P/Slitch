@@ -257,54 +257,31 @@ class TextProcessorTest extends TestCase
         $processor = new TextProcessor();
 
         $actual = $processor->processShortWordsWithApostrophe("I'm End");
-        self::assertSame("I am End", $actual);
+        self::assertSame("I End", $actual);
 
         $actual = $processor->processShortWordsWithApostrophe("you're End");
-        self::assertSame("you are End", $actual);
+        self::assertSame("you End", $actual);
 
         $actual = $processor->processShortWordsWithApostrophe("It's End");
-        self::assertSame("It is End", $actual);
+        self::assertSame("It End", $actual);
 
         $actual = $processor->processShortWordsWithApostrophe("we'll End");
-        self::assertSame("we will End", $actual);
+        self::assertSame("we End", $actual);
 
         $actual = $processor->processShortWordsWithApostrophe("didn't End");
-        self::assertSame("did not End", $actual);
+        self::assertSame("did End", $actual);
 
         $actual = $processor->processShortWordsWithApostrophe("He'd End");
-        self::assertSame("He had End", $actual);
+        self::assertSame("He End", $actual);
 
         $actual = $processor->processShortWordsWithApostrophe("I've End");
-        self::assertSame("I have End", $actual);
+        self::assertSame("I End", $actual);
 
         $actual = $processor->processShortWordsWithApostrophe("I' End");
         self::assertSame("I End", $actual);
 
         $actual = $processor->processShortWordsWithApostrophe("won't End");
-        self::assertSame("will not End", $actual);
-    }
-
-    public function testProcessApostrophe()
-    {
-        $processor = new TextProcessor();
-
-        $actual = $processor->processApostrophe("I'm End");
-        self::assertSame("I'm End", $actual);
-
-        $actual = $processor->processApostrophe("I' End");
-        self::assertSame("I End", $actual);
-
-        $actual = $processor->processApostrophe("I 'End");
-        self::assertSame("I End", $actual);
-
-        $actual = $processor->processApostrophe("I ' End");
-        self::assertSame("I End", $actual);
-
-        $actual = $processor->processApostrophe("I End'!");
-        self::assertSame("I End!", $actual);
-
-        $actual = $processor->processApostrophe("'I End");
-        self::assertSame("I End", $actual);
+        self::assertSame("will End", $actual);
     }
 
     public function testMarkEndsOfSentences()
@@ -330,13 +307,13 @@ class TextProcessorTest extends TestCase
         self::assertSame("End?", $actual);
     }
 
-    public function testRemainAlphabetSpacesHyphensApostrophe()
+    public function testRemainAlphabetSpacesHyphens()
     {
         $processor = new TextProcessor();
 
         // Test not processed language
         try {
-            $processor->remainAlphabetSpacesHyphensApostrophe("Start", 'notExistingLanguage');
+            $processor->remainAlphabetSpacesHyphens("Start", 'notExistingLanguage');
         } catch (Exception $e) {
             self::assertSame(
                 "This language (notExistingLanguage) not process in function 'remainAlphabetSpaceMinus()'.",
@@ -345,23 +322,23 @@ class TextProcessorTest extends TestCase
         }
 
         // Test english
-        $actual = $processor->remainAlphabetSpacesHyphensApostrophe("@#~`':;|><,?=][}{St!@$^%#%564+_)(**&&^^%\\//-art.# %%#E564nd#$%765", 'english');
-        self::assertSame("'St-art End", $actual);
+        $actual = $processor->remainAlphabetSpacesHyphens("@#~`':;|><,?=][}{St!@$^%#%564+_)(**&&^^%\\//-art.# %%#E564nd#$%765", 'english');
+        self::assertSame("St-art End", $actual);
 
-        $actual = $processor->remainAlphabetSpacesHyphensApostrophe("StartйцукенгшщзхъфывапролджэячсмитьбюЁёЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ. End", 'english');
+        $actual = $processor->remainAlphabetSpacesHyphens("StartйцукенгшщзхъфывапролджэячсмитьбюЁёЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ. End", 'english');
         self::assertSame("Start End", $actual);
 
-        $actual = $processor->remainAlphabetSpacesHyphensApostrophe("StartąćęłńóśźżĄĆĘŁŃÓŚŹŻ. End", 'english');
+        $actual = $processor->remainAlphabetSpacesHyphens("StartąćęłńóśźżĄĆĘŁŃÓŚŹŻ. End", 'english');
         self::assertSame("Start End", $actual);
 
         // Test polish
-        $actual = $processor->remainAlphabetSpacesHyphensApostrophe("@#~`':;|><,?=][}{St!@$^%#%564+_)(**&&^^%\\//-art.# %%#E564nd#$%765", 'polish');
-        self::assertSame("'St-art End", $actual);
+        $actual = $processor->remainAlphabetSpacesHyphens("@#~`':;|><,?=][}{St!@$^%#%564+_)(**&&^^%\\//-art.# %%#E564nd#$%765", 'polish');
+        self::assertSame("St-art End", $actual);
 
-        $actual = $processor->remainAlphabetSpacesHyphensApostrophe("StartйцукенгшщзхъфывапролджэячсмитьбюЁёЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ. End", 'polish');
+        $actual = $processor->remainAlphabetSpacesHyphens("StartйцукенгшщзхъфывапролджэячсмитьбюЁёЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ. End", 'polish');
         self::assertSame("Start End", $actual);
 
-        $actual = $processor->remainAlphabetSpacesHyphensApostrophe("StartąćęłńóśźżĄĆĘŁŃÓŚŹŻ. End", 'polish');
+        $actual = $processor->remainAlphabetSpacesHyphens("StartąćęłńóśźżĄĆĘŁŃÓŚŹŻ. End", 'polish');
         self::assertSame("StartąćęłńóśźżĄĆĘŁŃÓŚŹŻ End", $actual);
     }
 

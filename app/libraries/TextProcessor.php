@@ -18,7 +18,7 @@ class TextProcessor
 
 		$text = $this->processBraked($text);
 
-		$text = $this->processApostrophe($text);
+		$text = $this->processShortWordsWithApostrophe($text);
 
 		$text = $this->processWhitespaces($text);
 
@@ -26,7 +26,7 @@ class TextProcessor
 
 		$text = $this->processHyphens($text);
 
-		$text = $this->remainAlphabetSpacesHyphensApostrophe($text, $language);
+		$text = $this->remainAlphabetSpacesHyphens($text, $language);
 
 		return $text;
 	}
@@ -134,13 +134,13 @@ class TextProcessor
     }
 
     /**
-     * Inserts full words instead of abbreviations.
+     * Correct delete abbreviations with apostrophe.
      * @param string $text
      * @return string Processed text
      */
     public function processShortWordsWithApostrophe(string $text) : string
 	{
-        $text = preg_replace('/(\b)won\'t(\b)/', '$1will not$2', $text);
+        $text = preg_replace('/(\b)won\'t(\b)/', '$1will$2', $text);
 	    $pattern = array(
                 '/(\w)\'m/',
                 '/(\w)\'re/',
@@ -152,40 +152,14 @@ class TextProcessor
                 '/(\w)\'\s/',
             );
         $replacement = array(
-                '$1 am',
-                '$1 are',
-                '$1 is',
-                '$1 will',
-                '$1 not',
-                '$1 had',
-                '$1 have',
+                '$1',
+                '$1',
+                '$1',
+                '$1',
+                '$1',
+                '$1',
+                '$1',
                 '$1 ',
-            );
-        return preg_replace($pattern, $replacement, $text);
-	}
-
-    /**
-     * Correctly delete apostrophe.
-     * @param string $text
-     * @return string Processed text
-     */
-    public function processApostrophe(string $text) : string
-    {
-        $pattern = array(
-                '/(\s)\'(\s)/',
-                '/(\W)\'(\W)/',
-                '/(\w)\'(\W)/',
-                '/(\W)\'(\w)/',
-                '/^\'/',
-                '/\'$/',
-            );
-        $replacement = array(
-                ' ',
-                '$1$2',
-                '$1$2',
-                '$1$2',
-                '',
-                '',
             );
         return preg_replace($pattern, $replacement, $text);
 	}
@@ -214,17 +188,17 @@ class TextProcessor
         return implode("", $symbols);
 	}
 
-    public function remainAlphabetSpacesHyphensApostrophe(string $text, string $language) : string
+    public function remainAlphabetSpacesHyphens(string $text, string $language) : string
     {
         if ($language === 'english')
         {
-            return preg_replace("/[^a-zA-Z\s\-']+/", '', $text);
+            return preg_replace("/[^a-zA-Z\s-]+/", '', $text);
         }
         elseif ($language === 'polish')
         {
             $symbols = $this->splitOnChars($text);
             $symbols = array_filter($symbols, function ($value){
-                return preg_match("/^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ\s\-']+$/", $value);
+                return preg_match("/^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ\s-]+$/", $value);
             });
             return implode('', $symbols);
         }
