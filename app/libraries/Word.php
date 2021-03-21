@@ -16,12 +16,22 @@ class Word
     public function __construct(string $word, string $context)
     {
         $this->word = $word;
-        $this->context = trim($context);
+        $this->setContext($word, $context);
     }
 
     public function __toString(): string
     {
         return $this->word;
+    }
+
+    public function setContext(string $word, string $context)
+    {
+        $this->context = preg_replace(
+            '/\b'.$word.'\b/',
+            "<b class='wordsInContext'>$word</b>",
+            $context,
+            1
+        );
     }
 
     /**
