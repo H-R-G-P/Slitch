@@ -4,28 +4,6 @@
 class TextProcessor
 {
     /**
-     * @var array
-     */
-    private array $sentences = [];
-    /**
-     * @var array
-     */
-    private array $words = [];
-    /**
-     * @var array
-     */
-    private array $uniqWords = [];
-    /**
-     * Array of symbols in lowercase.
-     * @var array
-     */
-    private array $symbols;
-    /** Language of text that processing.
-     * @var string Short name of language.
-     */
-    private string $lang;
-
-    /**
      * Remain words separated spaces.
      * @param string $text
      * @param string $language
@@ -284,14 +262,6 @@ class TextProcessor
                 '$1 '
             );
         return preg_replace($pattern, $replacement, $text);
-	}
-
-    /**
-     * Reset key in array of symbols.
-     */
-    private function resetKeys()
-    {
-        $this->symbols = array_values($this->symbols);
 	}
 
     public function splitOnChars(string $string)
