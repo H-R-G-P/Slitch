@@ -284,6 +284,29 @@ class TextProcessorTest extends TestCase
         self::assertSame("will not End", $actual);
     }
 
+    public function testProcessApostrophe()
+    {
+        $processor = new TextProcessor();
+
+        $actual = $processor->processApostrophe("I'm End");
+        self::assertSame("I'm End", $actual);
+
+        $actual = $processor->processApostrophe("I' End");
+        self::assertSame("I End", $actual);
+
+        $actual = $processor->processApostrophe("I 'End");
+        self::assertSame("I End", $actual);
+
+        $actual = $processor->processApostrophe("I ' End");
+        self::assertSame("I End", $actual);
+
+        $actual = $processor->processApostrophe("I End'!");
+        self::assertSame("I End!", $actual);
+
+        $actual = $processor->processApostrophe("'I End");
+        self::assertSame("I End", $actual);
+    }
+
     public function testMarkEndsOfSentences()
     {
         $processor = new TextProcessor();
