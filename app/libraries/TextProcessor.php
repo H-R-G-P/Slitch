@@ -351,4 +351,18 @@ class TextProcessor
     {
         return array_values(array_unique($this->getWordsObj($text, $language)));
     }
+
+    /**
+     * Split text on sentences.
+     * End of sentence detect with symbol - "\n".
+     * @param string $text
+     * @return string[] Sentences
+     */
+    public function getSentences(string $text) : array
+    {
+        $text = $this->processEnter($text);
+        $text = $this->processSpaces($text);
+        $text = $this->markEndsOfSentences($text);
+        return explode("\n", $text);
+    }
 }
