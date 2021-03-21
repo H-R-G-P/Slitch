@@ -47,7 +47,7 @@ class WordsTables
     }
 
     /**
-     * Get array of the untranslatable words as objects of the received language
+     * Get array of the untranslatable words of the received language
      * @param string $language
      * @return array
      */
