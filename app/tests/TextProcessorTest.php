@@ -527,4 +527,13 @@ class TextProcessorTest extends TestCase
         self::assertSame('Jeśli', "$words[5]");
         self::assertSame('End', "$words[6]");
     }
+
+    public function testGetSentences()
+    {
+        $processor = new TextProcessor();
+
+        $sentences = $processor->getSentences("Start something. Start something End!");
+        self::assertSame('Start something.', "$sentences[0]");
+        self::assertSame('Start something End!', "$sentences[1]");
+    }
 }
