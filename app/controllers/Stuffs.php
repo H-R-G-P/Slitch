@@ -363,11 +363,9 @@ class Stuffs extends Controller
                 redirect('stuffs');
             }
 
-            $learnedWords = $this->wordsTablesModel->getArrayWords($stuff->language);
-            $untranslatableWords = $this->wordsTablesModel->getArrayUntranslatableWords($stuff->language);
             $decodeText = html_entity_decode($stuff->text, ENT_QUOTES, 'utf-8');
             $uniqWords = (new TextProcessor())->getUniqWordsObj($decodeText, $stuff->language);
-            $notLearnedWords = array_diff($uniqWords, $learnedWords, $untranslatableWords);
+            $notLearnedWords = $this->wordsTablesModel->getNotLearnedWordsFrom($uniqWords, $stuff->language);
 
             if (count($notLearnedWords) === 0)
             {

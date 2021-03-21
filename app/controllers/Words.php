@@ -59,10 +59,9 @@ class Words extends Controller
                 if (!empty($data['learnedText']))
                 {
                     // Process learned text
-                    $learnedWords = $this->wordsTablesModel->getArrayWords($language);
-                    $untranslatableWords = $this->wordsTablesModel->getArrayUntranslatableWords($language);
-                    $uniqWords = (new TextProcessor())->getUniqWordsObj($data['learnedText'], $language);
-                    $notLearnedWords = array_diff($uniqWords, $learnedWords, $untranslatableWords);
+                    $decodeText = html_entity_decode($data['learnedText'], ENT_QUOTES, 'utf-8');
+                    $uniqWords = (new TextProcessor())->getUniqWordsObj($decodeText, $language);
+                    $notLearnedWords = $this->wordsTablesModel->getNotLearnedWordsFrom($uniqWords, $language);
 
                     // Add learned words
                     if ($this->wordsTablesModel->addWords($notLearnedWords, $language)) {
@@ -75,10 +74,9 @@ class Words extends Controller
                 if (!empty($data['untranslatableText']))
                 {
                     // Process untranslatable text
-                    $learnedWords = $this->wordsTablesModel->getArrayWords($language);
-                    $untranslatableWords = $this->wordsTablesModel->getArrayUntranslatableWords($language);
-                    $uniqWords = (new TextProcessor())->getUniqWordsObj($data['untranslatableText'], $language);
-                    $notLearnedWords = array_diff($uniqWords, $learnedWords, $untranslatableWords);
+                    $decodeText = html_entity_decode($data['untranslatableText'], ENT_QUOTES, 'utf-8');
+                    $uniqWords = (new TextProcessor())->getUniqWordsObj($decodeText, $language);
+                    $notLearnedWords = $this->wordsTablesModel->getNotLearnedWordsFrom($uniqWords, $language);
 
                     // Add untranslatable words
                     if ($this->wordsTablesModel->addUntranslatableWords($notLearnedWords, $language)) {
