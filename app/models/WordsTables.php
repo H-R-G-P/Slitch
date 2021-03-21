@@ -61,7 +61,7 @@ class WordsTables
     }
 
     /**
-     * Add to database the words of the received language
+     * Add to database the words in lower case of the received language
      * @param array $words
      * @param string $language
      * @return bool
@@ -70,7 +70,7 @@ class WordsTables
     {
         $sql = 'INSERT INTO '.$language.'_words (word) VALUES ';
         foreach ($words as $word) {
-            $sql .= "('$word'), ";
+            $sql .= "('".mb_strtolower($word)."'), ";
         }
         $sql = rtrim($sql, ', ');
 
@@ -86,7 +86,7 @@ class WordsTables
     }
 
     /**
-     * Add to database the untranslatable words of the received language
+     * Add to database the untranslatable words in lower case of the received language
      * @param array $words
      * @param string $language
      * @return bool
@@ -95,7 +95,7 @@ class WordsTables
     {
         $sql = 'INSERT INTO '.$language.'_untranslatableWords (word) VALUES ';
         foreach ($words as $word) {
-            $sql .= "('$word'), ";
+            $sql .= "('".mb_strtolower($word)."'), ";
         }
         $sql = rtrim($sql, ', ');
 
@@ -111,7 +111,7 @@ class WordsTables
     }
 
     /**
-     * Delete from database the words of the received language
+     * Delete from database the words in lower case of the received language
      * @param array $words
      * @param string $language
      * @return bool
@@ -124,7 +124,7 @@ class WordsTables
         $this->db->query('DELETE FROM '.$language.'_words WHERE word = :word');
         foreach ($wordsForDeleting as $word)
         {
-            if (!$this->db->execute(array(':word' => $word)))
+            if (!$this->db->execute(array(':word' => mb_strtolower($word))))
             {
                 return false;
             }
@@ -133,7 +133,7 @@ class WordsTables
     }
 
     /**
-     * Delete from database the untranslatable words of the received language
+     * Delete from database the untranslatable words in lower case of the received language
      * @param array $words
      * @param string $language
      * @return bool
@@ -146,7 +146,7 @@ class WordsTables
         $this->db->query('DELETE FROM '.$language.'_untranslatableWords WHERE word = :word');
         foreach ($wordsForDeleting as $word)
         {
-            if (!$this->db->execute(array(':word' => $word)))
+            if (!$this->db->execute(array(':word' => mb_strtolower($word))))
             {
                 return false;
             }
