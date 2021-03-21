@@ -341,4 +341,14 @@ class TextProcessor
     {
         return array_values(array_unique($this->getWords($text, $language)));
     }
+    /**
+     * @param string $text
+     * @param string $language
+     * @return Word[]
+     * @throws Exception
+     */
+    public function getUniqWordsObj(string $text, string $language): array
+    {
+        return array_values(array_unique($this->getWordsObj($text, $language)));
+    }
 }
