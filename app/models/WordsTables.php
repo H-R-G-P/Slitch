@@ -180,8 +180,8 @@ class WordsTables
     {
         return array_values(
             array_udiff($array1, $array2, $array3, function ($a, $b) {
-                $a = mb_strtolower($a);
-                $b = mb_strtolower($b);
+                $a = mb_strtolower("$a");
+                $b = mb_strtolower("$b");
                 if ($a === $b) return 0;
                 else return -1;
             })
