@@ -162,31 +162,10 @@ class WordsTables
      */
     public function getNotLearnedWordsFrom(array $words, string $language) : array
     {
-        return $this->array_diff_inLowercase(
+        return Helper::array_diff_inLowercase(
             $words,
             $this->getArrayWords($language),
             $this->getArrayUntranslatableWords($language)
         );
-    }
-
-    /**
-     * Comparing values of arrays in lower case
-     * @param array $array1
-     * @param array $array2
-     * @param array $array3
-     * @return array
-     */
-    public static function array_diff_inLowercase(array $array1, array $array2, array $array3) : array
-    {
-        $output = [];
-        foreach ($array1 as $value) {
-            $value = preg_replace('/-/', '\-', $value);
-            if (count(preg_grep('/'.$value.'/i', $array2)) === 0 &&
-                count(preg_grep('/'.$value.'/i', $array3)) === 0)
-            {
-                $output[] = preg_replace('/\\\-/', '-', $value);
-            }
-        }
-        return $output;
     }
 }
