@@ -710,4 +710,23 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         );
         self::assertSame($expected, $actual);
     }
+
+    public function testArray_uniqueCaseInsensitive()
+    {
+        $input = [
+            'Case',
+            'CASE',
+            'inst',
+            'case',
+            'insT',
+            'ONE',
+        ];
+        $actual = Helper::array_uniqueCaseInsensitive($input);
+        $expected = [
+            'Case',
+            'inst',
+            'ONE',
+        ];
+        self::assertSame($expected, $actual);
+    }
 }

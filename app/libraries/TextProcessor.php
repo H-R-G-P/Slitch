@@ -309,19 +309,7 @@ class TextProcessor
      */
     public function getUniqWords(string $text, string $language): array
     {
-        return self::array_uniqueCaseInsensitive($this->getWords($text, $language));
-    }
-
-    public static function array_uniqueCaseInsensitive(array $array) : array
-    {
-        $values = [];
-        foreach ($array as $value) {
-            if (count(preg_grep('/^'.$value.'$/i', $values)) !== 1)
-            {
-                $values[] = $value;
-            }
-        }
-        return $values;
+        return Helper::array_uniqueCaseInsensitive($this->getWords($text, $language));
     }
 
     /**
@@ -332,7 +320,7 @@ class TextProcessor
      */
     public function getUniqWordsObj(string $text, string $language): array
     {
-        return self::array_uniqueCaseInsensitive($this->getWordsObj($text, $language));
+        return Helper::array_uniqueCaseInsensitive($this->getWordsObj($text, $language));
     }
 
     /**

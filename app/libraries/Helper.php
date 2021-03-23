@@ -23,4 +23,16 @@ class Helper
         }
         return $output;
     }
+
+    public static function array_uniqueCaseInsensitive(array $array) : array
+    {
+        $values = [];
+        foreach ($array as $value) {
+            if (count(preg_grep('/^'.$value.'$/i', $values)) !== 1)
+            {
+                $values[] = $value;
+            }
+        }
+        return $values;
+    }
 }
