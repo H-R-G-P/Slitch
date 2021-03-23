@@ -178,13 +178,15 @@ class WordsTables
      */
     public static function array_diff_inLowercase(array $array1, array $array2, array $array3) : array
     {
-        return array_values(
-            array_udiff($array1, $array2, $array3, function ($a, $b) {
-                $a = mb_strtolower("$a");
-                $b = mb_strtolower("$b");
-                if ($a === $b) return 0;
-                else return -1;
-            })
-        );
+        $output = [];
+        foreach ($array1 as $value) {
+            $value = preg_replace('/-/', '\-', $value);
+            if (count(preg_grep('/'.$value.'/i', $array2)) === 0 &&
+                count(preg_grep('/'.$value.'/i', $array3)) === 0)
+            {
+                $output[] = preg_replace('/\\\-/', '-', $value);
+            }
+        }
+        return $output;
     }
 }
