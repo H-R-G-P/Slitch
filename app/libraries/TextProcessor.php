@@ -316,7 +316,7 @@ class TextProcessor
     {
         $values = [];
         foreach ($array as $value) {
-            if (count(preg_grep('/'.$value.'/i', $values)) !== 1)
+            if (count(preg_grep('/^'.$value.'$/i', $values)) !== 1)
             {
                 $values[] = $value;
             }
