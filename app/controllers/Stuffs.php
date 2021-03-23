@@ -364,17 +364,19 @@ class Stuffs extends Controller
             }
 
             $decodeText = html_entity_decode($stuff->text, ENT_QUOTES, 'utf-8');
-            $uniqWords = (new TextProcessor())->getUniqWordsObj($decodeText, $stuff->language);
+            $uniqWords = (new TextProcessor())->getUniqWords($decodeText, $stuff->language);
             $notLearnedWords = $this->wordsTablesModel->getNotLearnedWordsFrom($uniqWords, $stuff->language);
+            $uniqWordsObj = (new TextProcessor())->getUniqWordsObj($decodeText, $stuff->language);
+            $notLearnedWordsObj = array_intersect($uniqWordsObj, $notLearnedWords);
 
-            if (count($notLearnedWords) === 0)
+            if (count($notLearnedWordsObj) === 0)
             {
                 flash('handleStuff_error', 'All words in this stuff are learned.', 'alert alert-info');
                 redirect('stuffs');
             }
 
             $data = [
-                'notLearnedWords' => $notLearnedWords,
+                'notLearnedWords' => $notLearnedWordsObj,
                 'stuff' => $stuff,
             ];
 
