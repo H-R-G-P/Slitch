@@ -86,7 +86,7 @@ class Words extends Controller
                     }
                 }
 
-                redirect('words/add');
+                Helper::redirect('words/add');
             }
             else
             {
@@ -174,7 +174,7 @@ class Words extends Controller
                     }
                 }
 
-                redirect('words/delete');
+                Helper::redirect('words/delete');
             }
             else
             {

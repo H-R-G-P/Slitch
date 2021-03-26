@@ -35,4 +35,13 @@ class Helper
         }
         return $values;
     }
+
+    /**
+     * Simple page redirect
+     * @param string $page Format: {controller}/{method}
+     */
+    public static function redirect(string $page) : void
+    {
+        header('location: '.URLROOT.'/'.$page);
+    }
 }

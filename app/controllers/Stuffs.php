@@ -14,7 +14,7 @@ class Stuffs extends Controller
     {
         if (!isLoggedIn())
         {
-            redirect('');
+            Helper::redirect('');
         }
 
         $this->stuffModel = $this->model('Stuff');
@@ -123,12 +123,12 @@ class Stuffs extends Controller
                 if ($this->stuffTableModel->add($this->stuffModel))
                 {
                     flash('stuffAdded_success', 'Stuff added');
-                    redirect('stuffs');
+                    Helper::redirect('stuffs');
                 }
                 else
                 {
                     flash('stuffAdded_error', 'Stuff not added', 'alert alert-warning');
-                    redirect('stuffs');
+                    Helper::redirect('stuffs');
                 }
             }
             else
@@ -171,12 +171,12 @@ class Stuffs extends Controller
         if ($this->stuffTableModel->delete($id))
         {
             flash('stuffDeleted_success', 'Stuff deleted');
-            redirect('stuffs');
+            Helper::redirect('stuffs');
         }
         else
         {
             flash('stuffDeleted_error', 'Stuff not deleted', 'alert alert-warning');
-            redirect('stuffs');
+            Helper::redirect('stuffs');
         }
     }
 
@@ -186,7 +186,7 @@ class Stuffs extends Controller
         if (!$stuff = $this->stuffTableModel->getStuffById($id))
         {
             flash('showStuff_error', 'Undefined stuff', 'alert alert-warning');
-            redirect('stuffs');
+            Helper::redirect('stuffs');
         }
 
         $words = explode(' ', $stuff->words);
@@ -283,12 +283,12 @@ class Stuffs extends Controller
                 if ($this->stuffTableModel->edit($this->stuffModel))
                 {
                     flash('stuffEdited_success', 'Stuff edited');
-                    redirect('stuffs');
+                    Helper::redirect('stuffs');
                 }
                 else
                 {
                     flash('stuffEdited_error', 'Stuff not edited');
-                    redirect('stuffs');
+                    Helper::redirect('stuffs');
                 }
             }
             else
@@ -341,7 +341,7 @@ class Stuffs extends Controller
                 {
                     // Error
                     flash('handleStuff_error', "Can't add words to database", 'alert alert-danger');
-                    redirect('stuffs');
+                    Helper::redirect('stuffs');
                 }
             }
             // Add untranslatable words
@@ -351,7 +351,7 @@ class Stuffs extends Controller
                 {
                     // Error
                     flash('handleStuff_error', "Can't add untranslatable words to database", 'alert alert-danger');
-                    redirect('stuffs');
+                    Helper::redirect('stuffs');
                 }
             }
         }
@@ -360,7 +360,7 @@ class Stuffs extends Controller
             if (!$stuff = $this->stuffTableModel->getStuffById($id))
             {
                 flash('handleStuff_error', 'Undefined stuff', 'alert alert-warning');
-                redirect('stuffs');
+                Helper::redirect('stuffs');
             }
 
             $decodeText = html_entity_decode($stuff->text, ENT_QUOTES, 'utf-8');
@@ -372,7 +372,7 @@ class Stuffs extends Controller
             if (count($notLearnedWordsObj) === 0)
             {
                 flash('handleStuff_error', 'All words in this stuff are learned.', 'alert alert-info');
-                redirect('stuffs');
+                Helper::redirect('stuffs');
             }
 
             $data = [
