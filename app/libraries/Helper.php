@@ -35,4 +35,66 @@ class Helper
         }
         return $values;
     }
+
+    /**
+     * Simple page redirect
+     * @param string $page Format: {controller}/{method}
+     */
+    public static function redirect(string $page) : void
+    {
+        header('location: '.URLROOT.'/'.$page);
+    }
+
+    /**
+     * Return true if some user is logged in otherwise false
+     * @return bool
+     */
+    public static function isLoggedIn() : bool
+    {
+        if (isset($_SESSION['user_id']))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+     * Flash message helper
+     * @param string $name
+     * @param string $message
+     * @param string $class
+     * @example flash('register_success', 'You are now registered', 'alert alert-danger');<br>
+     * DISPLAY IN VIEW - echo flash('register_success');
+     */
+    public static function flash(string $name = '', string $message = '', string $class = 'alert alert-success') : void
+    {
+        if (!empty($name))
+        {
+            if (!empty($message) && empty($_SESSION[$name]))
+            {
+                if (!empty($_SESSION[$name]))
+                {
+                    unset($_SESSION[$name]);
+                }
+
+                if (!empty($_SESSION[$name.'_class']))
+                {
+                    unset($_SESSION[$name.'_class']);
+                }
+
+                $_SESSION[$name] = $message;
+                $_SESSION[$name.'_class'] = $class;
+            }
+            elseif (empty($message) && !empty($_SESSION[$name]))
+            {
+                $class = !empty($_SESSION[$name.'_class']) ? $_SESSION[$name.'_class'] : '';
+                echo '<div class="'.$class.'" id="msg-flash">'.$_SESSION[$name].'</div>';
+                unset($_SESSION[$name]);
+                unset($_SESSION[$name.'_class']);
+            }
+        }
+    }
 }

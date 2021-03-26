@@ -32,8 +32,8 @@
         <button type="submit" class="btn btn-primary">Add words from texts</button>
     </div>
 </form>
-<?php flash('addWords_success'); ?>
-<?php flash('addWords_error'); ?>
-<?php flash('addUntranslatableWords_success'); ?>
-<?php flash('addUntranslatableWords_error'); ?>
+<?php Helper::flash('addWords_success'); ?>
+<?php Helper::flash('addWords_error'); ?>
+<?php Helper::flash('addUntranslatableWords_success'); ?>
+<?php Helper::flash('addUntranslatableWords_error'); ?>
 <?php require APPROOT.'/views/inc/footer.php'; ?>

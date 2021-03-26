@@ -32,8 +32,8 @@
         <button type="submit" class="btn btn-primary">Delete words from texts</button>
     </div>
 </form>
-<?php flash('deleteWords_success'); ?>
-<?php flash('deleteWords_error'); ?>
-<?php flash('deleteUntranslatableWords_success'); ?>
-<?php flash('deleteUntranslatableWords_error'); ?>
+<?php Helper::flash('deleteWords_success'); ?>
+<?php Helper::flash('deleteWords_error'); ?>
+<?php Helper::flash('deleteUntranslatableWords_success'); ?>
+<?php Helper::flash('deleteUntranslatableWords_error'); ?>
 <?php require APPROOT.'/views/inc/footer.php'; ?>

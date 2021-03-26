@@ -86,8 +86,8 @@ class Users extends Controller
                 // Register User
                 if ($this->userModel->register($data))
                 {
-                    flash('register_success', 'You are Registered and can log in');
-                    redirect('users/login');
+                    Helper::flash('register_success', 'You are Registered and can log in');
+                    Helper::redirect('users/login');
                 }
                 else
                 {
@@ -202,7 +202,7 @@ class Users extends Controller
         $_SESSION['user_id'] = $user->id;
         $_SESSION['user_email'] = $user->email;
         $_SESSION['user_name'] = $user->name;
-        redirect('posts');
+        Helper::redirect('posts');
     }
 
     public function logout()
@@ -211,6 +211,6 @@ class Users extends Controller
         unset($_SESSION['user_email']);
         unset($_SESSION['user_name']);
         session_destroy();
-        redirect('users/login');
+        Helper::redirect('users/login');
     }
 }
