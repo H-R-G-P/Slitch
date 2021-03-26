@@ -65,9 +65,9 @@ class Words extends Controller
 
                     // Add learned words
                     if ($this->wordsTablesModel->addWords($notLearnedWords, $language)) {
-                        flash('addWords_success', 'Learned words added');
+                        Helper::flash('addWords_success', 'Learned words added');
                     } else {
-                        flash('addWords_error', 'Learned words not added', 'alert alert-warning');
+                        Helper::flash('addWords_error', 'Learned words not added', 'alert alert-warning');
                     }
                 }
 
@@ -80,9 +80,9 @@ class Words extends Controller
 
                     // Add untranslatable words
                     if ($this->wordsTablesModel->addUntranslatableWords($notLearnedWords, $language)) {
-                        flash('addUntranslatableWords_success', 'Untranslatable words added');
+                        Helper::flash('addUntranslatableWords_success', 'Untranslatable words added');
                     } else {
-                        flash('addUntranslatableWords_error', 'Untranslatable words not added', 'alert alert-warning');
+                        Helper::flash('addUntranslatableWords_error', 'Untranslatable words not added', 'alert alert-warning');
                     }
                 }
 
@@ -155,9 +155,9 @@ class Words extends Controller
 
                     // Delete learned words
                     if ($this->wordsTablesModel->deleteWords($uniqWords, $language)) {
-                        flash('deleteWords_success', 'Learned words deleted');
+                        Helper::flash('deleteWords_success', 'Learned words deleted');
                     } else {
-                        flash('deleteWords_error', 'Learned words not deleted', 'alert alert-warning');
+                        Helper::flash('deleteWords_error', 'Learned words not deleted', 'alert alert-warning');
                     }
                 }
 
@@ -168,9 +168,9 @@ class Words extends Controller
 
                     // Add untranslatable words
                     if ($this->wordsTablesModel->deleteUntranslatableWords($uniqWords, $language)) {
-                        flash('deleteUntranslatableWords_success', 'Untranslatable words deleted');
+                        Helper::flash('deleteUntranslatableWords_success', 'Untranslatable words deleted');
                     } else {
-                        flash('deleteUntranslatableWords_error', 'Untranslatable words not deleted', 'alert alert-warning');
+                        Helper::flash('deleteUntranslatableWords_error', 'Untranslatable words not deleted', 'alert alert-warning');
                     }
                 }
 

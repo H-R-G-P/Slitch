@@ -12,7 +12,7 @@ class Stuffs extends Controller
 
     public function __construct()
     {
-        if (!isLoggedIn())
+        if (!Helper::isLoggedIn())
         {
             Helper::redirect('');
         }
@@ -122,12 +122,12 @@ class Stuffs extends Controller
                 // Add stuff
                 if ($this->stuffTableModel->add($this->stuffModel))
                 {
-                    flash('stuffAdded_success', 'Stuff added');
+                    Helper::flash('stuffAdded_success', 'Stuff added');
                     Helper::redirect('stuffs');
                 }
                 else
                 {
-                    flash('stuffAdded_error', 'Stuff not added', 'alert alert-warning');
+                    Helper::flash('stuffAdded_error', 'Stuff not added', 'alert alert-warning');
                     Helper::redirect('stuffs');
                 }
             }
@@ -170,12 +170,12 @@ class Stuffs extends Controller
     {
         if ($this->stuffTableModel->delete($id))
         {
-            flash('stuffDeleted_success', 'Stuff deleted');
+            Helper::flash('stuffDeleted_success', 'Stuff deleted');
             Helper::redirect('stuffs');
         }
         else
         {
-            flash('stuffDeleted_error', 'Stuff not deleted', 'alert alert-warning');
+            Helper::flash('stuffDeleted_error', 'Stuff not deleted', 'alert alert-warning');
             Helper::redirect('stuffs');
         }
     }
@@ -185,7 +185,7 @@ class Stuffs extends Controller
         // Get stuff
         if (!$stuff = $this->stuffTableModel->getStuffById($id))
         {
-            flash('showStuff_error', 'Undefined stuff', 'alert alert-warning');
+            Helper::flash('showStuff_error', 'Undefined stuff', 'alert alert-warning');
             Helper::redirect('stuffs');
         }
 
@@ -282,12 +282,12 @@ class Stuffs extends Controller
                 // Edit stuff
                 if ($this->stuffTableModel->edit($this->stuffModel))
                 {
-                    flash('stuffEdited_success', 'Stuff edited');
+                    Helper::flash('stuffEdited_success', 'Stuff edited');
                     Helper::redirect('stuffs');
                 }
                 else
                 {
-                    flash('stuffEdited_error', 'Stuff not edited');
+                    Helper::flash('stuffEdited_error', 'Stuff not edited');
                     Helper::redirect('stuffs');
                 }
             }
@@ -340,7 +340,7 @@ class Stuffs extends Controller
                 if (!$this->wordsTablesModel->addWords($_POST['learnedWords'], $_POST['language']))
                 {
                     // Error
-                    flash('handleStuff_error', "Can't add words to database", 'alert alert-danger');
+                    Helper::flash('handleStuff_error', "Can't add words to database", 'alert alert-danger');
                     Helper::redirect('stuffs');
                 }
             }
@@ -350,7 +350,7 @@ class Stuffs extends Controller
                 if (!$this->wordsTablesModel->addUntranslatableWords($_POST['untranslatableWords'], $_POST['language']))
                 {
                     // Error
-                    flash('handleStuff_error', "Can't add untranslatable words to database", 'alert alert-danger');
+                    Helper::flash('handleStuff_error', "Can't add untranslatable words to database", 'alert alert-danger');
                     Helper::redirect('stuffs');
                 }
             }
@@ -359,7 +359,7 @@ class Stuffs extends Controller
         {
             if (!$stuff = $this->stuffTableModel->getStuffById($id))
             {
-                flash('handleStuff_error', 'Undefined stuff', 'alert alert-warning');
+                Helper::flash('handleStuff_error', 'Undefined stuff', 'alert alert-warning');
                 Helper::redirect('stuffs');
             }
 
@@ -371,7 +371,7 @@ class Stuffs extends Controller
 
             if (count($notLearnedWordsObj) === 0)
             {
-                flash('handleStuff_error', 'All words in this stuff are learned.', 'alert alert-info');
+                Helper::flash('handleStuff_error', 'All words in this stuff are learned.', 'alert alert-info');
                 Helper::redirect('stuffs');
             }
 

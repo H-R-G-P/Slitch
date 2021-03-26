@@ -1,13 +1,13 @@
 <?php require APPROOT.'/views/inc/header.php'; ?>
     <h1>All stuffs</h1>
-    <?php flash('stuffAdded_success'); ?>
-    <?php flash('stuffAdded_error'); ?>
-    <?php flash('stuffDeleted_success'); ?>
-    <?php flash('stuffDeleted_error'); ?>
-    <?php flash('showStuff_error'); ?>
-    <?php flash('handleStuff_error'); ?>
-    <?php flash('stuffEdited_success'); ?>
-    <?php flash('stuffEdited_error'); ?>
+    <?php Helper::flash('stuffAdded_success'); ?>
+    <?php Helper::flash('stuffAdded_error'); ?>
+    <?php Helper::flash('stuffDeleted_success'); ?>
+    <?php Helper::flash('stuffDeleted_error'); ?>
+    <?php Helper::flash('showStuff_error'); ?>
+    <?php Helper::flash('handleStuff_error'); ?>
+    <?php Helper::flash('stuffEdited_success'); ?>
+    <?php Helper::flash('stuffEdited_error'); ?>
     <div class="row">
         <?php foreach ($data['stuffs'] as $stuff) : ?>
             <div class="col-md-4">
