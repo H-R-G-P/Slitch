@@ -39,7 +39,7 @@ class StuffController extends AbstractController
     }
 
     /**
-     * @Route("/delete/{id}", name="delete_stuff", methods={"GET"})
+     * @Route("/delete/{id}", name="delete_stuff", methods={"GET"}, requirements={"id"="\d+"})
      * @param int $id
      * @return Response
      */
@@ -49,7 +49,7 @@ class StuffController extends AbstractController
     }
 
     /**
-     * @Route("/show/{id}", name="show_stuff", methods={"GET"})
+     * @Route("/show/{id}", name="show_stuff", methods={"GET"}, requirements={"id"="\d+"})
      * @param int $id
      * @return Response
      */
@@ -59,7 +59,7 @@ class StuffController extends AbstractController
     }
 
     /**
-     * @Route("/edit/{id}", name="edit_stuff", methods={"POST"})
+     * @Route("/edit/{id}", name="edit_stuff", methods={"POST"}, requirements={"id"="\d+"})
      * @param int $id
      * @return Response
      */
@@ -69,7 +69,7 @@ class StuffController extends AbstractController
     }
 
     /**
-     * @Route("/edit/{id}", name="stuff_edit_form", methods={"GET"})
+     * @Route("/edit/{id}", name="stuff_edit_form", methods={"GET"}, requirements={"id"="\d+"})
      * @param int $id
      * @return Response
      */
@@ -79,7 +79,7 @@ class StuffController extends AbstractController
     }
 
     /**
-     * @Route("/handle/{id}", name="page_handle_stuff", methods={"GET"})
+     * @Route("/handle/{id}", name="page_handle_stuff", methods={"GET"}, requirements={"id"="\d+"})
      * @param int $id
      * @return Response
      */
@@ -89,7 +89,7 @@ class StuffController extends AbstractController
     }
 
     /**
-     * @Route("/handle/{id}", name="handle_stuff", methods={"POST"})
+     * @Route("/handle/{id}", name="handle_stuff", methods={"POST"}, requirements={"id"="\d+"})
      * @param int $id
      * @return Response
      */
