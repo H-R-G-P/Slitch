@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class WordController extends AbstractController
 {
     /**
-     * @Route("/add", name="add_words", methods{"POST"})
+     * @Route("/add", name="add_words", methods={"POST"})
      */
     public function add() : Response
     {
@@ -23,7 +23,7 @@ class WordController extends AbstractController
     }
 
     /**
-     * @Route("/add", name="add_words_form", methods{"GET"})
+     * @Route("/add", name="add_words_form", methods={"GET"})
      */
     public function formAdd() : Response
     {
@@ -31,7 +31,7 @@ class WordController extends AbstractController
     }
 
     /**
-     * @Route("/delete", name="delete_words", methods{"POST"})
+     * @Route("/delete", name="delete_words", methods={"POST"})
      */
     public function delete() : Response
     {
@@ -39,7 +39,7 @@ class WordController extends AbstractController
     }
 
     /**
-     * @Route("/delete", name="delete_words_form", methods{"GET"})
+     * @Route("/delete", name="delete_words_form", methods={"GET"})
      */
     public function formDelete() : Response
     {
