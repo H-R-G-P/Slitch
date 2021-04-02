@@ -14,6 +14,6 @@ class PageController extends AbstractController
      */
     public function index() : Response
     {
-        return $this->render('pages/index.html.twig');
+        return $this->render('page/index.html.twig');
     }
 }
