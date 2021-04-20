@@ -45,4 +45,12 @@ class UserController extends AbstractController
     {
         return new Response();
     }
+
+    /**
+     * @Route("/logout", name="user_logout", methods={"GET"})
+     */
+    public function logout() : Response
+    {
+        return new Response();
+    }
 }
