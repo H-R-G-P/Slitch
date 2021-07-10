@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Entity\Users;
 use App\Repository\UsersRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -100,12 +101,15 @@ class UserController extends AbstractController
             $user->setName($data['name']);
             $user->setEmail($data['email']);
             $user->setPassword($data['password']);
-            $user->setCreatedAt(new \DateTime());
+            $user->setCreatedAt(new DateTime());
+            $user->setRoles([]);
 
             $entityManager->persist($user);
             $entityManager->flush();
-//                Helper::flash('register_success', 'You are Registered and can log in');
-            return $this->redirectToRoute('user_login');
+
+            $this->addFlash("success", 'You are Registered and can log in');
+
+            return $this->redirectToRoute('app_login');
         }
         else
         {
@@ -131,29 +135,5 @@ class UserController extends AbstractController
         ];
 
         return $this->render('user/register.html.twig', $data);
-    }
-
-    /**
-     * @Route("/login", name="user_login", methods={"POST"})
-     */
-    public function login() : Response
-    {
-        return new Response();
-    }
-
-    /**
-     * @Route("/login", name="user_login_form", methods={"GET"})
-     */
-    public function formLogin() : Response
-    {
-        return new Response();
-    }
-
-    /**
-     * @Route("/logout", name="user_logout", methods={"GET"})
-     */
-    public function logout() : Response
-    {
-        return new Response();
     }
 }

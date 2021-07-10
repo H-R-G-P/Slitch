@@ -21,7 +21,7 @@
 
                     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
                         <ul class="navbar-nav mr-auto">
-{#                            {% if app.session.user.id %}#}
+                            {% if app.user %}
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ url('show_all_stuffs') }}">Stuffs</a>
                                 </li>
@@ -34,29 +34,44 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ url('delete_words_form') }}">Delete words</a>
                                 </li>
-{#                            {% endif %}#}
+                            {% endif %}
                         </ul>
 
                         <ul class="navbar-nav ml-auto">
-{#                            {% if app.session.user.id %}#}
+                            {% if app.user %}
                                 <li class="nav-item">
-{#                                    <a class="nav-link" href="#">Welcome {{ app.session.user.name }}</a>#}
+                                    <a class="nav-link" href="#">Welcome {{ app.user.name }}</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('user_logout') }}">Logout</a>
+                                    <a class="nav-link" href="{{ url('app_logout') }}">Logout</a>
                                 </li>
-{#                            {% else %}#}
+                            {% else %}
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ url('user_register_form') }}">Register</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('user_login_form') }}">Login</a>
+                                    <a class="nav-link" href="{{ url('app_login') }}">Login</a>
                                 </li>
-{#                            {% endif %}#}
+                            {% endif %}
                         </ul>
                     </div>
                 </div>
             </nav>
+        {% endblock %}
+
+        {% block flash_message %}
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success text-center">{{ message }}</div>
+            {% endfor %}
+            {% for message in app.flashes('warning') %}
+                <div class="alert alert-warning text-center">{{ message }}</div>
+            {% endfor %}
+            {% for message in app.flashes('danger') %}
+                <div class="alert alert-danger text-center">{{ message }}</div>
+            {% endfor %}
+            {% for message in app.flashes('info') %}
+                <div class="alert alert-info text-center">{{ message }}</div>
+            {% endfor %}
         {% endblock %}
 
         {% block body %}{% endblock %}
