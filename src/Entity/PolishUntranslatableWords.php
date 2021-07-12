@@ -5,12 +5,12 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * PolishUntranslatablewords
+ * PolishUntranslatableWords
  *
  * @ORM\Table(name="polish_untranslatableWords", uniqueConstraints={@ORM\UniqueConstraint(name="polish_notLearnedWords_word_uindex", columns={"word"})})
  * @ORM\Entity(repositoryClass="App\Repository\PolishUntranslatablewordsRepository")
  */
-class PolishUntranslatablewords
+class PolishUntranslatableWords
 {
     /**
      * @var int

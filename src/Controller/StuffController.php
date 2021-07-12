@@ -39,7 +39,7 @@ class StuffController extends AbstractController
     /**
      * @Route("/add", name="add_stuff", methods={"GET", "POST"})
      */
-    public function add(Request $request) : Response
+    public function add(Request $request, TextProcessor $textProcessor) : Response
     {
         $stuff = new Stuff();
         $form = $this->createForm(StuffType::class, $stuff);
@@ -48,7 +48,7 @@ class StuffController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // Set missing parameters
             try {
-                $textInfo = (new TextProcessor())->getInfo($stuff->getText(), $stuff->getLanguage());
+                $textInfo = $textProcessor->getInfo($stuff->getText(), $stuff->getLanguage());
             }catch (\Exception $e) {
                 return new Response($e->getMessage());
             }
@@ -125,7 +125,7 @@ class StuffController extends AbstractController
      * @param int $id
      * @return Response
      */
-    public function edit(int $id, Request $request, StuffRepository $stuffRep) : Response
+    public function edit(int $id, Request $request, StuffRepository $stuffRep, TextProcessor $textProcessor) : Response
     {
         $stuff = $stuffRep->findOneBy([
             'id' => $id,
@@ -143,7 +143,7 @@ class StuffController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 // Set missing parameters
                 try {
-                    $textInfo = (new TextProcessor())->getInfo($stuff->getText(), $stuff->getLanguage());
+                    $textInfo = $textProcessor->getInfo($stuff->getText(), $stuff->getLanguage());
                 }catch (\Exception $e) {
                     return new Response($e->getMessage());
                 }
