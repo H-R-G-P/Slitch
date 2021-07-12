@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    About {{ stuff.name }}
+{% endblock %}
+
+{%  block body %}
+    <div class="container">
+        <div class="card" style="background-color: #E9ECEF;">
+            <div class="card-body">
+                <h1 class="card-title">{{ stuff.name }}</h1>
+                <p class="lead card-text">
+                    {% if stuff.description is same as('') %}
+                        Description not set
+                    {% else %}
+                        {{ stuff.description }}
+                    {% endif %}
+                </p>
+                <hr>
+                <p>Year of issue: {{ stuff.yearOfIssue }}</p>
+                <p>Type: {{ stuff.type }}</p>
+                <p>Language: {{ stuff.language }}</p>
+                <p>Word count: {{ stuff.wordCount }}</p>
+                <p>Unique word count: {{ stuff.uniqWordCount }}</p>
+                <p>Number of views: {{ stuff.numberOfViews }}</p>
+                <p>Added at: {{ stuff.addedAt.format('d-m-Y') }}</p>
+            </div>
+            <div class="card-footer">
+                <a href="{{ path('show_all_stuffs') }}" class="btn btn-lg btn-primary mr-3">
+                    Back
+                </a>
+                <a href="{{ path('edit_stuff_form', {"id": stuff.id}) }}" class="btn btn-lg btn-primary mr-3">
+                    Edit
+                </a>
+                <button onclick="confirmRedirect('Do you want delete {{ stuff.name }}?', '{{ path('delete_stuff', {"id": stuff.id}) }}')" class="btn btn-lg btn-primary mr-3">
+                    Delete
+                </button>
+                <a href="{{ path('handle_stuff_form', {"id": stuff.id}) }}" class="btn btn-lg btn-primary mr-3">
+                    Handle
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

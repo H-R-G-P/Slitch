@@ -35,6 +35,7 @@ class StuffController extends AbstractController
 
         return $this->render('stuff/index.html.twig', ['stuffs' => $data]);
     }
+
     /**
      * @Route("/add", name="add_stuff", methods={"GET", "POST"})
      */
@@ -110,9 +111,19 @@ class StuffController extends AbstractController
      * @param int $id
      * @return Response
      */
-    public function show(int $id) : Response
+    public function show(int $id, StuffRepository $stuffRep) : Response
     {
+        $stuff = $stuffRep->findOneBy([
+            'id' => $id,
+        ]);
+        if (!$stuff) {
+            $this->addFlash('info', "Stuff with id: $id does not exist");
+            return $this->redirectToRoute('show_all_stuffs');
+        }
 
+        return $this->render('stuff/show.html.twig', [
+            'stuff' => $stuff,
+        ]);
     }
 
     /**
