@@ -38,7 +38,7 @@ class StuffController extends AbstractController
     /**
      * @Route("/add", name="add_stuff", methods={"GET", "POST"})
      */
-    public function formAdd(Request $request) : Response
+    public function Add(Request $request) : Response
     {
         $stuff = new Stuff();
         $form = $this->createForm(StuffType::class, $stuff);
@@ -59,6 +59,9 @@ class StuffController extends AbstractController
 
             $words = explode(' ', $handledText);
             $stuff->setWordCount(count($words));
+
+            $uniqWords = array_unique($words);
+            $stuff->setUniqWordCount(count($uniqWords));
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($stuff);

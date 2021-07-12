@@ -108,6 +108,11 @@ class Stuff
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $uniq_word_count;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -241,6 +246,18 @@ class Stuff
     public function setUser(?Users $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getUniqWordCount(): ?int
+    {
+        return $this->uniq_word_count;
+    }
+
+    public function setUniqWordCount(int $uniq_word_count): self
+    {
+        $this->uniq_word_count = $uniq_word_count;
 
         return $this;
     }
