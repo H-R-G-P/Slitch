@@ -79,9 +79,27 @@ class StuffController extends AbstractController
      * @param int $id
      * @return Response
      */
-    public function delete(int $id) : Response
+    public function delete(int $id, StuffRepository $stuffRep) : Response
     {
+        $stuff = $stuffRep->findOneBy([
+            'id' => $id,
+        ]);
+        if (!$stuff) {
+            $this->addFlash('info', "Stuff with id: $id does not exist");
+            return $this->redirectToRoute('show_all_stuffs');
+        }
 
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($stuff);
+        try {
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Stuff deleted');
+            return $this->redirectToRoute('show_all_stuffs');
+        }catch (\Exception $e) {
+            $this->addFlash('warning', 'Stuff not deleted');
+            return $this->redirectToRoute('show_all_stuffs');
+        }
     }
 
     /**
