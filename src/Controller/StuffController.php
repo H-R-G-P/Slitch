@@ -22,11 +22,18 @@ use Symfony\Component\Routing\Annotation\Route;
 class StuffController extends AbstractController
 {
     /**
-     * @Route("", name="show_all_stuffs")
+     * @Route("/", name="show_all_stuffs")
      */
     public function index() : Response
     {
+        $data = $this->getDoctrine()
+            ->getRepository(Stuff::class)
+            ->findBy(
+                ['user' => $this->getUser()->getId()],
+                ['addedAt' => 'DESC'],
+            );
 
+        return $this->render('stuff/index.html.twig', ['stuffs' => $data]);
     }
     /**
      * @Route("/add", name="add_stuff", methods={"GET", "POST"})
@@ -98,7 +105,7 @@ class StuffController extends AbstractController
     }
 
     /**
-     * @Route("/edit/{id}", name="stuff_edit_form", methods={"GET"}, requirements={"id"="%app.id_regex%"})
+     * @Route("/edit/{id}", name="edit_stuff_form", methods={"GET"}, requirements={"id"="%app.id_regex%"})
      * @param int $id
      * @return Response
      */
@@ -108,7 +115,7 @@ class StuffController extends AbstractController
     }
 
     /**
-     * @Route("/handle/{id}", name="page_handle_stuff", methods={"GET"}, requirements={"id"="%app.id_regex%"})
+     * @Route("/handle/{id}", name="handle_stuff_form", methods={"GET"}, requirements={"id"="%app.id_regex%"})
      * @param int $id
      * @return Response
      */

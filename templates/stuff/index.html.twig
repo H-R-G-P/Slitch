@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    All stuffs
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>All stuffs</h1>
+        {% block flash_message %}
+            {{ parent() }}
+        {% endblock %}
+        <div class="row">
+            {% for stuff in stuffs %}
+                <div class="col-md-4">
+                    <div class="card mb-4 box-shadow" style="background-color: #E9ECEF;">
+                        <div class="card-body">
+                            <h4 class="card-title">{{ stuff.name }}</h4>
+                            <p class="card-text text-truncate">
+                                {% if stuff.description == '' %}
+                                    Description not set
+                                {% else %}
+                                    {{ stuff.description }}
+                                {% endif %}
+                            </p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <a href="{{ path('edit_stuff_form', {"id": stuff.id}) }}" class="btn btn-sm btn-outline-secondary">
+                                        Edit
+                                    </a>
+                                    <button onclick="confirmRedirect('Do you want delete {{ stuff.name }}?', '{{ path('delete_stuff', {"id": stuff.id}) }}')" class="btn btn-sm btn-outline-secondary">
+                                        Delete
+                                    </button>
+                                    <a href="{{ path('show_stuff', {"id": stuff.id}) }}" class="btn btn-sm btn-outline-secondary">
+                                        More
+                                    </a>
+                                    <a href="{{ path('handle_stuff_form', {"id": stuff.id}) }}" class="btn btn-sm btn-outline-secondary">
+                                        Handle
+                                    </a>
+                                </div>
+                                <small class="text-muted">{{ stuff.addedAt.format('Y-m-d') }}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
