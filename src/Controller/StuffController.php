@@ -39,30 +39,24 @@ class StuffController extends AbstractController
     /**
      * @Route("/add", name="add_stuff", methods={"GET", "POST"})
      */
-    public function Add(Request $request) : Response
+    public function add(Request $request) : Response
     {
         $stuff = new Stuff();
         $form = $this->createForm(StuffType::class, $stuff);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Adding stuff in database
-            $stuff->setAddedAt(new \DateTime());
-
-            $stuff->setUser($this->getUser());
-
+            // Set missing parameters
             try {
-                $handledText = (new TextProcessor())->clean($stuff->getText(), $stuff->getLanguage()->getName());
+                $textInfo = (new TextProcessor())->getInfo($stuff->getText(), $stuff->getLanguage());
             }catch (\Exception $e) {
                 return new Response($e->getMessage());
             }
-            $stuff->setWords($handledText);
-
-            $words = explode(' ', $handledText);
-            $stuff->setWordCount(count($words));
-
-            $uniqWords = array_unique($words);
-            $stuff->setUniqWordCount(count($uniqWords));
+            $stuff->setWords($textInfo['string_of_words']);
+            $stuff->setWordCount($textInfo['word_count']);
+            $stuff->setUniqWordCount($textInfo['uniq_word_count']);
+            $stuff->setAddedAt(new \DateTime());
+            $stuff->setUser($this->getUser());
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($stuff);
