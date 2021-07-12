@@ -3,6 +3,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Languages;
+use App\Entity\Stuff;
+use App\Form\StuffType;
+use App\Repository\StuffRepository;
+use App\Service\TextProcessor;
+use phpDocumentor\Reflection\Types\This;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,21 +28,43 @@ class StuffController extends AbstractController
     {
 
     }
-
     /**
-     * @Route("/add", name="add_stuff", methods={"POST"})
+     * @Route("/add", name="add_stuff", methods={"GET", "POST"})
      */
-    public function add() : Response
+    public function formAdd(Request $request) : Response
     {
+        $stuff = new Stuff();
+        $form = $this->createForm(StuffType::class, $stuff);
+        $form->handleRequest($request);
 
-    }
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Adding stuff in database
+            $stuff->setAddedAt(new \DateTime());
 
-    /**
-     * @Route("/add", name="stuff_add_form", methods={"GET"})
-     */
-    public function formAdd() : Response
-    {
+            $stuff->setUser($this->getUser());
 
+            try {
+                $handledText = (new TextProcessor())->clean($stuff->getText(), $stuff->getLanguage()->getName());
+            }catch (\Exception $e) {
+                return new Response($e->getMessage());
+            }
+            $stuff->setWords($handledText);
+
+            $words = explode(' ', $handledText);
+            $stuff->setWordCount(count($words));
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($stuff);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Stuff is added!');
+
+            return $this->redirectToRoute('show_all_stuffs');
+        }
+
+        return $this->render('stuff/add.html.twig', [
+            'additionForm' => $form->createView(),
+        ]);
     }
 
     /**

@@ -2,75 +2,111 @@
 
 namespace App\Entity;
 
-use App\Repository\StuffRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass=StuffRepository::class)
+ * Stuff
+ *
+ * @ORM\Table(name="stuff", uniqueConstraints={@ORM\UniqueConstraint(name="stuff_id_uindex", columns={"id"})}, indexes={@ORM\Index(name="stuff_languages_id_fk", columns={"language_id"}), @ORM\Index(name="stuff_stuff_type_id_fk", columns={"type_id"}), @ORM\Index(name="stuff_users_id_fk", columns={"user_id"})})
+ * @ORM\Entity(repositoryClass="App\Repository\StuffRepository")
  */
 class Stuff
 {
     /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=100, nullable=false)
      */
     private $name;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @var int|null
+     *
+     * @ORM\Column(name="year_of_issue", type="integer", nullable=true)
      */
-    private $year_of_issue;
+    private $yearOfIssue;
 
     /**
-     * @ORM\Column(type="string", length=20)
-     */
-    private $type;
-
-    /**
-     * @ORM\Column(type="string", length=20)
-     */
-    private $language;
-
-    /**
-     * @ORM\Column(type="string", length=300, nullable=true)
+     * @var string|null
+     *
+     * @ORM\Column(name="description", type="string", length=300, nullable=true)
      */
     private $description;
 
     /**
-     * @ORM\Column(type="text")
+     * @var string
+     *
+     * @ORM\Column(name="text", type="text", length=16777215, nullable=false)
      */
     private $text;
 
     /**
-     * @ORM\Column(type="text")
+     * @var string
+     *
+     * @ORM\Column(name="words", type="text", length=16777215, nullable=false, options={"comment"="Words separated by spaces"})
      */
     private $words;
 
     /**
-     * @ORM\Column(type="integer")
+     * @var int
+     *
+     * @ORM\Column(name="word_count", type="integer", nullable=false)
      */
-    private $word_count;
+    private $wordCount;
 
     /**
-     * @ORM\Column(type="integer")
+     * @var int
+     *
+     * @ORM\Column(name="number_of_views", type="integer", nullable=false)
      */
-    private $number_of_views;
+    private $numberOfViews = '0';
 
     /**
-     * @ORM\Column(type="datetime")
+     * @var \DateTime
+     *
+     * @ORM\Column(name="added_at", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
-    private $added_at;
+    private $addedAt = 'CURRENT_TIMESTAMP';
 
     /**
-     * @ORM\Column(type="integer")
+     * @var Languages
+     *
+     * @ORM\ManyToOne(targetEntity="Languages")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="language_id", referencedColumnName="id")
+     * })
      */
-    private $created_with;
+    private $language;
+
+    /**
+     * @var StuffType
+     *
+     * @ORM\ManyToOne(targetEntity="StuffType")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="type_id", referencedColumnName="id")
+     * })
+     */
+    private $type;
+
+    /**
+     * @var Users
+     *
+     * @ORM\ManyToOne(targetEntity="Users")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * })
+     */
+    private $user;
 
     public function getId(): ?int
     {
@@ -91,36 +127,12 @@ class Stuff
 
     public function getYearOfIssue(): ?int
     {
-        return $this->year_of_issue;
+        return $this->yearOfIssue;
     }
 
-    public function setYearOfIssue(?int $year_of_issue): self
+    public function setYearOfIssue(?int $yearOfIssue): self
     {
-        $this->year_of_issue = $year_of_issue;
-
-        return $this;
-    }
-
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): self
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    public function getLanguage(): ?string
-    {
-        return $this->language;
-    }
-
-    public function setLanguage(string $language): self
-    {
-        $this->language = $language;
+        $this->yearOfIssue = $yearOfIssue;
 
         return $this;
     }
@@ -163,49 +175,75 @@ class Stuff
 
     public function getWordCount(): ?int
     {
-        return $this->word_count;
+        return $this->wordCount;
     }
 
-    public function setWordCount(int $word_count): self
+    public function setWordCount(int $wordCount): self
     {
-        $this->word_count = $word_count;
+        $this->wordCount = $wordCount;
 
         return $this;
     }
 
     public function getNumberOfViews(): ?int
     {
-        return $this->number_of_views;
+        return $this->numberOfViews;
     }
 
-    public function setNumberOfViews(int $number_of_views): self
+    public function setNumberOfViews(int $numberOfViews): self
     {
-        $this->number_of_views = $number_of_views;
+        $this->numberOfViews = $numberOfViews;
 
         return $this;
     }
 
     public function getAddedAt(): ?\DateTimeInterface
     {
-        return $this->added_at;
+        return $this->addedAt;
     }
 
-    public function setAddedAt(\DateTimeInterface $added_at): self
+    public function setAddedAt(\DateTimeInterface $addedAt): self
     {
-        $this->added_at = $added_at;
+        $this->addedAt = $addedAt;
 
         return $this;
     }
 
-    public function getCreatedWith(): ?int
+    public function getLanguage(): ?Languages
     {
-        return $this->created_with;
+        return $this->language;
     }
 
-    public function setCreatedWith(int $created_with): self
+    public function setLanguage(?Languages $language): self
     {
-        $this->created_with = $created_with;
+        $this->language = $language;
 
         return $this;
     }
+
+    public function getType(): ?StuffType
+    {
+        return $this->type;
+    }
+
+    public function setType(?StuffType $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getUser(): ?Users
+    {
+        return $this->user;
+    }
+
+    public function setUser(?Users $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+
 }
