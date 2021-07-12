@@ -8,6 +8,25 @@ use Exception;
 
 class TextProcessor
 {
+    /** Return info about text
+     * @param string $text
+     * @param string $language
+     * @return array With info
+     * @throws Exception
+     */
+    public function getInfo(string $text, string $language) : array
+    {
+        $handledText = $this->clean($text, $language);
+        $words = explode(' ', $handledText);
+        $uniqWords = array_unique($words);
+
+        return [
+            'string_of_words' => $handledText,
+            'word_count' => count($words),
+            'uniq_word_count' => count($uniqWords),
+        ];
+    }
+
     /**
      * Remain words separated spaces.
      * @param string $text
