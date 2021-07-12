@@ -29,7 +29,7 @@
                 <a href="{{ path('show_all_stuffs') }}" class="btn btn-lg btn-primary mr-3">
                     Back
                 </a>
-                <a href="{{ path('edit_stuff_form', {"id": stuff.id}) }}" class="btn btn-lg btn-primary mr-3">
+                <a href="{{ path('edit_stuff', {"id": stuff.id}) }}" class="btn btn-lg btn-primary mr-3">
                     Edit
                 </a>
                 <button onclick="confirmRedirect('Do you want delete {{ stuff.name }}?', '{{ path('delete_stuff', {"id": stuff.id}) }}')" class="btn btn-lg btn-primary mr-3">

@@ -121,23 +121,53 @@ class StuffController extends AbstractController
     }
 
     /**
-     * @Route("/edit/{id}", name="edit_stuff", methods={"POST"}, requirements={"id"="%app.id_regex%"})
+     * @Route("/edit/{id}", name="edit_stuff", methods={"GET", "POST"}, requirements={"id"="%app.id_regex%"})
      * @param int $id
      * @return Response
      */
-    public function edit(int $id) : Response
+    public function edit(int $id, Request $request, StuffRepository $stuffRep) : Response
     {
+        $stuff = $stuffRep->findOneBy([
+            'id' => $id,
+        ]);
+        if (!$stuff) {
+            $this->addFlash('info', "Stuff with id: $id does not exist");
+            return $this->redirectToRoute('show_all_stuffs');
+        }
 
-    }
+        $form = $this->createForm(StuffType::class, $stuff);
 
-    /**
-     * @Route("/edit/{id}", name="edit_stuff_form", methods={"GET"}, requirements={"id"="%app.id_regex%"})
-     * @param int $id
-     * @return Response
-     */
-    public function formEdit(int $id) : Response
-    {
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
 
+            if ($form->isSubmitted() && $form->isValid()) {
+                // Set missing parameters
+                try {
+                    $textInfo = (new TextProcessor())->getInfo($stuff->getText(), $stuff->getLanguage());
+                }catch (\Exception $e) {
+                    return new Response($e->getMessage());
+                }
+                $stuff->setWords($textInfo['string_of_words']);
+                $stuff->setWordCount($textInfo['word_count']);
+                $stuff->setUniqWordCount($textInfo['uniq_word_count']);
+                $stuff->setAddedAt(new \DateTime());
+                $stuff->setUser($this->getUser());
+
+                $em = $this->getDoctrine()->getManager();
+                try {
+                    $em->flush();
+                    $this->addFlash('success', 'Stuff edited');
+                    return $this->redirectToRoute('show_all_stuffs');
+                }catch (\Exception $e) {
+                    $this->addFlash('warning', 'Stuff does not edited');
+                }
+            }
+        }
+
+        return $this->render('stuff/edit.html.twig', [
+            'edit_form' => $form->createView(),
+            'stuff_name' => $stuff->getName(),
+        ]);
     }
 
     /**
