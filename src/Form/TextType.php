@@ -19,6 +19,7 @@ class TextType extends AbstractType
             ->add('language', EntityType::class, [
                 'class' => Languages::class,
                 'choice_label' => 'name',
+                'placeholder' => 'select language',
             ])
         ;
     }
