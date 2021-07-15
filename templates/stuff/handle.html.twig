@@ -1,0 +1,158 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Handle {{ stuff.name }}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div id="content">
+            {% for word in notLearnedWords %}
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <div class="btn-group-toggle btn-group" data-toggle="buttons">
+                            <label class="btn btn-outline-secondary">
+                                <input type="checkbox" name="{{ word }}" class="myCheckboxes form_learned_words" autocomplete="off"> Learned
+                            </label>
+                            <label class="btn btn-outline-secondary">
+                                <input type="checkbox" name="{{ word }}" class="myCheckboxes form_untranslatable_words" autocomplete="off"> Untranslatable
+                            </label>
+                        </div>
+                        <span class="input-group-text font-weight-bold myText">{{ word }}</span>
+                    </div>
+                    <div class="form-control myText h-auto" style="background-color: #e9ecef">{{ word.getContext()|raw }}</div>
+                </div>
+            {% endfor %}
+        </div>
+        <br>
+        <br>
+        <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark text-center">
+          <a class="navbar-brand" href="#">Functions</a>
+            <div class="btn-group">
+                <button onclick="save()" class="btn btn-danger nav-item">Save</button>
+                <button onclick="resetCheckboxes()" class="btn btn-danger nav-item">Reset</button>
+            </div>
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link" onclick="putSentencesIn('listOfSentencesInModal')" href="#" data-toggle="modal" data-target="#sentencesModal">Sentences</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" data-toggle="modal" data-target="#sortSettingsModal">Sort words</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" onclick="putInModalWords()" href="#" data-toggle="modal" data-target="#wordsModal">Words</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" onclick="putInModalWordsFormContext()" href="#" data-toggle="modal" data-target="#wordsModal">Words in context</a>
+              </li>
+            </ul>
+        </nav>
+
+        <div class="modal fade" id="sentencesModal" tabindex="-1" role="dialog" aria-labelledby="sentencesModalTitle" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" onclick="copyWordsInContextFrom('listOfSentencesInModal')" class="btn btn-primary">Copy bolded words</button>
+                <h5 class="modal-title ml-auto" id="sentencesModalTitle">Sentences</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="listOfSentencesInModal"></div>
+              <div class="modal-footer">
+                <button type="button" onclick="copyWordsInContextFrom('listOfSentencesInModal')" class="btn btn-primary mr-auto">Copy bolded words</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="wordsModal" tabindex="-1" role="dialog" aria-labelledby="wordsModalTitle" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" onclick="copyToClipboard('listOfWordsInModal')" class="btn btn-primary">Copy</button>
+                <h5 class="modal-title ml-auto" id="wordsModalTitle">Words</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="listOfWordsInModal"></div>
+              <div class="modal-footer">
+                <button type="button" onclick="copyToClipboard('listOfWordsInModal')" class="btn btn-primary mr-auto">Copy</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="sortSettingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsTitle" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title ml-auto" id="settingsTitle">Settings</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                  <label for="columnsCount">Column count</label>
+                  <input id="columnsCount" class="form-control" type="number" value="3">
+                  <label for="rowsCount" class="mt-3">Words count in column</label>
+                  <input id="rowsCount" class="form-control" type="number" value="94">
+                  <label for="words" class="mt-3">Words separated by enters</label>
+                  <textarea id="words" class="form-control"></textarea>
+                  <div class="mt-3 row" id="columnsButtons">
+
+                  </div>
+                  <div id="columnsWords" class="row">
+
+                  </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" onclick="sort()" class="btn btn-primary">Sort</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        function save() {
+            let learnedWordsData = [];
+            let untranslatableWordsData = [];
+            let learnedWords = $('.form_learned_words');
+            let untranslatableWords = $('.form_untranslatable_words');
+            for (let i = 0; i < learnedWords.length; ++i) {
+                if (learnedWords[i].checked) learnedWordsData.push(learnedWords[i].name);
+            }
+            for (let i = 0; i < untranslatableWords.length; ++i) {
+                if (untranslatableWords[i].checked) untranslatableWordsData.push(untranslatableWords[i].name);
+            }
+
+            $.ajax({
+                {% if stuff.language.getName() is same as('english') %}
+                    url: '{{ path('handle_english_stuff', {"id": stuff.id}) }}',
+                {% elseif stuff.language.getName() is same as('polish') %}
+                    url: '{{ path('handle_polish_stuff', {"id": stuff.id}) }}',
+                {% endif %}
+                type: 'POST',
+                cache: false,
+                data: {
+                    learnedWords: learnedWordsData,
+                    untranslatableWords: untranslatableWordsData
+                },
+                dataType: 'text',
+                success: function () {
+                    disableSelectedWords();
+                    alert('Words added');
+                }
+            })
+        }
+    </script>
+{% endblock %}
