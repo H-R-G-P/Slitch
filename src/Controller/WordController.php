@@ -3,6 +3,8 @@
 
 namespace App\Controller;
 
+use App\Dto\Text;
+use App\Form\TextType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,7 +29,11 @@ class WordController extends AbstractController
      */
     public function formAdd() : Response
     {
-        return new Response();
+        $form = $this->createForm(TextType::class, new Text());
+
+        return $this->render('word/add.html.twig', [
+            'adding_form' => $form->createView(),
+        ]);
     }
 
     /**
