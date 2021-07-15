@@ -7,8 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * PolishUntranslatableWords
  *
- * @ORM\Table(name="polish_untranslatableWords", uniqueConstraints={@ORM\UniqueConstraint(name="polish_notLearnedWords_word_uindex", columns={"word"})})
- * @ORM\Entity(repositoryClass="App\Repository\PolishUntranslatablewordsRepository")
+ * @ORM\Table(name="polish_untranslatable_words", uniqueConstraints={@ORM\UniqueConstraint(name="polish_notLearnedWords_word_uindex", columns={"word"})})
+ * @ORM\Entity(repositoryClass="App\Repository\PolishUntranslatableWordsRepository")
  */
 class PolishUntranslatableWords
 {

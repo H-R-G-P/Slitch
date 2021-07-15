@@ -1,26 +1,27 @@
 <?php
 
+
 namespace App\Repository;
 
-use App\Entity\PolishUntranslatablewords;
+use App\Entity\PolishUntranslatableWords;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method PolishUntranslatablewords|null find($id, $lockMode = null, $lockVersion = null)
- * @method PolishUntranslatablewords|null findOneBy(array $criteria, array $orderBy = null)
- * @method PolishUntranslatablewords[]    findAll()
- * @method PolishUntranslatablewords[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method PolishUntranslatableWords|null find($id, $lockMode = null, $lockVersion = null)
+ * @method PolishUntranslatableWords|null findOneBy(array $criteria, array $orderBy = null)
+ * @method PolishUntranslatableWords[]    findAll()
+ * @method PolishUntranslatableWords[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PolishUntranslatablewordsRepository extends ServiceEntityRepository
+class PolishUntranslatableWordsRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, PolishUntranslatablewords::class);
+        parent::__construct($registry, PolishUntranslatableWords::class);
     }
 
     // /**
-    //  * @return PolishUntranslatablewords[] Returns an array of PolishUntranslatablewords objects
+    //  * @return PolishUntranslatableWords[] Returns an array of PolishUntranslatableWords objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +38,7 @@ class PolishUntranslatablewordsRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?PolishUntranslatablewords
+    public function findOneBySomeField($value): ?PolishUntranslatableWords
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.exampleField = :val')
