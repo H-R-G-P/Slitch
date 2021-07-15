@@ -59,7 +59,8 @@ class StuffController extends AbstractController
             try {
                 $textInfo = $textProcessor->getInfo($stuff->getText(), $stuff->getLanguage());
             }catch (\Exception $e) {
-                return new Response($e->getMessage());
+                $this->addFlash('danger', $e->getMessage());
+                return $this->redirectToRoute('show_all_stuffs');
             }
             $stuff->setWords($textInfo['string_of_words']);
             $stuff->setWordCount($textInfo['word_count']);
@@ -154,7 +155,8 @@ class StuffController extends AbstractController
                 try {
                     $textInfo = $textProcessor->getInfo($stuff->getText(), $stuff->getLanguage());
                 }catch (\Exception $e) {
-                    return new Response($e->getMessage());
+                    $this->addFlash('danger', $e->getMessage());
+                    return $this->redirectToRoute('show_all_stuffs');
                 }
                 $stuff->setWords($textInfo['string_of_words']);
                 $stuff->setWordCount($textInfo['word_count']);
