@@ -287,12 +287,33 @@ class StuffController extends AbstractController
     }
 
     /**
-     * @Route("/handle/{id}", name="handle_stuff", methods={"POST"}, requirements={"id"="%app.id_regex%"})
+     * @Route("/handle/pl/{id}", name="handle_polish_stuff", methods={"POST"}, requirements={"id"="%app.id_regex%"})
      * @param int $id
      * @return Response
      */
-    public function handle(int $id) : Response
+    public function handlePl(int $id, Request $request) : Response
     {
+        $em = $this->getDoctrine()->getManager();
+        if ($request->request->get('learnedWords'))
+        {
+            foreach ($request->request->get('learnedWords') as $learnedWord) {
+                $word = new PolishWords();
+                $word->setWord($learnedWord);
+                $em->persist($word);
+            }
+            $em->flush();
+        }
 
+        if ($request->request->get('untranslatableWords'))
+        {
+            foreach ($request->request->get('untranslatableWords') as $untranslatableWords) {
+                $word = new PolishUntranslatableWords();
+                $word->setWord($untranslatableWords);
+                $em->persist($word);
+            }
+            $em->flush();
+        }
+
+        return new Response();
     }
 }
