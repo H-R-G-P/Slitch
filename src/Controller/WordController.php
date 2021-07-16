@@ -47,7 +47,7 @@ class WordController extends AbstractController
     }
 
     /**
-     * @Route("/delete", name="delete_words", methods={"POST"})
+     * @Route("/delete", name="delete_words")
      */
     public function delete() : Response
     {
