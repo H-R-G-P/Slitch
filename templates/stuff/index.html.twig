@@ -34,11 +34,11 @@
                                     <a href="{{ path('show_stuff', {"id": stuff.id}) }}" class="btn btn-sm btn-outline-secondary">
                                         More
                                     </a>
-                                    {% if stuff.language.getName() is same as('english') %}
+                                    {% if stuff.language.getName() is same as(db_english) %}
                                         <a href="{{ path('handle_english_stuff_form', {"id": stuff.id}) }}" class="btn btn-sm btn-outline-secondary">
                                             Handle
                                         </a>
-                                    {% elseif stuff.language.getName() is same as('polish') %}
+                                    {% elseif stuff.language.getName() is same as(db_polish) %}
                                         <a href="{{ path('handle_polish_stuff_form', {"id": stuff.id}) }}" class="btn btn-sm btn-outline-secondary">
                                             Handle
                                         </a>
