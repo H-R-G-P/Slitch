@@ -39,18 +39,6 @@ class WordController extends AbstractController
     }
 
     /**
-     * @Route("/add", name="add_words_form", methods={"GET"})
-     */
-    public function formAdd() : Response
-    {
-        $form = $this->createForm(TextType::class, new Text());
-
-        return $this->render('word/add.html.twig', [
-            'adding_form' => $form->createView(),
-        ]);
-    }
-
-    /**
      * @Route("/delete", name="delete_words", methods={"POST"})
      */
     public function delete() : Response
