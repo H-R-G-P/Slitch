@@ -198,10 +198,13 @@ class StuffController extends AbstractController
 
         try {
             $decodeText = html_entity_decode($stuff->getText(), ENT_QUOTES, 'utf-8');
+            // TODO this code in function that will used in WordControllerService.php
+            //-------------------------------------------------
             $uniqWords = $textProcessor->getUniqWords($decodeText, $stuff->getLanguage());
             $notLearnedWords = $helper::array_diff_inLowercase($uniqWords, $enWordsRep->findAll(), $enUntranslatableWordsRep->findAll());
             $uniqWordsObj = $textProcessor->getUniqWordsObj($decodeText, $stuff->getLanguage());
             $notLearnedWordsObj = array_intersect($uniqWordsObj, $notLearnedWords);
+            //--------------------------------------------------
         }catch (\Exception $e) {
             $this->addFlash('danger', $e->getMessage());
             return $this->redirectToRoute('show_all_stuffs');
@@ -225,7 +228,7 @@ class StuffController extends AbstractController
      * @return Response
      */
     public function handleEn(int $id, Request $request) : Response
-    {
+    {// TODO Change if statement that redirect to here in index.html.twig, because it some logic in template
         $em = $this->getDoctrine()->getManager();
         if ($request->request->get('learnedWords'))
         {
