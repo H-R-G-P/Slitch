@@ -4,6 +4,8 @@
 namespace App\Controller;
 
 use App\Dto\Words;
+use App\Entity\LearnedWords;
+use App\Entity\UntranslatableWords;
 use App\Form\WordsType;
 use App\Service\WordControllerService;
 use Exception;
@@ -37,7 +39,12 @@ class WordController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $service->addWordsToDb($words);
+            $service->addWordsToDb(
+                $words,
+                $this->getDoctrine()->getManager(),
+                $this->getDoctrine()->getRepository(LearnedWords::class),
+                $this->getDoctrine()->getRepository(UntranslatableWords::class)
+            );
 
             $this->addFlash('success', 'Words added');
 
