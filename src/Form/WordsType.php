@@ -19,8 +19,12 @@ class WordsType extends AbstractType
                 'class' => Languages::class,
                 'choice_label' => 'name',
             ])
-            ->add('learnedWords', TextareaType::class)
-            ->add('untranslatableWords', TextareaType::class)
+            ->add('learnedWords', TextareaType::class, [
+                'required' => false,
+            ])
+            ->add('untranslatableWords', TextareaType::class, [
+                'required' => false,
+            ])
         ;
     }
 
