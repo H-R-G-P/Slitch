@@ -3,17 +3,8 @@
 
 namespace App\Controller;
 
-use App\Entity\EnglishUntranslatableWords;
-use App\Entity\EnglishWords;
-use App\Entity\Languages;
-use App\Entity\PolishUntranslatableWords;
-use App\Entity\PolishWords;
 use App\Entity\Stuff;
 use App\Form\StuffType;
-use App\Repository\EnglishUntranslatableWordsRepository;
-use App\Repository\EnglishWordsRepository;
-use App\Repository\PolishUntranslatableWordsRepository;
-use App\Repository\PolishWordsRepository;
 use App\Repository\StuffRepository;
 use App\Service\Helper;
 use App\Service\TextProcessor;
