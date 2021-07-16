@@ -53,12 +53,4 @@ class WordController extends AbstractController
     {
         return new Response();
     }
-
-    /**
-     * @Route("/delete", name="delete_words_form", methods={"GET"})
-     */
-    public function formDelete() : Response
-    {
-        return new Response();
-    }
 }
