@@ -3,6 +3,7 @@
 
 namespace App\Controller;
 
+use App\Dto\Words;
 use App\Form\WordsType;
 use App\Service\WordControllerService;
 use Exception;
@@ -30,15 +31,17 @@ class WordController extends AbstractController
     public function add(Request $request) : Response
     {
         $service = new WordControllerService;
-        $form = $this->createForm(WordsType::class);
+        $words = new Words();
+
+        $form = $this->createForm(WordsType::class, $words);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($service->addWordsToDb($request)) {
-                $this->addFlash('success', 'Words added');
-            } else {
-                $this->addFlash('warning', 'Words does not added');
-            }
+            $service->addWordsToDb($words);
+
+            $this->addFlash('success', 'Words added');
+
+            return $this->redirectToRoute('add_words');
         }
 
         return $this->render('word/add.html.twig', [
