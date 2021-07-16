@@ -12,14 +12,14 @@ class Words
     private Languages $language;
 
     /**
-     * @var string
+     * @var string|null
      */
-    private string $learnedWords;
+    private ?string $learnedWords = null;
 
     /**
-     * @var string
+     * @var string|null
      */
-    private string $untranslatableWords;
+    private ?string $untranslatableWords = null;
 
     /**
      * @return Languages
@@ -38,33 +38,33 @@ class Words
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getLearnedWords(): string
+    public function getLearnedWords(): ?string
     {
         return $this->learnedWords;
     }
 
     /**
-     * @param string $learnedWords
+     * @param string|null $learnedWords
      */
-    public function setLearnedWords(string $learnedWords): void
+    public function setLearnedWords(?string $learnedWords): void
     {
         $this->learnedWords = $learnedWords;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getUntranslatableWords(): string
+    public function getUntranslatableWords(): ?string
     {
         return $this->untranslatableWords;
     }
 
     /**
-     * @param string $untranslatableWords
+     * @param string|null $untranslatableWords
      */
-    public function setUntranslatableWords(string $untranslatableWords): void
+    public function setUntranslatableWords(?string $untranslatableWords): void
     {
         $this->untranslatableWords = $untranslatableWords;
     }
