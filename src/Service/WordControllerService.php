@@ -7,6 +7,9 @@ namespace App\Service;
 use App\Dto\Words;
 use App\Entity\LearnedWords;
 use App\Entity\UntranslatableWords;
+use App\Repository\LearnedWordsRepository;
+use App\Repository\UntranslatableWordsRepository;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class WordControllerService extends AbstractController
@@ -18,17 +21,13 @@ class WordControllerService extends AbstractController
      *
      * @throws \Exception
      */
-    public function addWordsToDb(Words $words) : void
+    public function addWordsToDb(Words $words, ObjectManager $em, LearnedWordsRepository $lwr, UntranslatableWordsRepository $uwr) : void
     {
         $textProcessor = new TextProcessor();
         $language = $words->getLanguage();
 
-        $em = $this->getDoctrine()->getManager();
-        $learnedWordsRep = $this->getDoctrine()->getRepository(LearnedWords::class);
-        $untranslatableWordsRep = $this->getDoctrine()->getRepository(UntranslatableWords::class);
-
-        $allLearnedWords = $learnedWordsRep->findAll();
-        $allUntranslatableWords = $untranslatableWordsRep->findAll();
+        $allLearnedWords = $lwr->findAll();
+        $allUntranslatableWords = $uwr->findAll();
 
         $uniqLearnedWords = $textProcessor->getUniqWords($words->getLearnedWords(), $language);
         $uniqUntranslatableWords = $textProcessor->getUniqWords($words->getUntranslatableWords(), $language);
