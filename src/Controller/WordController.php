@@ -3,9 +3,9 @@
 
 namespace App\Controller;
 
-use App\Dto\Text;
-use App\Form\TextType;
+use App\Form\WordsType;
 use App\Service\WordControllerService;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,23 +19,31 @@ use Symfony\Component\Routing\Annotation\Route;
 class WordController extends AbstractController
 {
     /**
-     * @Route("/add", name="add_words", methods={"POST"})
+     * @Route("/add", name="add_words")
      *
      * @param Request $request
      *
      * @return Response
+     *
+     * @throws Exception
      */
     public function add(Request $request) : Response
     {
         $service = new WordControllerService;
+        $form = $this->createForm(WordsType::class);
 
-        if ($service->addWordsToDb($request)) {
-            $this->addFlash('success', 'Words added');
-        } else {
-            $this->addFlash('warning', 'Words does not added');
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($service->addWordsToDb($request)) {
+                $this->addFlash('success', 'Words added');
+            } else {
+                $this->addFlash('warning', 'Words does not added');
+            }
         }
 
-        return $this->redirectToRoute('add_words_form');
+        return $this->render('word/add.html.twig', [
+            'adding_form' => $form->createView(),
+        ]);
     }
 
     /**
