@@ -65,4 +65,58 @@ class WordControllerService extends AbstractController
 
         $em->flush();
     }
+
+    /**
+     * @param Words $words
+     * @param ObjectManager $em
+     * @param LearnedWordsRepository $lwr
+     * @param UntranslatableWordsRepository $uwr
+     *
+     * @return void
+     *
+     * @throws \Exception
+     */
+    public function deleteWordsFromDb(Words $words, ObjectManager $em, LearnedWordsRepository $lwr, UntranslatableWordsRepository $uwr) : void
+    {
+        $textProcessor = new TextProcessor();
+        $language = $words->getLanguage();
+
+        if ($words->getLearnedWords()) {
+            $allLearnedWords = $lwr->findAll();
+
+            $lowerLearnedWords = mb_strtolower($words->getLearnedWords());
+
+            $uniqLearnedWords = $textProcessor->getUniqWords($lowerLearnedWords, $language);
+
+            $learnedWords = array_uintersect($allLearnedWords, $uniqLearnedWords, function ($v1,$v2) {
+                if ("$v1"===$v2) return 0;
+                elseif ($v1 > "$v2") return 1;
+                else return -1;
+            });
+
+            foreach ($learnedWords as $lw) {
+                $em->remove($lw);
+            }
+        }
+
+        if ($words->getUntranslatableWords()) {
+            $allUntranslatableWords = $uwr->findAll();
+
+            $lowerUntranslatableWords = mb_strtolower($words->getUntranslatableWords());
+
+            $uniqUntranslatableWords = $textProcessor->getUniqWords($lowerUntranslatableWords, $language);
+
+            $untranslatableWords = array_uintersect($allUntranslatableWords, $uniqUntranslatableWords, function ($v1,$v2) {
+                if ("$v1"===$v2) return 0;
+                elseif ($v1 > "$v2") return 1;
+                else return -1;
+            });
+
+            foreach ($untranslatableWords as $uw) {
+                $em->remove($uw);
+            }
+        }
+
+        $em->flush();
+    }
 }
