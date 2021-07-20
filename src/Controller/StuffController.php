@@ -48,6 +48,7 @@ class StuffController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // Set missing parameters
             try {
+                // TODO Replace array to Data Transfer Object
                 $textInfo = $textProcessor->getInfo($stuff->getText(), $stuff->getLanguage());
             }catch (\Exception $e) {
                 $this->addFlash('danger', $e->getMessage());
@@ -144,6 +145,7 @@ class StuffController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 // Set missing parameters
                 try {
+                    // TODO Replace array to Data Transfer Object
                     $textInfo = $textProcessor->getInfo($stuff->getText(), $stuff->getLanguage());
                 }catch (\Exception $e) {
                     $this->addFlash('danger', $e->getMessage());
