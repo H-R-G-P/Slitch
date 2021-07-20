@@ -58,9 +58,36 @@ class WordController extends AbstractController
 
     /**
      * @Route("/delete", name="delete_words")
+     *
+     * @param Request $request
+     *
+     * @return Response
+     *
+     * @throws Exception
      */
-    public function delete() : Response
+    public function delete(Request $request) : Response
     {
-        return new Response();
+        $service = new WordControllerService();
+        $words = new Words();
+
+        $form = $this->createForm(WordsType::class, $words);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $service->deleteWordsFromDb(
+                $words,
+                $this->getDoctrine()->getManager(),
+                $this->getDoctrine()->getRepository(LearnedWords::class),
+                $this->getDoctrine()->getRepository(UntranslatableWords::class)
+            );
+
+            $this->addFlash('success', 'Words deleted');
+
+            return $this->redirectToRoute('delete_words');
+        }
+
+        return $this->render('word/delete.html.twig', [
+            'deleting_form' => $form->createView(),
+        ]);
     }
 }
