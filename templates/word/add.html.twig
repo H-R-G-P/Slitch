@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add words{% endblock %}
+
+{% form_theme adding_form 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        {{ form_start(adding_form) }}
+
+        {{ form_widget(adding_form) }}
+
+        <input type="submit" value="Add words" class="btn btn-success btn-block">
+
+        {{ form_end(adding_form) }}
+    </div>
+{% endblock %}
