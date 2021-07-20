@@ -29,28 +29,34 @@ class WordControllerService extends AbstractController
         $allLearnedWords = $lwr->findAll();
         $allUntranslatableWords = $uwr->findAll();
 
-        $uniqLearnedWords = $textProcessor->getUniqWords($words->getLearnedWords(), $language);
-        $uniqUntranslatableWords = $textProcessor->getUniqWords($words->getUntranslatableWords(), $language);
+        if ($words->getLearnedWords()) {
+            $uniqLearnedWords = $textProcessor->getUniqWords($words->getLearnedWords(), $language);
 
-        $learnedWords = Helper::array_diff_inLowercase($uniqLearnedWords, $allLearnedWords, $allUntranslatableWords);
-        $untranslatableWords = Helper::array_diff_inLowercase($uniqUntranslatableWords, $allLearnedWords, $allUntranslatableWords);
+            $learnedWords = Helper::array_diff_inLowercase($uniqLearnedWords, $allLearnedWords, $allUntranslatableWords);
 
-        foreach ($learnedWords as $lw) {
-            $word = new LearnedWords();
+            foreach ($learnedWords as $lw) {
+                $word = new LearnedWords();
 
-            $word->setWord($lw);
-            $word->setIdLanguage($language);
+                $word->setWord(mb_strtolower($lw));
+                $word->setIdLanguage($language);
 
-            $em->persist($word);
+                $em->persist($word);
+            }
         }
 
-        foreach ($untranslatableWords as $uw) {
-            $word = new UntranslatableWords();
+        if ($words->getUntranslatableWords()) {
+            $uniqUntranslatableWords = $textProcessor->getUniqWords($words->getUntranslatableWords(), $language);
 
-            $word->setWord($uw);
-            $word->setIdLanguage($language);
+            $untranslatableWords = Helper::array_diff_inLowercase($uniqUntranslatableWords, $allLearnedWords, $allUntranslatableWords);
 
-            $em->persist($word);
+            foreach ($untranslatableWords as $uw) {
+                $word = new UntranslatableWords();
+
+                $word->setWord(mb_strtolower($uw));
+                $word->setIdLanguage($language);
+
+                $em->persist($word);
+            }
         }
 
         $em->flush();
