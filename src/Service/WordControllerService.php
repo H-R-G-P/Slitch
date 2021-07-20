@@ -30,14 +30,16 @@ class WordControllerService extends AbstractController
         $allUntranslatableWords = $uwr->findAll();
 
         if ($words->getLearnedWords()) {
-            $uniqLearnedWords = $textProcessor->getUniqWords($words->getLearnedWords(), $language);
+            $lowerLearnedWords = mb_strtolower($words->getLearnedWords());
+
+            $uniqLearnedWords = $textProcessor->getUniqWords($lowerLearnedWords, $language);
 
             $learnedWords = Helper::array_diff_inLowercase($uniqLearnedWords, $allLearnedWords, $allUntranslatableWords);
 
             foreach ($learnedWords as $lw) {
                 $word = new LearnedWords();
 
-                $word->setWord(mb_strtolower($lw));
+                $word->setWord($lw);
                 $word->setIdLanguage($language);
 
                 $em->persist($word);
@@ -45,14 +47,16 @@ class WordControllerService extends AbstractController
         }
 
         if ($words->getUntranslatableWords()) {
-            $uniqUntranslatableWords = $textProcessor->getUniqWords($words->getUntranslatableWords(), $language);
+            $lowerUntranslatableWords = mb_strtolower($words->getUntranslatableWords());
+
+            $uniqUntranslatableWords = $textProcessor->getUniqWords($lowerUntranslatableWords, $language);
 
             $untranslatableWords = Helper::array_diff_inLowercase($uniqUntranslatableWords, $allLearnedWords, $allUntranslatableWords);
 
             foreach ($untranslatableWords as $uw) {
                 $word = new UntranslatableWords();
 
-                $word->setWord(mb_strtolower($uw));
+                $word->setWord($uw);
                 $word->setIdLanguage($language);
 
                 $em->persist($word);
