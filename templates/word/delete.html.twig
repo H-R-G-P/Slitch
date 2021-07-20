@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Delete words{% endblock %}
+
+{% form_theme deleting_form 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        {{ form_start(deleting_form) }}
+
+        {{ form_widget(deleting_form) }}
+
+        <input type="submit" value="Delete words" class="btn btn-success btn-block">
+
+        {{ form_end(deleting_form) }}
+    </div>
+{% endblock %}
