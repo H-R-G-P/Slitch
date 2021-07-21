@@ -136,11 +136,7 @@
             }
 
             $.ajax({
-                {% if stuff.language.getName() is same as('english') %}
-                    url: '{{ path('handle_english_stuff', {"id": stuff.id}) }}',
-                {% elseif stuff.language.getName() is same as('polish') %}
-                    url: '{{ path('handle_polish_stuff', {"id": stuff.id}) }}',
-                {% endif %}
+                url: '{{ path('handle_stuff', {"id": stuff.id}) }}',
                 type: 'POST',
                 cache: false,
                 data: {
