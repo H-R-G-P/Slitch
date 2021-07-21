@@ -5,6 +5,7 @@ namespace App\Service;
 
 
 use Exception;
+use App\Vo\Word;
 
 class TextProcessor
 {

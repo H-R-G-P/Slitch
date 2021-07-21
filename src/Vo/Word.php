@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Service;
+namespace App\Vo;
 
 
 class Word
