@@ -5,10 +5,11 @@ namespace App\Controller;
 
 use App\Entity\Stuff;
 use App\Form\StuffType;
+use App\Repository\LearnedWordsRepository;
 use App\Repository\StuffRepository;
-use App\Service\Helper;
+use App\Repository\UntranslatableWordsRepository;
+use App\Service\StuffControllerService;
 use App\Service\TextProcessor;
-use phpDocumentor\Reflection\Types\This;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -171,6 +172,47 @@ class StuffController extends AbstractController
         return $this->render('stuff/edit.html.twig', [
             'edit_form' => $form->createView(),
             'stuff_name' => $stuff->getName(),
+        ]);
+    }
+
+    /**
+     * @Route("/handle/{id}", name="handle_stuff_form", methods={"GET"}, requirements={"id"="%app.id_regex%"})
+     *
+     * @param int $id
+     * @param StuffRepository $stuffRep
+     * @param LearnedWordsRepository $lwr
+     * @param UntranslatableWordsRepository $uwr
+     *
+     * @return Response
+     */
+    public function handleForm(int $id, StuffRepository $stuffRep, LearnedWordsRepository $lwr, UntranslatableWordsRepository $uwr) : Response
+    {
+        $service = new StuffControllerService();
+
+        $stuff = $stuffRep->findOneBy([
+            'id' => $id,
+        ]);
+        if (!$stuff) {
+            $this->addFlash('info', "Stuff with id: $id does not exist");
+            return $this->redirectToRoute('show_all_stuffs');
+        }
+
+        try {
+            $notLearnedWords = $service->getNotLearnedWords($stuff, $lwr, $uwr);
+        }catch (\Exception $e) {
+            $this->addFlash('danger', $e->getMessage());
+            return $this->redirectToRoute('show_all_stuffs');
+        }
+
+        if (count($notLearnedWords) === 0)
+        {
+            $this->addFlash('info', 'All words in this stuff are learned.');
+            $this->redirectToRoute('show_all_stuffs');
+        }
+
+        return $this->render('stuff/handle.html.twig', [
+            'notLearnedWords' => $notLearnedWords,
+            'stuff' => $stuff,
         ]);
     }
 }
