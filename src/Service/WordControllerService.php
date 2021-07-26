@@ -45,7 +45,7 @@ class WordControllerService extends AbstractController
                 $em->persist($word);
             }
         }
-
+// TODO Now I can add in one request same word to both tables
         if ($words->getUntranslatableWords()) {
             $lowerUntranslatableWords = mb_strtolower($words->getUntranslatableWords());
 
