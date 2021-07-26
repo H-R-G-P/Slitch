@@ -35,15 +35,9 @@
                 <button onclick="confirmRedirect('Do you want delete {{ stuff.name }}?', '{{ path('delete_stuff', {"id": stuff.id}) }}')" class="btn btn-lg btn-primary mr-3">
                     Delete
                 </button>
-                {% if stuff.language.getName() is same as('english') %}
-                    <a href="{{ path('handle_english_stuff_form', {"id": stuff.id}) }}" class="btn btn-lg btn-primary mr-3">
-                        Handle
-                    </a>
-                {% elseif stuff.language.getName() is same as('polish') %}
-                    <a href="{{ path('handle_polish_stuff_form', {"id": stuff.id}) }}" class="btn btn-lg btn-primary mr-3">
-                        Handle
-                    </a>
-                {% endif %}
+                <a href="{{ path('handle_stuff_form', {"id": stuff.id}) }}" class="btn btn-lg btn-primary mr-3">
+                    Handle
+                </a>
             </div>
         </div>
     </div>
