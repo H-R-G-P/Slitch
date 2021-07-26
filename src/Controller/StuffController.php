@@ -10,6 +10,8 @@ use App\Repository\StuffRepository;
 use App\Repository\UntranslatableWordsRepository;
 use App\Service\StuffControllerService;
 use App\Service\TextProcessor;
+use DateTime;
+use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -51,14 +53,14 @@ class StuffController extends AbstractController
             try {
                 // TODO Replace array to Data Transfer Object
                 $textInfo = $textProcessor->getInfo($stuff->getText(), $stuff->getLanguage());
-            }catch (\Exception $e) {
+            }catch (Exception $e) {
                 $this->addFlash('danger', $e->getMessage());
                 return $this->redirectToRoute('show_all_stuffs');
             }
             $stuff->setWords($textInfo['string_of_words']);
             $stuff->setWordCount($textInfo['word_count']);
             $stuff->setUniqWordCount($textInfo['uniq_word_count']);
-            $stuff->setAddedAt(new \DateTime());
+            $stuff->setAddedAt(new DateTime());
             $stuff->setUser($this->getUser());
 
             $entityManager = $this->getDoctrine()->getManager();
@@ -97,7 +99,7 @@ class StuffController extends AbstractController
 
             $this->addFlash('success', 'Stuff deleted');
             return $this->redirectToRoute('show_all_stuffs');
-        }catch (\Exception $e) {
+        }catch (Exception $e) {
             $this->addFlash('warning', 'Stuff not deleted');
             return $this->redirectToRoute('show_all_stuffs');
         }
@@ -148,14 +150,14 @@ class StuffController extends AbstractController
                 try {
                     // TODO Replace array to Data Transfer Object
                     $textInfo = $textProcessor->getInfo($stuff->getText(), $stuff->getLanguage());
-                }catch (\Exception $e) {
+                }catch (Exception $e) {
                     $this->addFlash('danger', $e->getMessage());
                     return $this->redirectToRoute('show_all_stuffs');
                 }
                 $stuff->setWords($textInfo['string_of_words']);
                 $stuff->setWordCount($textInfo['word_count']);
                 $stuff->setUniqWordCount($textInfo['uniq_word_count']);
-                $stuff->setAddedAt(new \DateTime());
+                $stuff->setAddedAt(new DateTime());
                 $stuff->setUser($this->getUser());
 
                 $em = $this->getDoctrine()->getManager();
@@ -163,7 +165,7 @@ class StuffController extends AbstractController
                     $em->flush();
                     $this->addFlash('success', 'Stuff edited');
                     return $this->redirectToRoute('show_all_stuffs');
-                }catch (\Exception $e) {
+                }catch (Exception $e) {
                     $this->addFlash('warning', 'Stuff does not edited');
                 }
             }
@@ -199,7 +201,7 @@ class StuffController extends AbstractController
 
         try {
             $notLearnedWords = $service->getNotLearnedWords($stuff, $lwr, $uwr);
-        }catch (\Exception $e) {
+        }catch (Exception $e) {
             $this->addFlash('danger', $e->getMessage());
             return $this->redirectToRoute('show_all_stuffs');
         }
@@ -214,5 +216,24 @@ class StuffController extends AbstractController
             'notLearnedWords' => $notLearnedWords,
             'stuff' => $stuff,
         ]);
+    }
+
+    /**
+     * @Route("/handle/{id}", name="handle_stuff", methods={"POST"}, requirements={"id"="%app.id_regex%"})
+     *
+     * @param int $id
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function handle(int $id, Request $request) : Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $stuffRepository = $this->getDoctrine()->getRepository(Stuff::class);
+        $service = new StuffControllerService();
+
+        $service->addWordsToDb($request, $em, $id, $stuffRepository);
+
+        return new Response();
     }
 }
