@@ -232,7 +232,7 @@ class TextProcessor
             return implode('', $symbols);
         }
         else
-        { // TODO сделать свой класс UndefinedLanguageException для этого исключения
+        {
             throw new Exception("This language ($language) not process in function 'remainAlphabetSpaceMinus()'.");
         }
 	}
