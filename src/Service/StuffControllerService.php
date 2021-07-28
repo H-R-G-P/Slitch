@@ -67,7 +67,7 @@ class StuffControllerService
             foreach ($request->request->get('untranslatableWords') as $untranslatableWords) {
                 $word = new UntranslatableWords();
                 $word->setWord($untranslatableWords);
-                $word->setIdLanguage($stuff->getLanguage());
+                $word->setLanguage($stuff->getLanguage());
                 $em->persist($word);
             }
             $em->flush();

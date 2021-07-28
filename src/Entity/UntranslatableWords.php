@@ -59,8 +59,8 @@ class UntranslatableWords
     {
         return $this->idLanguage;
     }
-//TODO rename to setLanguage
-    public function setIdLanguage(?Languages $idLanguage): self
+
+    public function setLanguage(?Languages $idLanguage): self
     {
         $this->idLanguage = $idLanguage;
 

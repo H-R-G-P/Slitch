@@ -57,7 +57,7 @@ class WordControllerService extends AbstractController
                 $word = new UntranslatableWords();
 
                 $word->setWord($uw);
-                $word->setIdLanguage($language);
+                $word->setLanguage($language);
 
                 $em->persist($word);
             }
