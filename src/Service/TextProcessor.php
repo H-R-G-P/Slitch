@@ -4,28 +4,32 @@
 namespace App\Service;
 
 
+use App\Dto\TextInfo;
 use Exception;
 use App\Vo\Word;
 
 class TextProcessor
 {
-    /** Return info about text
+    /**
      * @param string $text
      * @param string $language
-     * @return array With info
+     *
+     * @return TextInfo
+     *
      * @throws Exception
      */
-    public function getInfo(string $text, string $language) : array
+    public function getInfo(string $text, string $language) : TextInfo
     {
         $handledText = $this->clean($text, $language);
         $words = explode(' ', $handledText);
         $uniqWords = array_unique($words);
 
-        return [
-            'string_of_words' => $handledText,
-            'word_count' => count($words),
-            'uniq_word_count' => count($uniqWords),
-        ];
+        $textInfo = new TextInfo();
+        $textInfo->setWords($handledText);
+        $textInfo->setWordCount(count($words));
+        $textInfo->setUniqWordCount(count($uniqWords));
+
+        return $textInfo;
     }
 
     /**
