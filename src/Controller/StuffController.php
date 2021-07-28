@@ -51,15 +51,14 @@ class StuffController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // Set missing parameters
             try {
-                // TODO Replace array to Data Transfer Object
                 $textInfo = $textProcessor->getInfo($stuff->getText(), $stuff->getLanguage());
             }catch (Exception $e) {
                 $this->addFlash('danger', $e->getMessage());
                 return $this->redirectToRoute('show_all_stuffs');
             }
-            $stuff->setWords($textInfo['string_of_words']);
-            $stuff->setWordCount($textInfo['word_count']);
-            $stuff->setUniqWordCount($textInfo['uniq_word_count']);
+            $stuff->setWords($textInfo->getWords());
+            $stuff->setWordCount($textInfo->getWordCount());
+            $stuff->setUniqWordCount($textInfo->getUniqWordCount());
             $stuff->setAddedAt(new DateTime());
             $stuff->setUser($this->getUser());
 
@@ -148,15 +147,14 @@ class StuffController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 // Set missing parameters
                 try {
-                    // TODO Replace array to Data Transfer Object
                     $textInfo = $textProcessor->getInfo($stuff->getText(), $stuff->getLanguage());
                 }catch (Exception $e) {
                     $this->addFlash('danger', $e->getMessage());
                     return $this->redirectToRoute('show_all_stuffs');
                 }
-                $stuff->setWords($textInfo['string_of_words']);
-                $stuff->setWordCount($textInfo['word_count']);
-                $stuff->setUniqWordCount($textInfo['uniq_word_count']);
+                $stuff->setWords($textInfo->getWords());
+                $stuff->setWordCount($textInfo->getWordCount());
+                $stuff->setUniqWordCount($textInfo->getUniqWordCount());
                 $stuff->setAddedAt(new DateTime());
                 $stuff->setUser($this->getUser());
 
