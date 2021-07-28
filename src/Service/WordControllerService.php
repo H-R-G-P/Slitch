@@ -40,7 +40,7 @@ class WordControllerService extends AbstractController
                 $word = new LearnedWords();
 
                 $word->setWord($lw);
-                $word->setIdLanguage($language);
+                $word->setLanguage($language);
 
                 $em->persist($word);
             }

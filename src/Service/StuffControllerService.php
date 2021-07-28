@@ -56,7 +56,7 @@ class StuffControllerService
             foreach ($request->request->get('learnedWords') as $learnedWord) {
                 $word = new LearnedWords();
                 $word->setWord($learnedWord);
-                $word->setIdLanguage($stuff->getLanguage());
+                $word->setLanguage($stuff->getLanguage());
                 $em->persist($word);
             }
             $em->flush();
