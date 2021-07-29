@@ -28,7 +28,7 @@ class Word
     }
 
     public function setContext(string $word, string $context)
-    {// TODO Сделать лимит 330 символов в сумме по левую и правую стороны от ключевого слова.
+    {
         $result = preg_replace(
             '/\b'.$word.'\b/u',
             "<b class='wordsInContext'>$word</b>",
