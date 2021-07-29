@@ -9,7 +9,7 @@ use Exception;
 use App\Vo\Word;
 
 class TextProcessor
-{
+{// TODO как обрабатывать когда текст без точек или это лирика песни
     /**
      * @param string $text
      * @param string $language
