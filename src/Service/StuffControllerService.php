@@ -55,7 +55,7 @@ class StuffControllerService
         {
             foreach ($request->request->get('learnedWords') as $learnedWord) {
                 $word = new LearnedWords();
-                $word->setWord($learnedWord);
+                $word->setWord(mb_strtolower($learnedWord));
                 $word->setLanguage($stuff->getLanguage());
                 $em->persist($word);
             }
@@ -66,7 +66,7 @@ class StuffControllerService
         {
             foreach ($request->request->get('untranslatableWords') as $untranslatableWords) {
                 $word = new UntranslatableWords();
-                $word->setWord($untranslatableWords);
+                $word->setWord(mb_strtolower($untranslatableWords));
                 $word->setLanguage($stuff->getLanguage());
                 $em->persist($word);
             }
