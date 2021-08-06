@@ -44,8 +44,12 @@ class WordControllerService extends AbstractController
 
                 $em->persist($word);
             }
+
+            $em->flush();
         }
-// TODO Now I can add in one request same word to both tables
+
+        $allLearnedWords = $lwr->findAll();
+
         if ($words->getUntranslatableWords()) {
             $lowerUntranslatableWords = mb_strtolower($words->getUntranslatableWords());
 
@@ -61,9 +65,9 @@ class WordControllerService extends AbstractController
 
                 $em->persist($word);
             }
-        }
 
-        $em->flush();
+            $em->flush();
+        }
     }
 
     /**
