@@ -736,7 +736,7 @@ class HelperTest extends TestCase
 
     public function testGetContext()
     {
-        $text = "other text|----------------full-left-part-----------------------|word|---------------full-right-part-----------------------|other text";
+/*        $text = "other text|----------------full-left-part-----------------------|word|---------------full-right-part-----------------------|other text";
         $word = "word";
         $actual = Helper::getContext($text, $word);
         $expected = "|----------------full-left-part-----------------------|word|---------------full-right-part-----------------------|";
@@ -837,6 +837,68 @@ class HelperTest extends TestCase
         $word = "word";
         $actual = Helper::getContext($text, $word);
         $expected = "word|text
+        enter";
+        self::assertSame($expected, $actual);*/
+
+        $text = "56 characters to the left of the word qwerty qwerty qwa central-word 57 characters to the right of the word qwerty qwerty qwa";
+        $word = "central-word";
+        $actual = Helper::getContext($text, $word);
+        $expected = "characters to the left of the word qwerty qwerty qwa central-word 57 characters to the right of the word qwerty qwerty";
+        self::assertSame($expected, $actual);
+
+        $text = "56 characters to the left of the word qwerty qwerty qwa central-word 47 characters to the right of the word qwerty.";
+        $word = "central-word";
+        $actual = Helper::getContext($text, $word);
+        $expected = "characters to the left of the word qwerty qwerty qwa central-word 47 characters to the right of the word qwerty.";
+        self::assertSame($expected, $actual);
+
+        $text = "56 characters to the left of the word qwerty qwerty qwa central-word";
+        $word = "central-word";
+        $actual = Helper::getContext($text, $word);
+        $expected = "characters to the left of the word qwerty qwerty qwa central-word";
+        self::assertSame($expected, $actual);
+
+        $text = "49 characters to the left of the word qwerty qwa central-word 57 characters to the right of the word qwerty qwerty qwa";
+        $word = "central-word";
+        $actual = Helper::getContext($text, $word);
+        $expected = "49 characters to the left of the word qwerty qwa central-word 57 characters to the right of the word qwerty qwerty";
+        self::assertSame($expected, $actual);
+
+        $text = "49 characters to the left of the word qwerty qwa central-word 47 characters to the right of the word qwerty.";
+        $word = "central-word";
+        $actual = Helper::getContext($text, $word);
+        $expected = "49 characters to the left of the word qwerty qwa central-word 47 characters to the right of the word qwerty.";
+        self::assertSame($expected, $actual);
+
+        $text = "49 characters to the left of the word qwerty qwa central-word";
+        $word = "central-word";
+        $actual = Helper::getContext($text, $word);
+        $expected = "49 characters to the left of the word qwerty qwa central-word";
+        self::assertSame($expected, $actual);
+
+        $text = "central-word 57 characters to the right of the word qwerty qwerty qwa";
+        $word = "central-word";
+        $actual = Helper::getContext($text, $word);
+        $expected = "central-word 57 characters to the right of the word qwerty qwerty";
+        self::assertSame($expected, $actual);
+
+        $text = "central-word 47 characters to the right of the word qwerty.";
+        $word = "central-word";
+        $actual = Helper::getContext($text, $word);
+        $expected = "central-word 47 characters to the right of the word qwerty.";
+        self::assertSame($expected, $actual);
+
+        $text = "word";
+        $word = "word";
+        $actual = Helper::getContext($text, $word);
+        $expected = "word";
+        self::assertSame($expected, $actual);
+
+        $text = "word text
+        enter";
+        $word = "word";
+        $actual = Helper::getContext($text, $word);
+        $expected = "word text
         enter";
         self::assertSame($expected, $actual);
     }
