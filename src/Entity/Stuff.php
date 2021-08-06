@@ -118,6 +118,11 @@ class Stuff
      */
     private $hasDelimiters;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isHandled;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -275,6 +280,18 @@ class Stuff
     public function setHasDelimiters(bool $hasDelimiters): self
     {
         $this->hasDelimiters = $hasDelimiters;
+
+        return $this;
+    }
+
+    public function getIsHandled(): ?bool
+    {
+        return $this->isHandled;
+    }
+
+    public function setIsHandled(?bool $isHandled): self
+    {
+        $this->isHandled = $isHandled;
 
         return $this;
     }
