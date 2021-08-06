@@ -831,5 +831,13 @@ class HelperTest extends TestCase
         $actual = Helper::getContext($text, $word);
         $expected = "word";
         self::assertSame($expected, $actual);
+
+        $text = "word|text
+        enter";
+        $word = "word";
+        $actual = Helper::getContext($text, $word);
+        $expected = "word|text
+        enter";
+        self::assertSame($expected, $actual);
     }
 }
