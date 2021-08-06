@@ -48,7 +48,7 @@ class Helper
      * @return string
      */
     public static function getContext(string $text, string $word) : string
-    {
+    {// TODO сделать так, чтобы не обрезались слова на концах контекста
         $result = preg_match("/.{0,55}$word.{0,55}/s", $text, $matches);
 
         if ($result) {
