@@ -18,6 +18,7 @@ class WordsType extends AbstractType
             ->add('language', EntityType::class, [
                 'class' => Languages::class,
                 'choice_label' => 'name',
+                'placeholder' => 'Choose language',
             ])
             ->add('learnedWords', TextareaType::class, [
                 'required' => false,
