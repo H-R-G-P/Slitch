@@ -31,8 +31,6 @@ class StuffControllerService
 
         $decodeText = html_entity_decode($stuff->getText(), ENT_QUOTES, 'utf-8');
         $uniqWords = $textProcessor->getUniqWords($decodeText, $stuff->getLanguage());
-        // TODO Copy HelperTest class in this project
-        // TODO Modify function Helper::array_diff_inLowercase() as it not translates words type of 'Word' to strings and return this objects if words type of 'Word' was pasted in first array
         $notLearnedWords = Helper::array_diff_inLowercase($uniqWords, $lwr->findAll(), $uwr->findAll());
         if ($stuff->getHasDelimiters()) {
             $uniqWordsObj = $textProcessor->getUniqWordsObj($decodeText, $stuff->getLanguage());
