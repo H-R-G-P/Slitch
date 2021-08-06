@@ -6,9 +6,9 @@ use App\Entity\Languages;
 use App\Entity\Stuff;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
@@ -34,6 +34,10 @@ class StuffType extends AbstractType
                 'choice_label' => 'name',
             ])
             ->add('description')
+            ->add('hasDelimiters', CheckboxType::class, [
+                'label' => 'This text has sentence separator?',
+                'required' => 'false',
+            ])
             ->add('text', TextareaType::class, [
                 'constraints' => [
                     new Length([
