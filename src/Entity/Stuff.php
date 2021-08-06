@@ -114,7 +114,7 @@ class Stuff
     private $uniq_word_count;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=false)
      */
     private $hasDelimiters;
 
@@ -267,7 +267,7 @@ class Stuff
         return $this;
     }
 
-    public function getHasDelimiters(): ?bool
+    public function getHasDelimiters(): bool
     {
         return $this->hasDelimiters;
     }
