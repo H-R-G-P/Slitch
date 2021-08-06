@@ -118,6 +118,8 @@ class TextProcessor
     public function processHyphens(string $text) : string
     {
         $pattern = array(
+                '/(\d)-+(\d)?/',
+                '/(\d)?-+(\d)/',
                 '/^-+(\w)/',
                 '/(\w)-+$/',
                 '/(\W)-+(\w)/',
@@ -126,6 +128,8 @@ class TextProcessor
                 '/\s+-+\s+/'
             );
         $replacement = array(
+                '$1$2',
+                '$1$2',
                 '$1',
                 '$1',
                 '$1$2',
