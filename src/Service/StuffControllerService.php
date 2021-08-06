@@ -34,9 +34,20 @@ class StuffControllerService
         // TODO Copy HelperTest class in this project
         // TODO Modify function Helper::array_diff_inLowercase() as it not translates words type of 'Word' to strings and return this objects if words type of 'Word' was pasted in first array
         $notLearnedWords = Helper::array_diff_inLowercase($uniqWords, $lwr->findAll(), $uwr->findAll());
-        $uniqWordsObj = $textProcessor->getUniqWordsObj($decodeText, $stuff->getLanguage());
+        if ($stuff->getHasDelimiters()) {
+            $uniqWordsObj = $textProcessor->getUniqWordsObj($decodeText, $stuff->getLanguage());
 
-        return array_intersect($uniqWordsObj, $notLearnedWords);
+            return array_intersect($uniqWordsObj, $notLearnedWords);
+        }else {
+            $wordsObj = [];
+            foreach ($notLearnedWords as $word) {
+                $context = Helper::getContext($decodeText, $word);
+                $wordsObj[] = new Word($word, $context);
+            }
+
+            return $wordsObj;
+        }
+
     }
 
     /**
