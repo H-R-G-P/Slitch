@@ -38,4 +38,23 @@ class Helper
         }
         return $values;
     }
+
+    /**
+     * Cut from text word and around symbols that have been max 110 symbols
+     *
+     * @param string $text
+     * @param string $word
+     *
+     * @return string
+     */
+    public static function getContext(string $text, string $word) : string
+    {
+        $result = preg_match("/.{0,55}$word.{0,55}/s", $text, $matches);
+
+        if ($result) {
+            return $matches[0];
+        }
+
+        return '';
+    }
 }
