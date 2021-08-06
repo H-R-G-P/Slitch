@@ -36,7 +36,7 @@ class StuffType extends AbstractType
             ->add('description')
             ->add('hasDelimiters', CheckboxType::class, [
                 'label' => 'This text has sentence separator?',
-                'required' => 'false',
+                'required' => false,
             ])
             ->add('text', TextareaType::class, [
                 'constraints' => [
