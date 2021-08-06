@@ -91,20 +91,6 @@ function putInModalWordsFormContext() {
     }
 }
 
-function putSentencesIn(id) {
-    let output = document.getElementById(id);
-    let myTexts = document.getElementsByClassName('myText');
-
-    let outputHTML = '';
-    let sentence = document.createElement('div');
-    sentence.className = 'sentences';
-    for (let i = 1; i < myTexts.length; i += 2) {
-        sentence.innerHTML = myTexts[i].innerHTML;
-        outputHTML += (sentence.outerHTML + '<br>');
-    }
-    output.innerHTML = outputHTML;
-}
-
 function copyWordsInContextFrom(id) {
     let input = document.getElementById(id);
     let sentencesHTML = input.getElementsByClassName('sentences');
