@@ -201,6 +201,14 @@ class TextProcessorTest extends TestCase
             $processor->processHyphens($text),
             "Not correctly process some hyphens between words."
         );
+
+        $text = "+7-926-378-2946";
+        $expectedText = "+79263782946";
+        self::assertSame(
+            $expectedText,
+            $processor->processHyphens($text),
+            "Not correctly process phone numbers with hyphens."
+        );
     }
 
     public function testProcessDots()
