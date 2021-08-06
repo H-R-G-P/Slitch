@@ -113,6 +113,11 @@ class Stuff
      */
     private $uniq_word_count;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $hasDelimiters;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -258,6 +263,18 @@ class Stuff
     public function setUniqWordCount(int $uniq_word_count): self
     {
         $this->uniq_word_count = $uniq_word_count;
+
+        return $this;
+    }
+
+    public function getHasDelimiters(): ?bool
+    {
+        return $this->hasDelimiters;
+    }
+
+    public function setHasDelimiters(bool $hasDelimiters): self
+    {
+        $this->hasDelimiters = $hasDelimiters;
 
         return $this;
     }
