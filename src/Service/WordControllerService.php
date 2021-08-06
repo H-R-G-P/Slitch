@@ -35,7 +35,7 @@ class WordControllerService extends AbstractController
             $uniqLearnedWords = $textProcessor->getUniqWords($lowerLearnedWords, $language);
 
             $learnedWords = Helper::array_diff_inLowercase($uniqLearnedWords, $allLearnedWords, $allUntranslatableWords);
-// TODO babcią и babcia добавляются в базу данных как одно и тоже слово
+
             foreach ($learnedWords as $lw) {
                 $word = new LearnedWords();
 
