@@ -12,10 +12,10 @@
                     <div class="input-group-prepend">
                         <div class="btn-group-toggle btn-group" data-toggle="buttons">
                             <label class="btn btn-outline-secondary">
-                                <input type="checkbox" name="{{ word }}" class="myCheckboxes form_learned_words" autocomplete="off"> Learned
+                                <input type="checkbox" onclick="clickLearnedButton(this)" name="{{ word }}" class="myCheckboxes form_learned_words" autocomplete="off"> Learned
                             </label>
                             <label class="btn btn-outline-secondary">
-                                <input type="checkbox" name="{{ word }}" class="myCheckboxes form_untranslatable_words" autocomplete="off"> Untranslatable
+                                <input type="checkbox" onclick="clickUntranslatableButton(this)" name="{{ word }}" class="myCheckboxes form_untranslatable_words" autocomplete="off"> Untranslatable
                             </label>
                         </div>
                         <span class="input-group-text font-weight-bold myText">{{ word }}</span>
@@ -181,6 +181,26 @@
                         document.location.reload();
                     }
                 })
+            }
+        }
+
+        function clickLearnedButton(checkbox) {
+            if (checkbox.checked) {
+                let adjacentCheckbox = checkbox.parentElement.nextElementSibling.firstElementChild;
+                if (adjacentCheckbox.checked) {
+                    adjacentCheckbox.checked = false;
+                    adjacentCheckbox.parentElement.classList.remove('active');
+                }
+            }
+        }
+
+        function clickUntranslatableButton(checkbox) {
+            if (checkbox.checked) {
+                let adjacentCheckbox = checkbox.parentElement.previousElementSibling.firstElementChild;
+                if (adjacentCheckbox.checked) {
+                    adjacentCheckbox.checked = false;
+                    adjacentCheckbox.parentElement.classList.remove('active');
+                }
             }
         }
     </script>
