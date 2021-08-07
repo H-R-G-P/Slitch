@@ -3,7 +3,9 @@
 
 namespace App\Controller;
 
+use App\Entity\LearnedWords;
 use App\Entity\Stuff;
+use App\Entity\UntranslatableWords;
 use App\Form\StuffType;
 use App\Repository\LearnedWordsRepository;
 use App\Repository\StuffRepository;
@@ -109,8 +111,10 @@ class StuffController extends AbstractController
      * @param int $id
      * @return Response
      */
-    public function show(int $id, StuffRepository $stuffRep) : Response
+    public function show(int $id, StuffRepository $stuffRep, LearnedWordsRepository $lwr, UntranslatableWordsRepository $uwr) : Response
     {
+        $service = new StuffControllerService();
+
         $stuff = $stuffRep->findOneBy([
             'id' => $id,
         ]);
@@ -119,8 +123,11 @@ class StuffController extends AbstractController
             return $this->redirectToRoute('show_all_stuffs');
         }
 
+        $countNlw = count($service->getNotLearnedWords($stuff, $lwr, $uwr));
+
         return $this->render('stuff/show.html.twig', [
             'stuff' => $stuff,
+            'count_not_learned_words' => $countNlw,
         ]);
     }
 
