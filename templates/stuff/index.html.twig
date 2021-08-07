@@ -13,7 +13,11 @@
         <div class="row">
             {% for stuff in stuffs %}
                 <div class="col-md-4">
-                    <div class="card mb-4 box-shadow" style="background-color: #E9ECEF;">
+                    {% if stuff.isHandled %}
+                        <div class="card mb-4 box-shadow" style="background-color: #b5f1a7;">
+                    {% else %}
+                        <div class="card mb-4 box-shadow" style="background-color: #E9ECEF;">
+                    {% endif %}
                         <div class="card-body">
                             <h4 class="card-title">{{ stuff.name }}</h4>
                             <p class="card-text text-truncate">
