@@ -23,6 +23,13 @@
                 <p>Word count: {{ stuff.wordCount }}</p>
                 <p>Unique word count: {{ stuff.uniqWordCount }}</p>
                 <p>Number of views: {{ stuff.numberOfViews }}</p>
+                <p>
+                    {% if stuff.isHandled %}
+                        Handled: yes
+                    {% else %}
+                        Handled: no
+                    {% endif %}
+                </p>
                 <p>Added at: {{ stuff.addedAt.format('d-m-Y') }}</p>
             </div>
             <div class="card-footer">
