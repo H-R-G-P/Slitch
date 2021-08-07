@@ -234,4 +234,26 @@ class StuffController extends AbstractController
 
         return new Response();
     }
+
+    /**
+     * @Route("/toggle-is-handled/{id}", name="toggle_is_handled_stuff", methods={"GET"})
+     *
+     * @param Stuff $stuff
+     *
+     * @return Response
+     */
+    public function toggleIsHandled(Stuff $stuff) : Response
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        if ($stuff->getIsHandled()) {
+            $stuff->setIsHandled(false);
+        }else {
+            $stuff->setIsHandled(true);
+        }
+
+        $em->flush();
+
+        return new Response();
+    }
 }

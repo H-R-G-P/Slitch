@@ -31,6 +31,11 @@
             <div class="btn-group">
                 <button onclick="save()" class="btn btn-danger nav-item">Save</button>
                 <button onclick="resetCheckboxes()" class="btn btn-danger nav-item">Reset</button>
+                {% if stuff.isHandled %}
+                    <button onclick="toggleIsHandled()" class="btn btn-info nav-item">Mark as not handled</button>
+                {% else %}
+                    <button onclick="toggleIsHandled()" class="btn btn-info nav-item">Mark as handled</button>
+                {% endif %}
             </div>
             <ul class="navbar-nav ml-auto">
               <li class="nav-item">
@@ -163,6 +168,20 @@
                 outputHTML += (sentence.outerHTML + '<br>');
             }
             output.innerHTML = outputHTML;
+        }
+
+        function toggleIsHandled() {
+            if (confirm("Save changes?")) {
+                save();
+                $.ajax({
+                    url: '{{ path('toggle_is_handled_stuff', {"id": stuff.id, "stuff": stuff}) }}',
+                    type: 'GET',
+                    cache: false,
+                    success: function () {
+                        document.location.reload();
+                    }
+                })
+            }
         }
     </script>
 {% endblock %}
