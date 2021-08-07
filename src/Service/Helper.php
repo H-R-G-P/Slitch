@@ -18,8 +18,8 @@ class Helper
         $output = [];
         foreach ($array1 as $value) {
             $value = preg_replace('/-/', '\-', $value);
-            if (count(preg_grep('/'.$value.'/i', $array2)) === 0 &&
-                count(preg_grep('/'.$value.'/i', $array3)) === 0)
+            if (count(preg_grep('/^'.$value.'$/i', $array2)) === 0 &&
+                count(preg_grep('/^'.$value.'$/i', $array3)) === 0)
             {
                 $output[] = preg_replace('/\\\-/', '-', $value);
             }
