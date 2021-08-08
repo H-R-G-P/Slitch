@@ -10,44 +10,49 @@
         {% block flash_message %}
             {{ parent() }}
         {% endblock %}
-        <div class="row">
-            {% for stuff in stuffs %}
-                <div class="col-md-4">
-                    {% if stuff.isHandled %}
-                        <div class="card mb-4 box-shadow" style="background-color: #b5f1a7;">
-                    {% else %}
-                        <div class="card mb-4 box-shadow" style="background-color: #E9ECEF;">
-                    {% endif %}
-                        <div class="card-body">
-                            <h4 class="card-title">{{ stuff.name }}</h4>
-                            <p class="card-text text-truncate">
-                                {% if stuff.description == '' %}
-                                    Description not set
-                                {% else %}
-                                    {{ stuff.description }}
-                                {% endif %}
-                            </p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <a href="{{ path('edit_stuff', {"id": stuff.id}) }}" class="btn btn-sm btn-outline-secondary">
-                                        Edit
-                                    </a>
-                                    <button onclick="confirmRedirect('Do you want delete {{ stuff.name }}?', '{{ path('delete_stuff', {"id": stuff.id}) }}')" class="btn btn-sm btn-outline-secondary">
-                                        Delete
-                                    </button>
-                                    <a href="{{ path('show_stuff', {"id": stuff.id}) }}" class="btn btn-sm btn-outline-secondary">
-                                        More
-                                    </a>
-                                    <a href="{{ path('handle_stuff_form', {"id": stuff.id}) }}" class="btn btn-sm btn-outline-secondary">
-                                        Handle
-                                    </a>
+
+        {% for k in range(0, stuffs|length, 3)%}
+            <div class="card-deck">
+                {% for i in 0..2 %}
+                    {% if stuffs[k+i] is defined %}
+                        {% if stuffs[k+i].isHandled %}
+                            <div class="card mb-4 box-shadow" style="background-color: #b5f1a7;">
+                        {% else %}
+                            <div class="card mb-4 box-shadow" style="background-color: #E9ECEF;">
+                        {% endif %}
+                            <div class="card-body">
+                                <h4 class="card-title">{{ stuffs[k+i].name }}</h4>
+                                <p class="card-text text-truncate">
+                                    {% if stuffs[k+i].description == '' %}
+                                        Description not set
+                                    {% else %}
+                                        {{ stuffs[k+i].description }}
+                                    {% endif %}
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <a href="{{ path('edit_stuff', {"id": stuffs[k+i].id}) }}" class="btn btn-sm btn-outline-secondary">
+                                            Edit
+                                        </a>
+                                        <button onclick="confirmRedirect('Do you want delete {{ stuffs[k+i].name }}?', '{{ path('delete_stuff', {"id": stuffs[k+i].id}) }}')" class="btn btn-sm btn-outline-secondary">
+                                            Delete
+                                        </button>
+                                        <a href="{{ path('show_stuff', {"id": stuffs[k+i].id}) }}" class="btn btn-sm btn-outline-secondary">
+                                            More
+                                        </a>
+                                        <a href="{{ path('handle_stuff_form', {"id": stuffs[k+i].id}) }}" class="btn btn-sm btn-outline-secondary">
+                                            Handle
+                                        </a>
+                                    </div>
+                                    <small class="text-muted">{{ stuffs[k+i].addedAt.format('d-m-Y') }}</small>
                                 </div>
-                                <small class="text-muted">{{ stuff.addedAt.format('d-m-Y') }}</small>
                             </div>
                         </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}
