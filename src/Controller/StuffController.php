@@ -243,7 +243,7 @@ class StuffController extends AbstractController
     }
 
     /**
-     * @Route("/toggle-is-handled/{stuff}", name="toggle_is_handled_stuff", methods={"GET"})
+     * @Route("/toggle-is-handled/{stuff-obj}", name="toggle_is_handled_stuff", methods={"GET"})
      *
      * @param Stuff $stuff
      *
