@@ -49,6 +49,8 @@ class TextProcessor
 
 		$text = $this->processShortWordsWithApostrophe($text);
 
+		$text = $this->expandAbbreviations($text);
+
 		$text = $this->processWhitespaces($text);
 
 		$text = $this->processHyphens($text);
@@ -193,6 +195,23 @@ class TextProcessor
                 '$1',
                 '$1',
                 '$1 ',
+            );
+        return preg_replace($pattern, $replacement, $text);
+	}
+
+    /**
+     * Replace abbreviations with full words
+     * @param string $text
+     * @return string
+     */
+    public function expandAbbreviations(string $text) : string
+    {
+
+	    $pattern = array(
+                '/(\b)ma\'am(\b)/',
+            );
+        $replacement = array(
+                '$1madam$2',
             );
         return preg_replace($pattern, $replacement, $text);
 	}
