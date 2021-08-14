@@ -482,6 +482,9 @@ class TextProcessorTest extends TestCase
     {
         $processor = new TextProcessor();
 
+        $actual = $processor->getWords("Start 5674. Start %#@~ something End!", 'english');
+        self::assertSame(['Start','Start','something','End'], $actual);
+
         // Test english
         $actual = $processor->getWords("Start something. Start something End!", 'english');
         self::assertSame(['Start','something','Start','something','End'], $actual);
