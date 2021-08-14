@@ -51,11 +51,11 @@ class TextProcessor
 
 		$text = $this->processWhitespaces($text);
 
-		$text = $this->processSpaces($text);
-
 		$text = $this->processHyphens($text);
 
 		$text = $this->remainAlphabetSpacesHyphens($text, $language);
+
+		$text = $this->processSpaces($text);
 
 		return $text;
 	}
