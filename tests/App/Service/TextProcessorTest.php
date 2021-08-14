@@ -296,6 +296,14 @@ class TextProcessorTest extends TestCase
         self::assertSame("will End", $actual);
     }
 
+    public function testExpandAbbreviations()
+    {
+        $processor = new TextProcessor();
+
+        $actual = $processor->expandAbbreviations("ma'am. ma'am");
+        self::assertSame("madam. madam", $actual);
+    }
+
     public function testMarkEndsOfSentences()
     {
         $processor = new TextProcessor();
