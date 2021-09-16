@@ -35,6 +35,13 @@ class StatisticController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $stats = new Statistic();
 
+            if (count($texts) === 0){
+                $texts->addText('');
+            }
+            if (count($texts) > 1){
+                $stats->setMatches($texts);
+            }
+
             /* do logic */
 
             $texts->resetKeys();
