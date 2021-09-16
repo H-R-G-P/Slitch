@@ -31,6 +31,11 @@ class Texts implements \Countable
         $this->texts = $texts;
     }
 
+    public function addText(string $text): void
+    {
+        $this->texts[] = $text;
+    }
+
     public function resetKeys() : void
     {
         $this->texts = array_values($this->texts);
