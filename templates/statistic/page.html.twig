@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Statistic
+{% endblock %}
+
+{% form_theme texts_form 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-4">
+                {{ form_start(texts_form) }}
+
+                <div class="row">
+                    <div class="col-6 mr-auto">
+                        <button type="submit" class="btn btn-block btn-primary">Update statistic</button>
+                    </div>
+                    <div class="col-4 ml-auto">
+                        <button type="button"
+                                class="add-another-collection-widget btn btn-block btn-primary"
+                                data-list-selector="#email-fields-list">Add text</button>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="row">
+                    <div id="email-fields-list"
+                         data-prototype="{{ form_widget(texts_form.texts.vars.prototype)|e }}"
+                         data-widget-tags="{{ '<div></div>'|e }}"
+                         data-widget-counter="{{ texts_form.texts|length }}">
+                        {% for text_area in texts_form.texts %}
+                            <div>
+                                {{ form_errors(text_area) }}
+                                {{ form_widget(text_area) }}
+
+                                <button class="btn btn-outline-danger delete_text_btn" onclick="this.parentElement.remove();">Delete</button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                {{ form_end(texts_form) }}
+
+                <button id="hidden_btn" class="btn btn-outline-danger delete_text_btn" hidden onclick="this.parentElement.remove();">Delete</button>
+            </div>
+            <div class="col-8">
+                <div class="card card-body">
+                    <p>Option: value</p>
+                    <p>Option: value</p>
+                    <p>Option: value</p>
+                    <p>Option: value</p>
+                    <p>Option: value</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        let delete_btn = document.getElementById('hidden_btn')
+        let add_btn = jQuery('.add-another-collection-widget')[0]
+
+        jQuery(document).ready(function () {
+            add_btn.addEventListener('click', function (e) {
+                let list = jQuery(jQuery(this).attr('data-list-selector'));
+                let counter = list.data('widget-counter') || list.children().length;
+
+                let newWidget = list.attr('data-prototype');
+                newWidget = newWidget.replace(/__name__/g, counter);
+                counter++;
+                list.data('widget-counter', counter);
+
+                let newElem = jQuery(list.attr('data-widget-tags')).html(newWidget);
+                let btnProt = delete_btn.cloneNode()
+                btnProt.removeAttribute('hidden')
+                btnProt.innerText = 'Delete'
+                newElem.append(btnProt)
+                newElem.appendTo(list);
+            })
+        });
+    </script>
+{% endblock %}

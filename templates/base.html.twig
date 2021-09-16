@@ -21,6 +21,9 @@
 
                     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
                         <ul class="navbar-nav mr-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('statistics') }}">Stats</a>
+                            </li>
                             {% if app.user %}
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ url('show_all_stuffs') }}">Stuffs</a>
