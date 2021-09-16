@@ -6,7 +6,7 @@ namespace App\Dto;
 
 use App\Entity\Languages;
 
-class Texts
+class Texts implements \Countable
 {
     /**
      * @var string[]
@@ -50,5 +50,10 @@ class Texts
     public function setLanguage(Languages $language): void
     {
         $this->language = $language;
+    }
+
+    public function count(): int
+    {
+        return count($this->texts);
     }
 }
