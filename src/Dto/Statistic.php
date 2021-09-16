@@ -6,21 +6,26 @@ namespace App\Dto;
 
 class Statistic
 {
-    private string $wordsCount = "test";
+    /**
+     * The percentage of matches of unique words with other texts.
+     *
+     * @var int Percentage.
+     */
+    private int $matches;
 
     /**
-     * @return string
+     * @return int
      */
-    public function getWordsCount(): string
+    public function getMatches(): int
     {
-        return $this->wordsCount;
+        return $this->matches;
     }
 
     /**
-     * @param string $wordsCount
+     * @param int $matches
      */
-    public function setWordsCount(string $wordsCount): void
+    public function setMatches(int $matches): void
     {
-        $this->wordsCount = $wordsCount;
+        $this->matches = $matches;
     }
 }
