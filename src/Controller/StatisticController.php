@@ -3,9 +3,9 @@
 
 namespace App\Controller;
 
-use App\Dto\Statistic;
 use App\Dto\Texts;
 use App\Form\TextsType;
+use App\Vo\Statistic;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
