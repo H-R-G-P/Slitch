@@ -4,12 +4,16 @@
 namespace App\Dto;
 
 
+use App\Entity\Languages;
+
 class Texts
 {
     /**
      * @var string[]
      */
     private array $texts = [''];
+
+    private Languages $language;
 
     /**
      * @return string[]
@@ -30,5 +34,21 @@ class Texts
     public function resetKeys() : void
     {
         $this->texts = array_values($this->texts);
+    }
+
+    /**
+     * @return Languages
+     */
+    public function getLanguage(): Languages
+    {
+        return $this->language;
+    }
+
+    /**
+     * @param Languages $language
+     */
+    public function setLanguage(Languages $language): void
+    {
+        $this->language = $language;
     }
 }
