@@ -13,6 +13,9 @@
                 {{ form_start(texts_form) }}
 
                 <div class="row">
+                    <div class="col-12 mb-3">
+                        {{ form_widget(texts_form.language) }}
+                    </div>
                     <div class="col-6 mr-auto">
                         <button type="submit" class="btn btn-block btn-primary">Update statistic</button>
                     </div>

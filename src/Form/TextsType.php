@@ -5,6 +5,8 @@ namespace App\Form;
 
 
 use App\Dto\Texts;
+use App\Entity\Languages;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -28,6 +30,10 @@ class TextsType extends AbstractType
                 'delete_empty' => true,
                 'label' => false,
                 'prototype' => '<textarea id="___name__" name="texts[texts][__name__]" class="text-field  form-control"></textarea>'
+            ])
+            ->add('language', EntityType::class, [
+                'class' => Languages::class,
+                'choice_label' => 'name',
             ])
         ;
     }
