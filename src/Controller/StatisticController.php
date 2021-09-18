@@ -27,14 +27,13 @@ class StatisticController extends AbstractController
      */
     public function getStats(Request $request) : Response
     {
+        $stats = new Statistic();
         $texts = new Texts();
 
         $form = $this->createForm(TextsType::class, $texts);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $stats = new Statistic();
-
             if (count($texts) === 0){
                 $texts->addText('');
             }
@@ -55,6 +54,7 @@ class StatisticController extends AbstractController
 
         return $this->render('statistic/page.html.twig', [
             'texts_form' => $form->createView(),
+            'stats' => $stats,
         ]);
     }
 }
