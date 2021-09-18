@@ -151,10 +151,24 @@ class Statistic
     }
 
     /**
-     * @param int $matches
+     * @param Texts $texts
+     *
+     * @throws \Exception
      */
-    public function setMatches(int $matches): void
+    public function setMatches(Texts $texts): void
     {
-        $this->matches = $matches;
+        $textProcessor = new TextProcessor();
+
+        $words = [];
+        $allWords = [];
+        foreach ($texts->getTexts() as $text) {
+            $wordsTemp = $textProcessor->getWords(strtolower($text), $texts->getLanguage());
+            $words[] = $wordsTemp;
+            $allWords = array_merge($allWords, $wordsTemp);
+        }
+
+        $matchedWords = $this->intersect($words);
+
+        $this->matches = (count($matchedWords) * 100)/count(array_unique($allWords));
     }
 }
