@@ -38,7 +38,7 @@ class StatisticController extends AbstractController
                 $texts->addText('');
             }
             if (count($texts) > 1){
-                $stats->setMatches($texts);
+                $stats->setMatchesAll($texts);
             }
 
             /* do logic */
