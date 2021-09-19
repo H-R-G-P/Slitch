@@ -5,6 +5,7 @@ namespace App\Vo;
 
 
 use App\Dto\Texts;
+use App\Service\StatisticService;
 use App\Service\TextProcessor;
 
 class Statistic
@@ -133,13 +134,13 @@ class Statistic
             $wordsTemp = $textProcessor->getWords(strtolower($text), $texts->getLanguage());
             $words[] = $wordsTemp;
             $countOfWords += count($wordsTemp);
-            $repeats = $this->countRepeats($wordsTemp);
-            $allRepeats = $this->merge($allRepeats, $repeats);
+            $repeats = StatisticService::countRepeats($wordsTemp);
+            $allRepeats = StatisticService::merge($allRepeats, $repeats);
         }
 
-        $matchedWords = $this->intersect($words);
+        $matchedWords = StatisticService::intersect($words);
 
-        $countOfMatches = $this->getSum($allRepeats, $matchedWords);
+        $countOfMatches = StatisticService::getSum($allRepeats, $matchedWords);
 
         $this->matchesAll = ($countOfMatches * 100)/$countOfWords;
     }
@@ -169,7 +170,7 @@ class Statistic
             $allWords = array_merge($allWords, $wordsTemp);
         }
 
-        $matchedWords = $this->intersect($words);
+        $matchedWords = StatisticService::intersect($words);
 
         $this->matches = (count($matchedWords) * 100)/count(array_unique($allWords));
     }
