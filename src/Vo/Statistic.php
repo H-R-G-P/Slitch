@@ -11,16 +11,30 @@ use App\Service\TextProcessor;
 class Statistic
 {
     /**
-     * The percentage of matches words with other texts register insensitive.
+     * The percentage of words matches in each text from all words in all texts.
      *
-     * @var int Percentage.
+     * @var int
+     */
+    private int $matchesAllPerc = 0;
+
+    /**
+     * Words matches in each text from all words in all texts.
+     *
+     * @var int
      */
     private int $matchesAll = 0;
 
     /**
-     * The percentage of matches unique words with other texts register insensitive.
+     * The percentage of uniq words matches in each text from uniq words in all texts.
      *
-     * @var int Percentage.
+     * @var int
+     */
+    private int $matchesPerc = 0;
+
+    /**
+     * Uniq words matches in each text from uniq words in all texts.
+     *
+     * @var int
      */
     private int $matches = 0;
 
@@ -42,9 +56,9 @@ class Statistic
     /**
      * @return int
      */
-    public function getMatchesAll(): int
+    public function getMatchesAllPerc(): int
     {
-        return $this->matchesAll;
+        return $this->matchesAllPerc;
     }
 
     /**
@@ -52,7 +66,7 @@ class Statistic
      *
      * @throws \Exception
      */
-    public function setMatchesAll(Texts $texts): void
+    public function setMatchesAllPerc(Texts $texts): void
     {
         $textProcessor = new TextProcessor();
 
@@ -71,15 +85,16 @@ class Statistic
 
         $countOfMatches = StatisticService::getSum($allRepeats, $matchedWords);
 
-        $this->matchesAll = ($countOfMatches * 100)/$countOfWords;
+        $this->matchesAll = $countOfMatches;
+        $this->matchesAllPerc = ($countOfMatches * 100)/$countOfWords;
     }
 
     /**
      * @return int
      */
-    public function getMatches(): int
+    public function getMatchesPerc(): int
     {
-        return $this->matches;
+        return $this->matchesPerc;
     }
 
     /**
@@ -87,7 +102,7 @@ class Statistic
      *
      * @throws \Exception
      */
-    public function setMatches(Texts $texts): void
+    public function setMatchesPerc(Texts $texts): void
     {
         $textProcessor = new TextProcessor();
 
@@ -101,7 +116,8 @@ class Statistic
 
         $matchedWords = StatisticService::intersect($words);
 
-        $this->matches = (count($matchedWords) * 100)/count(array_unique($allWords));
+        $this->matches = count($matchedWords);
+        $this->matchesPerc = ($this->matches * 100)/count(array_unique($allWords));
     }
 
     /**
@@ -144,5 +160,21 @@ class Statistic
     public function setRepetition(Texts $texts): void
     {
         $this->repetition->setRepetition($texts);
+    }
+
+    /**
+     * @return int
+     */
+    public function getMatchesAll(): int
+    {
+        return $this->matchesAll;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMatches(): int
+    {
+        return $this->matches;
     }
 }

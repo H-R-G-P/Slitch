@@ -19,8 +19,8 @@ class StatisticTest extends TestCase
             't f k',
             't g l u',
         ));
-        $stat->setMatchesAll($texts);
-        self::assertSame(40, $stat->getMatchesAll());
+        $stat->setMatchesAllPerc($texts);
+        self::assertSame(40, $stat->getMatchesAllPerc());
 
         $texts->setLanguage((new Languages())->setName('english'));
         $texts->setTexts(array(
@@ -28,8 +28,8 @@ class StatisticTest extends TestCase
             'I am Tania',
             'i Am Roma',
         ));
-        $stat->setMatchesAll($texts);
-        self::assertSame(66, $stat->getMatchesAll());
+        $stat->setMatchesAllPerc($texts);
+        self::assertSame(66, $stat->getMatchesAllPerc());
     }
 
     public function testSetMatches()
@@ -43,8 +43,8 @@ class StatisticTest extends TestCase
             't f k',
             't g l u j q p',
         ));
-        $stat->setMatches($texts);
-        self::assertSame(10, $stat->getMatches());
+        $stat->setMatchesPerc($texts);
+        self::assertSame(10, $stat->getMatchesPerc());
 
         $texts->setLanguage((new Languages())->setName('english'));
         $texts->setTexts(array(
@@ -52,7 +52,7 @@ class StatisticTest extends TestCase
             'I am Tania',
             'i Am Roma',
         ));
-        $stat->setMatches($texts);
-        self::assertSame(40, $stat->getMatches());
+        $stat->setMatchesPerc($texts);
+        self::assertSame(40, $stat->getMatchesPerc());
     }
 }
