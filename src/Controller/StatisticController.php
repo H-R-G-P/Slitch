@@ -40,6 +40,7 @@ class StatisticController extends AbstractController
             if (count($texts) > 1){
                 $stats->setMatchesAll($texts);
                 $stats->setMatches($texts);
+                $stats->setUniqWordsCount($texts);
             }
 
             /* do logic */

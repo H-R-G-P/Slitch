@@ -23,6 +23,8 @@ class Statistic
      */
     private int $matches = 0;
 
+    private int $uniqWordsCount = 0;
+
     /**
      * @param array $arrayWithArrays
      *
@@ -170,5 +172,31 @@ class Statistic
         $matchedWords = $this->intersect($words);
 
         $this->matches = (count($matchedWords) * 100)/count(array_unique($allWords));
+    }
+
+    /**
+     * @return int
+     */
+    public function getUniqWordsCount(): int
+    {
+        return $this->uniqWordsCount;
+    }
+
+    /**
+     * @param Texts $texts
+     *
+     * @throws \Exception
+     */
+    public function setUniqWordsCount(Texts $texts): void
+    {
+        $textProcessor = new TextProcessor();
+
+        $uniqWordsCount = 0;
+        foreach ($texts->getTexts() as $text) {
+            $wordsTemp = $textProcessor->getUniqWords(strtolower($text), $texts->getLanguage());
+            $uniqWordsCount += count($wordsTemp);
+        }
+
+        $this->uniqWordsCount = $uniqWordsCount;
     }
 }
