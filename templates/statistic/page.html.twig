@@ -38,7 +38,7 @@
                                 {{ form_errors(text_area) }}
                                 {{ form_widget(text_area) }}
 
-                                <button class="btn btn-outline-danger delete_text_btn" onclick="this.parentElement.remove();">Delete</button>
+                                <button class="btn btn-outline-danger mb-3 delete_text_btn" onclick="this.parentElement.remove();">Delete</button>
                             </div>
                         {% endfor %}
                     </div>
@@ -46,7 +46,7 @@
 
                 {{ form_end(texts_form) }}
 
-                <button id="hidden_btn" class="btn btn-outline-danger delete_text_btn" hidden onclick="this.parentElement.remove();">Delete</button>
+                <button id="hidden_btn" class="btn btn-outline-danger mb-3 delete_text_btn" hidden onclick="this.parentElement.remove();">Delete</button>
             </div>
             <div class="col-8">
                 <div class="card card-body">
