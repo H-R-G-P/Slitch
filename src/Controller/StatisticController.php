@@ -36,11 +36,13 @@ class StatisticController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             if (count($texts) === 0){
                 $texts->addText('');
-            }
-            if (count($texts) > 1){
+            }elseif (count($texts) > 1){
                 $stats->setMatchesAll($texts);
                 $stats->setMatches($texts);
+            }
+            if (count($texts) > 0){
                 $stats->setUniqWordsCount($texts);
+                $stats->setRepetition($texts);
             }
 
             /* do logic */
