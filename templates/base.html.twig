@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Slitch{% endblock %}</title>
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('css/bootstrap_4.5.2.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/fontawesome_5.10.0.css') }}"/>
+            <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+    </head>
+    <body>
+        {% block navbar %}
+            <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-3">
+                <div class="container">
+                    <a class="navbar-brand" href="{{ url('home_page') }}">Slitch</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('statistics') }}">Stats</a>
+                            </li>
+                            {% if app.user %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('show_all_stuffs') }}">Stuffs</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('add_stuff') }}">Add stuff</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('add_words') }}">Add words</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('delete_words') }}">Delete words</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+
+                        <ul class="navbar-nav ml-auto">
+                            {% if app.user %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Welcome {{ app.user.name }}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('app_logout') }}">Logout</a>
+                                </li>
+                            {% else %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('app_register') }}">Register</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('app_login') }}">Login</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        {% endblock %}
+
+        {% block flash_message %}
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success text-center">{{ message }}</div>
+            {% endfor %}
+            {% for message in app.flashes('warning') %}
+                <div class="alert alert-warning text-center">{{ message }}</div>
+            {% endfor %}
+            {% for message in app.flashes('danger') %}
+                <div class="alert alert-danger text-center">{{ message }}</div>
+            {% endfor %}
+            {% for message in app.flashes('info') %}
+                <div class="alert alert-info text-center">{{ message }}</div>
+            {% endfor %}
+        {% endblock %}
+
+        {% block body %}{% endblock %}
+
+        {% block javascripts %}
+            <script src="{{ asset('js/jquery-3.5.1.js') }}"></script>
+            <script src="{{ asset('js/popper.js') }}"></script>
+            <script src="{{ asset('js/bootstrap_4.5.2.js') }}"></script>
+            <script src="{{ asset('js/main.js') }}"></script>
+            <script src="{{ asset('js/handleStuff.js') }}"></script>
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </body>
+</html>

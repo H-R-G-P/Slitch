@@ -1,0 +1,6 @@
+twig:
+    default_path: '%kernel.project_dir%/templates'
+    globals:
+        db_english: 'english'
+        db_polish: 'polish'
+

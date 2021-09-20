@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Edit {{ stuff_name }}
+{% endblock %}
+
+{% form_theme edit_form 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="card card-body bg-light my-auto">
+                    <h2>Stuff</h2>
+                    {{ form_start(edit_form) }}
+
+                    {{ form_widget(edit_form) }}
+
+                        <div class="row">
+                            <div class="col">
+                                <input type="submit" value="Edit stuff" class="btn btn-success btn-block">
+                            </div>
+                            <div class="col">
+                                <a href="{{ path('show_all_stuffs') }}" class="btn btn-danger btn-block">Cancel</a>
+                            </div>
+                        </div>
+
+                    {{ form_end(edit_form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

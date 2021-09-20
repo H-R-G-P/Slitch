@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add stuff{% endblock %}
+
+{% form_theme additionForm 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="card card-body bg-light my-auto">
+                    <h2>Stuff</h2>
+                    {{ form_start(additionForm) }}
+
+                    {{ form_widget(additionForm) }}
+
+                        <div class="row">
+                            <div class="col">
+                                <input type="submit" value="Add stuff" class="btn btn-success btn-block">
+                            </div>
+                            <div class="col">
+                                <a href="{{ path('show_all_stuffs') }}" class="btn btn-danger btn-block">Cancel</a>
+                            </div>
+                        </div>
+
+                    {{ form_end(additionForm) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
