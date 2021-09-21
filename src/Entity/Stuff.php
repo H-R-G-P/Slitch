@@ -123,6 +123,11 @@ class Stuff
      */
     private $isHandled;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Dictionary::class, mappedBy="stuff", cascade={"persist", "remove"})
+     */
+    private $dictionary;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -292,6 +297,23 @@ class Stuff
     public function setIsHandled(?bool $isHandled): self
     {
         $this->isHandled = $isHandled;
+
+        return $this;
+    }
+
+    public function getDictionary(): ?Dictionary
+    {
+        return $this->dictionary;
+    }
+
+    public function setDictionary(Dictionary $dictionary): self
+    {
+        // set the owning side of the relation if necessary
+        if ($dictionary->getStuff() !== $this) {
+            $dictionary->setStuff($this);
+        }
+
+        $this->dictionary = $dictionary;
 
         return $this;
     }
