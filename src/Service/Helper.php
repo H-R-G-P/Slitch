@@ -7,7 +7,7 @@ namespace App\Service;
 class Helper
 {
     /**
-     * Comparing values of arrays in lower case
+     * Comparing values of arrays case insensitive
      * @param array $array1
      * @param array $array2
      * @param array $array3
