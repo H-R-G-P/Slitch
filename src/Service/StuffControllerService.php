@@ -25,13 +25,17 @@ class StuffControllerService
      *
      * @return Word[]
      */
-    public function getNotLearnedWords(Stuff $stuff, LearnedWordsRepository $lwr, UntranslatableWordsRepository $uwr) : array
+    public function getNotLearnedWords(Stuff $stuff, LearnedWordsRepository $lwr, UntranslatableWordsRepository $uwr, Helper $helper = null) : array
     {
+        if ($helper === null) {
+            $helper = new Helper();
+        }
+
         $textProcessor = new TextProcessor();
 
         $decodeText = html_entity_decode($stuff->getText(), ENT_QUOTES, 'utf-8');
         $uniqWords = $textProcessor->getUniqWords($decodeText, $stuff->getLanguage());
-        $notLearnedWords = Helper::array_diff_inLowercase($uniqWords, $lwr->findAll(), $uwr->findAll());
+        $notLearnedWords = $helper->array_diff_inLowercase($uniqWords, $lwr->findAll(), $uwr->findAll());
         if ($stuff->getHasDelimiters()) {
             $uniqWordsObj = $textProcessor->getUniqWordsObj($decodeText, $stuff->getLanguage());
 
@@ -39,7 +43,7 @@ class StuffControllerService
         }else {
             $wordsObj = [];
             foreach ($notLearnedWords as $word) {
-                $context = Helper::getContext($decodeText, $word);
+                $context = $helper->getContext($decodeText, $word);
                 $wordsObj[] = new Word($word, $context);
             }
 
