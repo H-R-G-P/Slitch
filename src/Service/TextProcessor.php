@@ -365,7 +365,9 @@ class TextProcessor
      */
     public function getUniqWords(string $text, string $language): array
     {
-        return Helper::array_uniqueCaseInsensitive($this->getWords($text, $language));
+        $helper = new Helper();
+
+        return $helper->array_uniqueCaseInsensitive($this->getWords($text, $language));
     }
 
     /**
@@ -376,7 +378,9 @@ class TextProcessor
      */
     public function getUniqWordsObj(string $text, string $language): array
     {
-        return Helper::array_uniqueCaseInsensitive($this->getWordsObj($text, $language));
+        $helper = new Helper();
+
+        return $helper->array_uniqueCaseInsensitive($this->getWordsObj($text, $language));
     }
 
     /**
