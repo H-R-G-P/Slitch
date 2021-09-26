@@ -1,14 +1,16 @@
 <?php
 
-namespace App\Vo;
+namespace Tests\App\Vo;
 
 use App\Dto\Texts;
 use App\Entity\Languages;
+use App\Vo\Statistic;
+use Exception;
 use PHPUnit\Framework\TestCase;
 
 class StatisticTest extends TestCase
 {
-    public function testSetMatchesAll()
+    public function testSetMatchesAll(): void
     {
         $stat = new Statistic();
         $texts = new Texts();
@@ -19,7 +21,11 @@ class StatisticTest extends TestCase
             't f k',
             't g l u',
         ));
-        $stat->setMatchesAllPerc($texts);
+        try {
+            $stat->setMatchesAllPerc($texts);
+        } catch (Exception $e) {
+            self::assertSame(1, 0, $e->getMessage());
+        }
         self::assertSame(40, $stat->getMatchesAllPerc());
 
         $texts->setLanguage((new Languages())->setName('english'));
@@ -28,11 +34,15 @@ class StatisticTest extends TestCase
             'I am Tania',
             'i Am Roma',
         ));
-        $stat->setMatchesAllPerc($texts);
+        try {
+            $stat->setMatchesAllPerc($texts);
+        } catch (Exception $e) {
+            self::assertSame(1, 0, $e->getMessage());
+        }
         self::assertSame(66, $stat->getMatchesAllPerc());
     }
 
-    public function testSetMatches()
+    public function testSetMatches(): void
     {
         $stat = new Statistic();
         $texts = new Texts();
@@ -43,7 +53,11 @@ class StatisticTest extends TestCase
             't f k',
             't g l u j q p',
         ));
-        $stat->setMatchesPerc($texts);
+        try {
+            $stat->setMatchesPerc($texts);
+        } catch (Exception $e) {
+            self::assertSame(1, 0, $e->getMessage());
+        }
         self::assertSame(10, $stat->getMatchesPerc());
 
         $texts->setLanguage((new Languages())->setName('english'));
@@ -52,7 +66,11 @@ class StatisticTest extends TestCase
             'I am Tania',
             'i Am Roma',
         ));
-        $stat->setMatchesPerc($texts);
+        try {
+            $stat->setMatchesPerc($texts);
+        } catch (Exception $e) {
+            self::assertSame(1, 0, $e->getMessage());
+        }
         self::assertSame(40, $stat->getMatchesPerc());
     }
 }

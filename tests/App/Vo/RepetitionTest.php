@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Vo;
+namespace Tests\App\Vo;
 
 use App\Dto\Texts;
 use App\Entity\Languages;
+use App\Vo\Repetition;
 use PHPUnit\Framework\TestCase;
 
 class RepetitionTest extends TestCase
 {
 
-    public function testSetRepetition()
+    public function testSetRepetition(): void
     {
         $repetition = new Repetition();
         $texts = new Texts();

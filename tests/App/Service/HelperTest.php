@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Service;
+namespace Tests\App\Service;
 
+use App\Service\Helper;
 use App\Vo\Word;
 use PHPUnit\Framework\TestCase;
 
 class HelperTest extends TestCase
 {
-    public function testArray_uniqueCaseInsensitive()
+    public function testArray_uniqueCaseInsensitive(): void
     {
         $helper = new Helper();
 
@@ -28,7 +29,7 @@ class HelperTest extends TestCase
         self::assertSame($expected, $actual);
     }
 
-    public function testArray_diff_inLowercase()
+    public function testArray_diff_inLowercase(): void
     {
         $helper = new Helper();
 
@@ -738,7 +739,7 @@ class HelperTest extends TestCase
         self::assertSame($expected, $actual);
     }
 
-    public function testGetContext()
+    public function testGetContext(): void
     {
         $helper = new Helper();
 

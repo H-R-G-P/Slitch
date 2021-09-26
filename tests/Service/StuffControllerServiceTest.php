@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Service;
+namespace Tests\Service;
 
 use App\Entity\Languages;
 use App\Entity\Stuff;
@@ -8,12 +8,13 @@ use App\Repository\LearnedWordsRepository;
 use App\Repository\UntranslatableWordsRepository;
 use App\Service\Helper;
 use App\Service\StuffControllerService;
+use Exception;
 use PHPUnit\Framework\TestCase;
 
 class StuffControllerServiceTest extends TestCase
 {
 
-    public function testGetNotLearnedWordsWithDelimiter()
+    public function testGetNotLearnedWordsWithDelimiter(): void
     {
         $service = new StuffControllerService();
         $text = 'test.';
@@ -50,10 +51,14 @@ class StuffControllerServiceTest extends TestCase
             )
             ->willReturn(['test']);
 
-        $service->getNotLearnedWords($stuff, $lwr, $uwr, $helper);
+        try {
+            $service->getNotLearnedWords($stuff, $lwr, $uwr, $helper);
+        } catch (Exception $e) {
+            self::assertSame(1, 0, $e->getMessage());
+        }
     }
 
-    public function testGetNotLearnedWordsWithoutDelimiter()
+    public function testGetNotLearnedWordsWithoutDelimiter(): void
     {
         $service = new StuffControllerService();
         $text = 'test word.';
@@ -90,7 +95,11 @@ class StuffControllerServiceTest extends TestCase
             )
             ->willReturn(['test']);
 
-        $service->getNotLearnedWords($stuff, $lwr, $uwr, $helper);
+        try {
+            $service->getNotLearnedWords($stuff, $lwr, $uwr, $helper);
+        } catch (Exception $e) {
+            self::assertSame(1, 0, $e->getMessage());
+        }
 
     }
 }
