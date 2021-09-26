@@ -48,18 +48,18 @@ class Helper
      * @return string
      */
     public function getContext(string $text, string $word) : string
-    {
-        if (preg_match("/^.{0,55}$word.{0,55}$/s", $text, $matches)) {
+    {;
+        if (preg_match("/^.{0,55}$word.{0,55}$/s", $text, $matches) === 0) {
             return $matches[0];
-        }elseif (preg_match("/^.{0,55}$word.{0,55}\s/s", $text, $matches)) {
+        }elseif (preg_match("/^.{0,55}$word.{0,55}\s/s", $text, $matches) === 0) {
             return preg_replace([
                 "/\s$/"
             ], '', $matches[0]);
-        }elseif (preg_match("/\s.{0,55}$word.{0,55}$/s", $text, $matches)) {
+        }elseif (preg_match("/\s.{0,55}$word.{0,55}$/s", $text, $matches) === 0) {
             return preg_replace([
                 "/^\s/"
             ], '', $matches[0]);
-        }elseif (preg_match("/\s.{0,55}$word.{0,55}\s/s", $text, $matches)) {
+        }elseif (preg_match("/\s.{0,55}$word.{0,55}\s/s", $text, $matches) === 0) {
             return preg_replace([
                 "/^\s/",
                 "/\s$/",
