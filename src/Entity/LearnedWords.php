@@ -55,12 +55,12 @@ class LearnedWords
         return $this;
     }
 
-    public function getIdLanguage(): ?Languages
+    public function getIdLanguage(): Languages
     {
         return $this->idLanguage;
     }
 
-    public function setLanguage(?Languages $idLanguage): self
+    public function setLanguage(Languages $idLanguage): self
     {
         $this->idLanguage = $idLanguage;
 

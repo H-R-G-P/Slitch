@@ -19,14 +19,14 @@ class UntranslatableWords
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="word", type="string", length=25, nullable=false)
      */
-    private $word;
+    private string $word;
 
     /**
      * @var Languages
@@ -36,7 +36,7 @@ class UntranslatableWords
      *   @ORM\JoinColumn(name="id_language", referencedColumnName="id")
      * })
      */
-    private $idLanguage;
+    private Languages $idLanguage;
 
     public function getId(): ?int
     {
@@ -55,12 +55,12 @@ class UntranslatableWords
         return $this;
     }
 
-    public function getIdLanguage(): ?Languages
+    public function getIdLanguage(): Languages
     {
         return $this->idLanguage;
     }
 
-    public function setLanguage(?Languages $idLanguage): self
+    public function setLanguage(Languages $idLanguage): self
     {
         $this->idLanguage = $idLanguage;
 
