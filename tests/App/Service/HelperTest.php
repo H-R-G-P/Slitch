@@ -737,6 +737,15 @@ class HelperTest extends TestCase
             'erwerewr',
         );
         self::assertSame($expected, $actual);
+
+        $array1 = array(null
+        );
+        $array2 = array(1);
+        $array3 = array(null);
+        $actual = $helper->array_diff_inLowercase($array1, $array2, $array3);
+        $expected = array(
+        );
+        self::assertSame($expected, $actual);
     }
 
     public function testGetContext(): void
