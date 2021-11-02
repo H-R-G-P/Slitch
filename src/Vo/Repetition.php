@@ -45,7 +45,7 @@ class Repetition
      */
     private int $frequent = 0;
 
-    public function setRepetition(Texts $texts)
+    public function setRepetition(Texts $texts): void
     {
         $textProcessor = new TextProcessor();
         $allRepeats = [];

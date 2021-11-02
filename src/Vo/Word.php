@@ -27,7 +27,7 @@ class Word
         return $this->word;
     }
 
-    public function setContext(string $word, string $context)
+    public function setContext(string $word, string $context): void
     {
         $result = preg_replace(
             '/\b'.$word.'\b/u',
