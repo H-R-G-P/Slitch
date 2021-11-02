@@ -11,6 +11,9 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method PareOfWords|null findOneBy(array $criteria, array $orderBy = null)
  * @method PareOfWords[]    findAll()
  * @method PareOfWords[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
+ * @template PareOfWords
+ * @extends ServiceEntityRepository<PareOfWords::class>
  */
 class PareOfWordsRepository extends ServiceEntityRepository
 {

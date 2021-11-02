@@ -11,6 +11,9 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method LearnedWords|null findOneBy(array $criteria, array $orderBy = null)
  * @method LearnedWords[]    findAll()
  * @method LearnedWords[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
+ * @template LearnedWords
+ * @extends ServiceEntityRepository<LearnedWords::class>
  */
 class LearnedWordsRepository extends ServiceEntityRepository
 {

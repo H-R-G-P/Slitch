@@ -11,6 +11,9 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Dictionary|null findOneBy(array $criteria, array $orderBy = null)
  * @method Dictionary[]    findAll()
  * @method Dictionary[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
+ * @template Dictionary
+ * @extends ServiceEntityRepository<Dictionary::class>
  */
 class DictionaryRepository extends ServiceEntityRepository
 {
