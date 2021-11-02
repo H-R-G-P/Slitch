@@ -85,7 +85,6 @@ class Stuff
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="language_id", referencedColumnName="id")
      * })
-     * @ORM\Column(type="int", nullable=false)
      */
     private Languages $language;
 
