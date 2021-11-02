@@ -29,11 +29,11 @@ class StuffController extends AbstractController
     /**
      * @Route("/", name="show_all_stuffs")
      *
-     * @param Users $user
+     * @param UserInterface $user
      *
      * @return Response
      */
-    public function index(Users $user) : Response
+    public function index(UserInterface $user) : Response
     {
         $data = $this->getDoctrine()
             ->getRepository(Stuff::class)
@@ -50,11 +50,11 @@ class StuffController extends AbstractController
      *
      * @param Request $request
      * @param TextProcessor $textProcessor
-     * @param Users $user
+     * @param UserInterface $user
      *
      * @return Response
      */
-    public function add(Request $request, TextProcessor $textProcessor, Users $user) : Response
+    public function add(Request $request, TextProcessor $textProcessor, UserInterface $user) : Response
     {
         $stuff = new Stuff();
         $form = $this->createForm(StuffType::class, $stuff);
@@ -158,11 +158,11 @@ class StuffController extends AbstractController
      * @param Request $request
      * @param StuffRepository $stuffRep
      * @param TextProcessor $textProcessor
-     * @param Users $user
+     * @param UserInterface $user
      *
      * @return Response
      */
-    public function edit(int $id, Request $request, StuffRepository $stuffRep, TextProcessor $textProcessor, Users $user) : Response
+    public function edit(int $id, Request $request, StuffRepository $stuffRep, TextProcessor $textProcessor, UserInterface $user) : Response
     {
         $stuff = $stuffRep->findOneBy([
             'id' => $id,
