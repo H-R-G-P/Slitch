@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Dto\Texts;
 use App\Form\TextsType;
 use App\Vo\Statistic;
+use Exception;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,6 +25,8 @@ class StatisticController extends AbstractController
      * @param Request $request
      *
      * @return Response
+     *
+     * @throws Exception
      */
     public function getStats(Request $request) : Response
     {

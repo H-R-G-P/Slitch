@@ -11,6 +11,9 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Languages|null findOneBy(array $criteria, array $orderBy = null)
  * @method Languages[]    findAll()
  * @method Languages[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
+ * @template Languages
+ * @extends ServiceEntityRepository<Languages::class>
  */
 class LanguagesRepository extends ServiceEntityRepository
 {

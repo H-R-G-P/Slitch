@@ -27,6 +27,8 @@ class Dictionary
 
     /**
      * @ORM\OneToMany(targetEntity=PareOfWords::class, mappedBy="dictionary", orphanRemoval=true)
+     *
+     * @var Collection<int, PareOfWords>
      */
     private Collection $pareOfWords;
 
@@ -53,7 +55,7 @@ class Dictionary
     }
 
     /**
-     * @return Collection|PareOfWords[]
+     * @return Collection<int, PareOfWords>
      */
     public function getPareOfWords(): Collection
     {

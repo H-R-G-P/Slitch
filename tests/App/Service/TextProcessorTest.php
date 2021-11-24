@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Service;
+namespace Tests\App\Service;
 
+use App\Service\TextProcessor;
+use App\Vo\Word;
 use Exception;
 use PHPUnit\Framework\TestCase;
-use App\Vo\Word;
 
 class TextProcessorTest extends TestCase
 {
-    public function testProcessEnter()
+    public function testProcessEnter(): void
     {
         $processor = new TextProcessor();
 
@@ -79,7 +80,7 @@ class TextProcessorTest extends TestCase
         self::assertSame("Start End", $actual);
     }
 
-    public function testProcessSpaces()
+    public function testProcessSpaces(): void
     {
         $processor = new TextProcessor();
 
@@ -150,7 +151,7 @@ class TextProcessorTest extends TestCase
         self::assertSame("Start End", $actual);
     }
 
-    public function testProcessHyphens()
+    public function testProcessHyphens(): void
     {
         $processor = new TextProcessor();
 
@@ -211,7 +212,7 @@ class TextProcessorTest extends TestCase
         );
     }
 
-    public function testProcessDots()
+    public function testProcessDots(): void
     {
         $processor = new TextProcessor();
 
@@ -264,7 +265,7 @@ class TextProcessorTest extends TestCase
         );
     }
 
-    public function testProcessShortWordsWithApostrophe()
+    public function testProcessShortWordsWithApostrophe(): void
     {
         $processor = new TextProcessor();
 
@@ -296,7 +297,7 @@ class TextProcessorTest extends TestCase
         self::assertSame("will End", $actual);
     }
 
-    public function testExpandAbbreviations()
+    public function testExpandAbbreviations(): void
     {
         $processor = new TextProcessor();
 
@@ -304,7 +305,7 @@ class TextProcessorTest extends TestCase
         self::assertSame("madam. madam", $actual);
     }
 
-    public function testMarkEndsOfSentences()
+    public function testMarkEndsOfSentences(): void
     {
         $processor = new TextProcessor();
 
@@ -327,7 +328,7 @@ class TextProcessorTest extends TestCase
         self::assertSame("End?", $actual);
     }
 
-    public function testRemainAlphabetSpacesHyphens()
+    public function testRemainAlphabetSpacesHyphens(): void
     {
         $processor = new TextProcessor();
 
@@ -362,7 +363,7 @@ class TextProcessorTest extends TestCase
         self::assertSame("StartąćęłńóśźżĄĆĘŁŃÓŚŹŻ End", $actual);
     }
 
-    public function testProcessBraked()
+    public function testProcessBraked(): void
     {
         $processor = new TextProcessor();
 
@@ -403,7 +404,7 @@ class TextProcessorTest extends TestCase
         self::assertSame("Start. something End", $actual);
     }
 
-    public function testProcessWhitespaces()
+    public function testProcessWhitespaces(): void
     {
         $processor = new TextProcessor();
 
@@ -444,7 +445,7 @@ class TextProcessorTest extends TestCase
         self::assertSame("Start. something End", $actual);
     }
 
-    public function testSplitOnChars()
+    public function testSplitOnChars(): void
     {
         $processor = new TextProcessor();
 
@@ -486,7 +487,7 @@ class TextProcessorTest extends TestCase
         );
     }
 
-    public function testGetWords()
+    public function testGetWords(): void
     {
         $processor = new TextProcessor();
 
@@ -502,7 +503,7 @@ class TextProcessorTest extends TestCase
         self::assertSame(['Start','coś','tu','zostanie','napisane','Start','Jeśli','End'], $actual);
     }
 
-    public function testGetWordsObj()
+    public function testGetWordsObj(): void
     {
         $processor = new TextProcessor();
 
@@ -517,7 +518,7 @@ class TextProcessorTest extends TestCase
         self::assertContainsOnlyInstancesOf(Word::class, $words);
     }
 
-    public function testGetUniqWords()
+    public function testGetUniqWords(): void
     {
         $processor = new TextProcessor();
 
@@ -533,7 +534,7 @@ class TextProcessorTest extends TestCase
         self::assertSame(['Start','coś','tu','zostanie','napisane','Jeśli','End'], $actual);
     }
 
-    public function testGetUniqWordsObj()
+    public function testGetUniqWordsObj(): void
     {
         $processor = new TextProcessor();
 
@@ -559,7 +560,7 @@ class TextProcessorTest extends TestCase
         self::assertSame('End', "$words[6]");
     }
 
-    public function testGetSentences()
+    public function testGetSentences(): void
     {
         $processor = new TextProcessor();
 

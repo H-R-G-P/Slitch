@@ -3,9 +3,8 @@
 
 namespace App\Controller;
 
-use App\Entity\LearnedWords;
 use App\Entity\Stuff;
-use App\Entity\UntranslatableWords;
+use App\Entity\Users;
 use App\Form\StuffType;
 use App\Repository\LearnedWordsRepository;
 use App\Repository\StuffRepository;
@@ -18,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Class StuffController
@@ -28,13 +28,17 @@ class StuffController extends AbstractController
 {
     /**
      * @Route("/", name="show_all_stuffs")
+     *
+     * @param UserInterface $user
+     *
+     * @return Response
      */
-    public function index() : Response
+    public function index(UserInterface $user) : Response
     {
         $data = $this->getDoctrine()
             ->getRepository(Stuff::class)
             ->findBy(
-                ['user' => $this->getUser()->getId()],
+                ['user' => $user->getId()],
                 ['addedAt' => 'DESC'],
             );
 
@@ -43,8 +47,14 @@ class StuffController extends AbstractController
 
     /**
      * @Route("/add", name="add_stuff", methods={"GET", "POST"})
+     *
+     * @param Request $request
+     * @param TextProcessor $textProcessor
+     * @param UserInterface $user
+     *
+     * @return Response
      */
-    public function add(Request $request, TextProcessor $textProcessor) : Response
+    public function add(Request $request, TextProcessor $textProcessor, UserInterface $user) : Response
     {
         $stuff = new Stuff();
         $form = $this->createForm(StuffType::class, $stuff);
@@ -62,7 +72,7 @@ class StuffController extends AbstractController
             $stuff->setWordCount($textInfo->getWordCount());
             $stuff->setUniqWordCount($textInfo->getUniqWordCount());
             $stuff->setAddedAt(new DateTime());
-            $stuff->setUser($this->getUser());
+            $stuff->setUser($user);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($stuff);
@@ -80,7 +90,10 @@ class StuffController extends AbstractController
 
     /**
      * @Route("/delete/{id}", name="delete_stuff", methods={"GET"}, requirements={"id"="%app.id_regex%"})
+     *
      * @param int $id
+     * @param StuffRepository $stuffRep
+     *
      * @return Response
      */
     public function delete(int $id, StuffRepository $stuffRep) : Response
@@ -108,8 +121,15 @@ class StuffController extends AbstractController
 
     /**
      * @Route("/show/{id}", name="show_stuff", methods={"GET"}, requirements={"id"="%app.id_regex%"})
+     *
      * @param int $id
+     * @param StuffRepository $stuffRep
+     * @param LearnedWordsRepository $lwr
+     * @param UntranslatableWordsRepository $uwr
+     *
      * @return Response
+     *
+     * @throws Exception
      */
     public function show(int $id, StuffRepository $stuffRep, LearnedWordsRepository $lwr, UntranslatableWordsRepository $uwr) : Response
     {
@@ -133,10 +153,16 @@ class StuffController extends AbstractController
 
     /**
      * @Route("/edit/{id}", name="edit_stuff", methods={"GET", "POST"}, requirements={"id"="%app.id_regex%"})
+     *
      * @param int $id
+     * @param Request $request
+     * @param StuffRepository $stuffRep
+     * @param TextProcessor $textProcessor
+     * @param UserInterface $user
+     *
      * @return Response
      */
-    public function edit(int $id, Request $request, StuffRepository $stuffRep, TextProcessor $textProcessor) : Response
+    public function edit(int $id, Request $request, StuffRepository $stuffRep, TextProcessor $textProcessor, UserInterface $user) : Response
     {
         $stuff = $stuffRep->findOneBy([
             'id' => $id,
@@ -163,7 +189,7 @@ class StuffController extends AbstractController
                 $stuff->setWordCount($textInfo->getWordCount());
                 $stuff->setUniqWordCount($textInfo->getUniqWordCount());
                 $stuff->setAddedAt(new DateTime());
-                $stuff->setUser($this->getUser());
+                $stuff->setUser($user);
 
                 $em = $this->getDoctrine()->getManager();
                 try {

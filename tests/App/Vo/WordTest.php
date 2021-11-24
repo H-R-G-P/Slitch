@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Vo;
+namespace Tests\App\Vo;
 
+use App\Vo\Word;
 use PHPUnit\Framework\TestCase;
 
 class WordTest extends TestCase
 {
 
-    public function testSetContext()
+    public function testSetContext(): void
     {
         $Word = new Word("center", "Start center End");
         self::assertSame(

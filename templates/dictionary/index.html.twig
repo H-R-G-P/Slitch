@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dictionary for {{ stuff.name }}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">original</th>
+                    <th scope="col">translation</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pare_of_words in dictionary.pareOfWords %}
+                    <tr>
+                        <td>{{ pare_of_words.original }}</td>
+                        <td>{{ pare_of_words.translation }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

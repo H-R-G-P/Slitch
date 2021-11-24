@@ -1,14 +1,17 @@
 <?php
 
-namespace App\Service;
+namespace Tests\App\Service;
 
+use App\Service\Helper;
 use App\Vo\Word;
 use PHPUnit\Framework\TestCase;
 
 class HelperTest extends TestCase
 {
-    public function testArray_uniqueCaseInsensitive()
+    public function testArray_uniqueCaseInsensitive(): void
     {
+        $helper = new Helper();
+
         $input = [
             'Case',
             'CASE',
@@ -17,7 +20,7 @@ class HelperTest extends TestCase
             'insT',
             'ONE',
         ];
-        $actual = Helper::array_uniqueCaseInsensitive($input);
+        $actual = $helper->array_uniqueCaseInsensitive($input);
         $expected = [
             'Case',
             'inst',
@@ -26,8 +29,10 @@ class HelperTest extends TestCase
         self::assertSame($expected, $actual);
     }
 
-    public function testArray_diff_inLowercase()
+    public function testArray_diff_inLowercase(): void
     {
+        $helper = new Helper();
+
         $array1 = array(
             'sTay1',
             'Leave1',
@@ -40,7 +45,7 @@ class HelperTest extends TestCase
         $array3 = array(
             'leave2',
         );
-        $actual = Helper::array_diff_inLowercase($array1, $array2, $array3);
+        $actual = $helper->array_diff_inLowercase($array1, $array2, $array3);
         $expected = array(
             'sTay1',
             'STAY2',
@@ -59,7 +64,7 @@ class HelperTest extends TestCase
         $array3 = array(
             'leave2',
         );
-        $words = Helper::array_diff_inLowercase($array1, $array2, $array3);
+        $words = $helper->array_diff_inLowercase($array1, $array2, $array3);
         self::assertSame('sTay1', "$words[0]");
         self::assertSame('STAY2', "$words[1]");
 
@@ -75,14 +80,14 @@ class HelperTest extends TestCase
         $array3 = array(
             'leave2',
         );
-        $words = Helper::array_diff_inLowercase($array1, $array2, $array3);
+        $words = $helper->array_diff_inLowercase($array1, $array2, $array3);
         self::assertSame('sT-ay1', "$words[0]");
         self::assertSame('STAY2', "$words[1]");
 
         $array1 = ['on', 'erwerewr'];
         $array2 = ['on'];
         $array3 = [];
-        $actual = Helper::array_diff_inLowercase($array1, $array2, $array3);
+        $actual = $helper->array_diff_inLowercase($array1, $array2, $array3);
         $expected = array(
             'erwerewr',
         );
@@ -138,7 +143,7 @@ class HelperTest extends TestCase
                 44 => 'valhalla',
                 45 => 'vegas',
             );
-        $actual = Helper::array_diff_inLowercase($array1, $array2, $array3);
+        $actual = $helper->array_diff_inLowercase($array1, $array2, $array3);
         $expected = array(
             'erwerewr',
         );
@@ -332,7 +337,7 @@ class HelperTest extends TestCase
                 44 => 'valhalla',
                 45 => 'vegas',
             );
-        $actual = Helper::array_diff_inLowercase($array1, $array2, $array3);
+        $actual = $helper->array_diff_inLowercase($array1, $array2, $array3);
         $expected = array(
             'erwerewr',
         );
@@ -727,177 +732,188 @@ class HelperTest extends TestCase
                 44 => 'valhalla',
                 45 => 'vegas',
             );
-        $actual = Helper::array_diff_inLowercase($array1, $array2, $array3);
+        $actual = $helper->array_diff_inLowercase($array1, $array2, $array3);
         $expected = array(
             'erwerewr',
         );
         self::assertSame($expected, $actual);
+
+        $array1 = array(null
+        );
+        $array2 = array(1);
+        $array3 = array(null);
+        $actual = $helper->array_diff_inLowercase($array1, $array2, $array3);
+        $expected = array(
+        );
+        self::assertSame($expected, $actual);
     }
 
-    public function testGetContext()
+    public function testGetContext(): void
     {
-/*        $text = "other text|----------------full-left-part-----------------------|word|---------------full-right-part-----------------------|other text";
+        $helper = new Helper();
+
+        $text = "other text|----------------full-left-part-----------------------|word|---------------full-right-part-----------------------|other text";
         $word = "word";
-        $actual = Helper::getContext($text, $word);
+        $actual = $helper->getContext($text, $word);
         $expected = "|----------------full-left-part-----------------------|word|---------------full-right-part-----------------------|";
         self::assertSame($expected, $actual);
 
         $text = "other text|----------------full-left-part-----------------------|word|---------------full-right-part-----------------------|";
         $word = "word";
-        $actual = Helper::getContext($text, $word);
+        $actual = $helper->getContext($text, $word);
         $expected = "|----------------full-left-part-----------------------|word|---------------full-right-part-----------------------|";
         self::assertSame($expected, $actual);
 
         $text = "other text|----------------full-left-part-----------------------|word";
         $word = "word";
-        $actual = Helper::getContext($text, $word);
+        $actual = $helper->getContext($text, $word);
         $expected = "|----------------full-left-part-----------------------|word";
         self::assertSame($expected, $actual);
 
         $text = "|----------------full-left-part-----------------------|word|---------------full-right-part-----------------------|other text";
         $word = "word";
-        $actual = Helper::getContext($text, $word);
+        $actual = $helper->getContext($text, $word);
         $expected = "|----------------full-left-part-----------------------|word|---------------full-right-part-----------------------|";
         self::assertSame($expected, $actual);
 
         $text = "|----------------full-left-part-----------------------|word|---------------full-right-part-----------------------|";
         $word = "word";
-        $actual = Helper::getContext($text, $word);
+        $actual = $helper->getContext($text, $word);
         $expected = "|----------------full-left-part-----------------------|word|---------------full-right-part-----------------------|";
         self::assertSame($expected, $actual);
 
         $text = "|----------------full-left-part-----------------------|word";
         $word = "word";
-        $actual = Helper::getContext($text, $word);
+        $actual = $helper->getContext($text, $word);
         $expected = "|----------------full-left-part-----------------------|word";
         self::assertSame($expected, $actual);
 
         $text = "word|---------------full-right-part-----------------------|other text";
         $word = "word";
-        $actual = Helper::getContext($text, $word);
+        $actual = $helper->getContext($text, $word);
         $expected = "word|---------------full-right-part-----------------------|";
         self::assertSame($expected, $actual);
 
         $text = "word|---------------full-right-part-----------------------|";
         $word = "word";
-        $actual = Helper::getContext($text, $word);
+        $actual = $helper->getContext($text, $word);
         $expected = "word|---------------full-right-part-----------------------|";
         self::assertSame($expected, $actual);
 
         $text = "other text|----------------full-left-part-----------------------|word|-----------not-full-right-part-----------|";
         $word = "word";
-        $actual = Helper::getContext($text, $word);
+        $actual = $helper->getContext($text, $word);
         $expected = "|----------------full-left-part-----------------------|word|-----------not-full-right-part-----------|";
         self::assertSame($expected, $actual);
 
         $text = "|----------------full-left-part-----------------------|word|-----------not-full-right-part-----------|";
         $word = "word";
-        $actual = Helper::getContext($text, $word);
+        $actual = $helper->getContext($text, $word);
         $expected = "|----------------full-left-part-----------------------|word|-----------not-full-right-part-----------|";
         self::assertSame($expected, $actual);
 
         $text = "|------------not-full-left-part------------|word|---------------full-right-part-----------------------|other text";
         $word = "word";
-        $actual = Helper::getContext($text, $word);
+        $actual = $helper->getContext($text, $word);
         $expected = "|------------not-full-left-part------------|word|---------------full-right-part-----------------------|";
         self::assertSame($expected, $actual);
 
         $text = "|------------not-full-left-part------------|word|---------------full-right-part-----------------------|";
         $word = "word";
-        $actual = Helper::getContext($text, $word);
+        $actual = $helper->getContext($text, $word);
         $expected = "|------------not-full-left-part------------|word|---------------full-right-part-----------------------|";
         self::assertSame($expected, $actual);
 
         $text = "|------------not-full-left-part------------|word|-----------not-full-right-part-----------|";
         $word = "word";
-        $actual = Helper::getContext($text, $word);
+        $actual = $helper->getContext($text, $word);
         $expected = "|------------not-full-left-part------------|word|-----------not-full-right-part-----------|";
         self::assertSame($expected, $actual);
 
         $text = "|------------not-full-left-part------------|word";
         $word = "word";
-        $actual = Helper::getContext($text, $word);
+        $actual = $helper->getContext($text, $word);
         $expected = "|------------not-full-left-part------------|word";
         self::assertSame($expected, $actual);
 
         $text = "word|-----------not-full-right-part-----------|";
         $word = "word";
-        $actual = Helper::getContext($text, $word);
+        $actual = $helper->getContext($text, $word);
         $expected = "word|-----------not-full-right-part-----------|";
         self::assertSame($expected, $actual);
 
         $text = "word";
         $word = "word";
-        $actual = Helper::getContext($text, $word);
+        $actual = $helper->getContext($text, $word);
         $expected = "word";
         self::assertSame($expected, $actual);
 
         $text = "word|text
         enter";
         $word = "word";
-        $actual = Helper::getContext($text, $word);
+        $actual = $helper->getContext($text, $word);
         $expected = "word|text
         enter";
-        self::assertSame($expected, $actual);*/
+        self::assertSame($expected, $actual);
 
         $text = "56 characters to the left of the word qwerty qwerty qwa central-word 57 characters to the right of the word qwerty qwerty qwa";
         $word = "central-word";
-        $actual = Helper::getContext($text, $word);
+        $actual = $helper->getContext($text, $word);
         $expected = "characters to the left of the word qwerty qwerty qwa central-word 57 characters to the right of the word qwerty qwerty";
         self::assertSame($expected, $actual);
 
         $text = "56 characters to the left of the word qwerty qwerty qwa central-word 47 characters to the right of the word qwerty.";
         $word = "central-word";
-        $actual = Helper::getContext($text, $word);
+        $actual = $helper->getContext($text, $word);
         $expected = "characters to the left of the word qwerty qwerty qwa central-word 47 characters to the right of the word qwerty.";
         self::assertSame($expected, $actual);
 
         $text = "56 characters to the left of the word qwerty qwerty qwa central-word";
         $word = "central-word";
-        $actual = Helper::getContext($text, $word);
+        $actual = $helper->getContext($text, $word);
         $expected = "characters to the left of the word qwerty qwerty qwa central-word";
         self::assertSame($expected, $actual);
 
         $text = "49 characters to the left of the word qwerty qwa central-word 57 characters to the right of the word qwerty qwerty qwa";
         $word = "central-word";
-        $actual = Helper::getContext($text, $word);
+        $actual = $helper->getContext($text, $word);
         $expected = "49 characters to the left of the word qwerty qwa central-word 57 characters to the right of the word qwerty qwerty";
         self::assertSame($expected, $actual);
 
         $text = "49 characters to the left of the word qwerty qwa central-word 47 characters to the right of the word qwerty.";
         $word = "central-word";
-        $actual = Helper::getContext($text, $word);
+        $actual = $helper->getContext($text, $word);
         $expected = "49 characters to the left of the word qwerty qwa central-word 47 characters to the right of the word qwerty.";
         self::assertSame($expected, $actual);
 
         $text = "49 characters to the left of the word qwerty qwa central-word";
         $word = "central-word";
-        $actual = Helper::getContext($text, $word);
+        $actual = $helper->getContext($text, $word);
         $expected = "49 characters to the left of the word qwerty qwa central-word";
         self::assertSame($expected, $actual);
 
         $text = "central-word 57 characters to the right of the word qwerty qwerty qwa";
         $word = "central-word";
-        $actual = Helper::getContext($text, $word);
+        $actual = $helper->getContext($text, $word);
         $expected = "central-word 57 characters to the right of the word qwerty qwerty";
         self::assertSame($expected, $actual);
 
         $text = "central-word 47 characters to the right of the word qwerty.";
         $word = "central-word";
-        $actual = Helper::getContext($text, $word);
+        $actual = $helper->getContext($text, $word);
         $expected = "central-word 47 characters to the right of the word qwerty.";
         self::assertSame($expected, $actual);
 
         $text = "word";
         $word = "word";
-        $actual = Helper::getContext($text, $word);
+        $actual = $helper->getContext($text, $word);
         $expected = "word";
         self::assertSame($expected, $actual);
 
         $text = "word text
         enter";
         $word = "word";
-        $actual = Helper::getContext($text, $word);
+        $actual = $helper->getContext($text, $word);
         $expected = "word text
         enter";
         self::assertSame($expected, $actual);

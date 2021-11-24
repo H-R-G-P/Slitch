@@ -7,13 +7,13 @@ namespace App\Service;
 class Helper
 {
     /**
-     * Comparing values of arrays in lower case
+     * Comparing values of arrays case insensitive
      * @param array $array1
      * @param array $array2
      * @param array $array3
      * @return array
      */
-    public static function array_diff_inLowercase(array $array1, array $array2, array $array3) : array
+    public function array_diff_inLowercase(array $array1, array $array2, array $array3) : array
     {
         $output = [];
         foreach ($array1 as $value) {
@@ -27,7 +27,7 @@ class Helper
         return $output;
     }
 
-    public static function array_uniqueCaseInsensitive(array $array) : array
+    public function array_uniqueCaseInsensitive(array $array) : array
     {
         $values = [];
         foreach ($array as $value) {
@@ -47,19 +47,19 @@ class Helper
      *
      * @return string
      */
-    public static function getContext(string $text, string $word) : string
-    {
-        if (preg_match("/^.{0,55}$word.{0,55}$/s", $text, $matches)) {
+    public function getContext(string $text, string $word) : string
+    {;
+        if (preg_match("/^.{0,55}$word.{0,55}$/s", $text, $matches) === 0) {
             return $matches[0];
-        }elseif (preg_match("/^.{0,55}$word.{0,55}\s/s", $text, $matches)) {
+        }elseif (preg_match("/^.{0,55}$word.{0,55}\s/s", $text, $matches) === 0) {
             return preg_replace([
                 "/\s$/"
             ], '', $matches[0]);
-        }elseif (preg_match("/\s.{0,55}$word.{0,55}$/s", $text, $matches)) {
+        }elseif (preg_match("/\s.{0,55}$word.{0,55}$/s", $text, $matches) === 0) {
             return preg_replace([
                 "/^\s/"
             ], '', $matches[0]);
-        }elseif (preg_match("/\s.{0,55}$word.{0,55}\s/s", $text, $matches)) {
+        }elseif (preg_match("/\s.{0,55}$word.{0,55}\s/s", $text, $matches) === 0) {
             return preg_replace([
                 "/^\s/",
                 "/\s$/",

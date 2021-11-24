@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Service;
+namespace Tests\App\Service;
 
+use App\Service\StatisticService;
 use PHPUnit\Framework\TestCase;
 
 class StatisticServiceTest extends TestCase
 {
-    public function testIntersect()
+    public function testIntersect(): void
     {
         $stat = new StatisticService();
 
@@ -25,7 +26,7 @@ class StatisticServiceTest extends TestCase
         self::assertSame([1 => 't'], $actual);
     }
 
-    public function testMerge()
+    public function testMerge(): void
     {
         $stat = new StatisticService();
 
@@ -44,7 +45,7 @@ class StatisticServiceTest extends TestCase
         ), $act);
     }
 
-    public function testGetSum()
+    public function testGetSum(): void
     {
         $stat = new StatisticService();
 
@@ -60,7 +61,7 @@ class StatisticServiceTest extends TestCase
         self::assertSame(35, $stat->getSum($a2, $a1));
     }
 
-    public function testCountRepeats()
+    public function testCountRepeats(): void
     {
         $stat = new StatisticService();
 

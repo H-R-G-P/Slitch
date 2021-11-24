@@ -23,6 +23,7 @@ class WordControllerService extends AbstractController
      */
     public function addWordsToDb(Words $words, ObjectManager $em, LearnedWordsRepository $lwr, UntranslatableWordsRepository $uwr) : void
     {
+        $helper = new Helper();
         $textProcessor = new TextProcessor();
         $language = $words->getLanguage();
 
@@ -34,7 +35,7 @@ class WordControllerService extends AbstractController
 
             $uniqLearnedWords = $textProcessor->getUniqWords($lowerLearnedWords, $language);
 
-            $learnedWords = Helper::array_diff_inLowercase($uniqLearnedWords, $allLearnedWords, $allUntranslatableWords);
+            $learnedWords = $helper->array_diff_inLowercase($uniqLearnedWords, $allLearnedWords, $allUntranslatableWords);
 
             foreach ($learnedWords as $lw) {
                 $word = new LearnedWords();
@@ -55,7 +56,7 @@ class WordControllerService extends AbstractController
 
             $uniqUntranslatableWords = $textProcessor->getUniqWords($lowerUntranslatableWords, $language);
 
-            $untranslatableWords = Helper::array_diff_inLowercase($uniqUntranslatableWords, $allLearnedWords, $allUntranslatableWords);
+            $untranslatableWords = $helper->array_diff_inLowercase($uniqUntranslatableWords, $allLearnedWords, $allUntranslatableWords);
 
             foreach ($untranslatableWords as $uw) {
                 $word = new UntranslatableWords();

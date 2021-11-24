@@ -20,49 +20,49 @@ class Stuff
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=100, nullable=false)
      */
-    private $name;
+    private string $name;
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="year_of_issue", type="integer", nullable=true)
      */
-    private $yearOfIssue;
+    private ?int $yearOfIssue;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="description", type="string", length=300, nullable=true)
      */
-    private $description;
+    private ?string $description;
 
     /**
      * @var string
      *
      * @ORM\Column(name="text", type="text", length=16777215, nullable=false)
      */
-    private $text;
+    private string $text;
 
     /**
      * @var string
      *
      * @ORM\Column(name="words", type="text", length=16777215, nullable=false, options={"comment"="Words separated by spaces"})
      */
-    private $words;
+    private string $words;
 
     /**
      * @var int
      *
      * @ORM\Column(name="word_count", type="integer", nullable=false)
      */
-    private $wordCount;
+    private int $wordCount;
 
     /**
      * @var int
@@ -86,7 +86,7 @@ class Stuff
      *   @ORM\JoinColumn(name="language_id", referencedColumnName="id")
      * })
      */
-    private $language;
+    private Languages $language;
 
     /**
      * @var StuffType
@@ -96,7 +96,7 @@ class Stuff
      *   @ORM\JoinColumn(name="type_id", referencedColumnName="id")
      * })
      */
-    private $type;
+    private StuffType $type;
 
     /**
      * @var Users
@@ -111,22 +111,22 @@ class Stuff
     /**
      * @ORM\Column(type="integer")
      */
-    private $uniq_word_count;
+    private ?int $uniq_word_count;
 
     /**
      * @ORM\Column(type="boolean", nullable=false)
      */
-    private $hasDelimiters;
+    private bool $hasDelimiters;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $isHandled;
+    private ?bool $isHandled;
 
     /**
      * @ORM\OneToOne(targetEntity=Dictionary::class, mappedBy="stuff", cascade={"persist", "remove"})
      */
-    private $dictionary;
+    private ?Dictionary $dictionary;
 
     public function getId(): ?int
     {
@@ -169,7 +169,7 @@ class Stuff
         return $this;
     }
 
-    public function getText(): ?string
+    public function getText(): string
     {
         return $this->text;
     }
@@ -229,36 +229,36 @@ class Stuff
         return $this;
     }
 
-    public function getLanguage(): ?Languages
+    public function getLanguage(): Languages
     {
         return $this->language;
     }
 
-    public function setLanguage(?Languages $language): self
+    public function setLanguage(Languages $language): self
     {
         $this->language = $language;
 
         return $this;
     }
 
-    public function getType(): ?StuffType
+    public function getType(): StuffType
     {
         return $this->type;
     }
 
-    public function setType(?StuffType $type): self
+    public function setType(StuffType $type): self
     {
         $this->type = $type;
 
         return $this;
     }
 
-    public function getUser(): ?Users
+    public function getUser(): Users
     {
         return $this->user;
     }
 
-    public function setUser(?Users $user): self
+    public function setUser(Users $user): self
     {
         $this->user = $user;
 

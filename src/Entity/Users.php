@@ -23,27 +23,27 @@ class Users implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="name", type="string", length=100, nullable=true)
      */
-    private $name;
+    private ?string $name;
 
     /**
-     * @var string|null
+     * @var string
      *
      * @ORM\Column(name="email", type="string", length=100, nullable=false)
      */
-    private $email;
+    private string $email;
 
     /**
      * @var string The hashed password
      * @ORM\Column(name="password", type="string", length=100, nullable=false)
      */
-    private $password;
+    private string $password;
 
     /**
      * @var \DateTime
@@ -53,9 +53,11 @@ class Users implements UserInterface
     private $createdAt = 'CURRENT_TIMESTAMP';
 
     /**
+     * @var array<string>
+     *
      * @ORM\Column(type="json")
      */
-    private $roles = [];
+    private array $roles = [];
 
     public function getId(): ?int
     {
@@ -108,6 +110,11 @@ class Users implements UserInterface
         return array_unique($roles);
     }
 
+    /**
+     * @param array<string> $roles
+     *
+     * @return $this
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -156,7 +163,7 @@ class Users implements UserInterface
     /**
      * @see UserInterface
      */
-    public function eraseCredentials()
+    public function eraseCredentials() : void
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;

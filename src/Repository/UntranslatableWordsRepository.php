@@ -11,6 +11,9 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method UntranslatableWords|null findOneBy(array $criteria, array $orderBy = null)
  * @method UntranslatableWords[]    findAll()
  * @method UntranslatableWords[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
+ * @template UntranslatableWords
+ * @extends ServiceEntityRepository<UntranslatableWords::class>
  */
 class UntranslatableWordsRepository extends ServiceEntityRepository
 {
