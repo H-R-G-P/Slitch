@@ -22,15 +22,27 @@ class DictionaryController extends AbstractController
 
         $dictionary = $stuff->getdictionary();
 
-        /*if ($dictionary === null){
-            $dictServ = new DictionaryService();
-
-            $dictionary = $dictServ->create();
-        }*/
+        if ($dictionary === null){
+            return $this->redirectToRoute('create_dictionary', ['stuffId' => $stuff->getId()]);
+        }
 
         return $this->render('dictionary/index.html.twig', [
             'dictionary' => $dictionary,
             'stuff' => $stuff,
         ]);
+    }
+
+    #[Route('/dictionary/create/{stuffId}', name: 'create_dictionary')]
+    public function create(int $stuffId, StuffRepository $stuffRep): Response
+    {
+        $stuff = $stuffRep->findOneBy([
+            'id' => $stuffId,
+        ]);
+        if (!$stuff) {
+            $this->addFlash('info', "Stuff with id: $stuffId does not exist");
+            return $this->redirectToRoute('show_all_stuffs');
+        }
+
+        return new Response("Create new dictionary");
     }
 }
