@@ -4,8 +4,9 @@
 
 {% block body %}
     <div class="container">
-        <table class="table">
-            <thead>
+        <h2 class="text-center font-weight-bold">Dictionary for {{ stuff.name }}</h2>
+        <table class="table table-light" style="border: 3px #0a0a0a solid">
+            <thead class="thead-dark">
                 <tr>
                     <th scope="col">original</th>
                     <th scope="col">translation</th>
@@ -14,8 +15,8 @@
             <tbody>
                 {% for pare_of_words in dictionary.pareOfWords %}
                     <tr>
-                        <td>{{ pare_of_words.original }}</td>
-                        <td>{{ pare_of_words.translation }}</td>
+                        <td style="border-right: 4px solid; border-bottom: 1px solid">{{ pare_of_words.original }}</td>
+                        <td style="border-bottom: 1px solid">{{ pare_of_words.translation }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
