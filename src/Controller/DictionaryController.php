@@ -4,13 +4,14 @@ namespace App\Controller;
 
 use App\Repository\StuffRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class DictionaryController extends AbstractController
 {
     #[Route('/dictionary/{stuffId}', name: 'dictionary')]
-    public function index(int $stuffId, StuffRepository $stuffRep): Response
+    public function index(int $stuffId, StuffRepository $stuffRep, Request $request): Response
     {
         $stuff = $stuffRep->findOneBy([
             'id' => $stuffId,
@@ -29,6 +30,7 @@ class DictionaryController extends AbstractController
         return $this->render('dictionary/index.html.twig', [
             'dictionary' => $dictionary,
             'stuff' => $stuff,
+            'selected_sorting' => $request->query->get('sortBy'),
         ]);
     }
 

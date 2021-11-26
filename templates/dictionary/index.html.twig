@@ -5,6 +5,20 @@
 {% block body %}
     <div class="container">
         <h2 class="text-center font-weight-bold">Dictionary for {{ stuff.name }}</h2>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="select-sorting">Sorting by</label>
+            </div>
+            <select class="custom-select" id="select-sorting">
+                {% if selected_sorting == 'quantityRepeats' %}
+                    <option value="textOrder">text order</option>
+                    <option value="quantityRepeats" selected>quantity repeats</option>
+                {% else %}
+                    <option value="textOrder" selected>text order</option>
+                    <option value="quantityRepeats">quantity repeats</option>
+                {% endif %}
+            </select>
+        </div>
         <table class="table table-light" style="border: 3px #0a0a0a solid">
             <thead class="thead-dark">
                 <tr>
@@ -22,4 +36,10 @@
             </tbody>
         </table>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('js/dictionary.js') }}"></script>
 {% endblock %}
