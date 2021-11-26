@@ -27,10 +27,10 @@
                 </tr>
             </thead>
             <tbody>
-                {% for pare_of_words in dictionary.pareOfWords %}
+                {% for pair in pairs_of_words %}
                     <tr>
-                        <td style="border-right: 4px solid; border-bottom: 1px solid">{{ pare_of_words.original }}</td>
-                        <td style="border-bottom: 1px solid">{{ pare_of_words.translation }}</td>
+                        <td style="border-right: 4px solid; border-bottom: 1px solid">{{ pair.original }}</td>
+                        <td style="border-bottom: 1px solid">{{ pair.translation }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
