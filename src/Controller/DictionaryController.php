@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\StuffRepository;
+use App\Service\StatisticService;
 use App\Service\TextProcessor;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DictionaryController extends AbstractController
 {
     #[Route('/dictionary/{stuffId}', name: 'dictionary')]
-    public function index(int $stuffId, StuffRepository $stuffRep, Request $request, TextProcessor $textProcessor): Response
+    public function index(int $stuffId, StuffRepository $stuffRep, Request $request, TextProcessor $textProcessor, StatisticService $statServ): Response
     {
         $stuff = $stuffRep->findOneBy([
             'id' => $stuffId,
@@ -27,7 +28,8 @@ class DictionaryController extends AbstractController
             return $this->redirectToRoute('create_dictionary', ['stuffId' => $stuff->getId()]);
         }
 
-        $uniqWords = $textProcessor->getUniqWords($stuff->getText(), $stuff->getLanguage());
+        /*======== START SORTING  ========*/
+        $uniqWords = $textProcessor->getUniqWords(mb_strtolower($stuff->getText()), $stuff->getLanguage());
         if(!$pareOfWords = $dictionary->getPareOfWords()){
             $pareOfWords = [];
         }
@@ -39,7 +41,19 @@ class DictionaryController extends AbstractController
         }
 
         $ownerWords = array_diff($originalWords, $uniqWords);
-        $textWords = array_intersect($uniqWords, $originalWords);
+        if ($request->query->get('sortBy') === 'quantityRepeats'){
+            $words = $textProcessor->getWords(mb_strtolower($stuff->getText()), $stuff->getLanguage());
+            $wordsRepeats = $statServ->countRepeats($words);
+            arsort($wordsRepeats, SORT_NUMERIC);
+            $uniqWords = [];
+            foreach ($wordsRepeats as $word => $repeats) {
+                $uniqWords[] = $word;
+            }
+            $textWords = array_intersect($uniqWords, $originalWords);
+        }else{
+            $textWords = array_intersect($uniqWords, $originalWords);
+        }
+
         $sortedWords = array_merge($textWords, $ownerWords);
         foreach ($pareOfWords as $pare) {
             $key = array_search($pare->getOriginal(), $sortedWords);
@@ -47,6 +61,8 @@ class DictionaryController extends AbstractController
                 $sortedWords[$key] = $pare;
             }
         }
+        /*======== END SORTING  ========*/
+//        TODO: remove comments above and move code to somewhere
 
         return $this->render('dictionary/index.html.twig', [
             'pairs_of_words' => $sortedWords,
