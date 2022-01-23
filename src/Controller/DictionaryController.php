@@ -84,4 +84,16 @@ class DictionaryController extends AbstractController
 
         return new Response("Create new dictionary");
     }
+
+    #[Route('/dictionary/show-pdf/{stuffId}', name: 'show_dictionary_pdf')]
+    public function showPdf()
+    {
+
+    }
+
+    #[Route('/dictionary/edit/{stuffId}', name: 'edit_dictionary')]
+    public function edit()
+    {
+
+    }
 }

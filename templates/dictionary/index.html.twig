@@ -18,6 +18,8 @@
                     <option value="quantityRepeats">quantity repeats</option>
                 {% endif %}
             </select>
+            <a href="{{ path('show_dictionary_pdf', {'stuffId': stuff.id}) }}" class="btn btn-default">Get PDF</a>
+            <a href="{{ path('edit_dictionary', {'stuffId': stuff.id}) }}" class="btn btn-default">Edit</a>
         </div>
         <table class="table table-light" style="border: 3px #0a0a0a solid">
             <thead class="thead-dark">
