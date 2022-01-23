@@ -3,3 +3,7 @@ $("#select-sorting").on('change', function() {
     let url = new URL(url_string);
     window.location.href = url.pathname + '?sortBy=' + this.selectedOptions[0].value;
 });
+
+$('#detPdfBtn').on('click', function () {
+
+})
