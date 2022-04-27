@@ -15,12 +15,12 @@ class PairOfWords
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private ?int $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=25)
      */
-    private ?string $original;
+    private string $original;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
@@ -32,12 +32,18 @@ class PairOfWords
      */
     private Stuff $stuff;
 
-    public function getId(): ?int
+    public function __construct(string $original, Stuff $stuff)
+    {
+        $this->original = $original;
+        $this->stuff = $stuff;
+    }
+
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getOriginal(): ?string
+    public function getOriginal(): string
     {
         return $this->original;
     }
