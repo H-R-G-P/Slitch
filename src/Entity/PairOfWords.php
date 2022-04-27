@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\PareOfWordsRepository;
+use App\Repository\PairOfWordsRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=PareOfWordsRepository::class)
+ * @ORM\Entity(repositoryClass=PairOfWordsRepository::class)
  */
-class PareOfWords
+class PairOfWords
 {
     /**
      * @ORM\Id
@@ -28,9 +28,9 @@ class PareOfWords
     private ?string $translation;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Stuff::class, inversedBy="pareOfWords")
+     * @ORM\ManyToOne(targetEntity=Stuff::class, inversedBy="pairOfWords")
      */
-    private $stuff;
+    private Stuff $stuff;
 
     public function getId(): ?int
     {
@@ -61,12 +61,12 @@ class PareOfWords
         return $this;
     }
 
-    public function getStuff(): ?Stuff
+    public function getStuff(): Stuff
     {
         return $this->stuff;
     }
 
-    public function setStuff(?Stuff $stuff): self
+    public function setStuff(Stuff $stuff): self
     {
         $this->stuff = $stuff;
 

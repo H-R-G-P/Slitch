@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Stuff
@@ -126,13 +126,15 @@ class Stuff
     private ?bool $isHandled;
 
     /**
-     * @ORM\OneToMany(targetEntity=PareOfWords::class, mappedBy="stuff")
+     * @ORM\OneToMany(targetEntity=PairOfWords::class, mappedBy="stuff")
+     *
+     * @var ArrayCollection<int, PairOfWords> $pairsOfWords
      */
-    private $pareOfWords;
+    private ArrayCollection $pairsOfWords;
 
     public function __construct()
     {
-        $this->pareOfWords = new ArrayCollection();
+        $this->pairsOfWords = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -224,12 +226,12 @@ class Stuff
         return $this;
     }
 
-    public function getAddedAt(): ?\DateTimeInterface
+    public function getAddedAt(): ?DateTimeInterface
     {
         return $this->addedAt;
     }
 
-    public function setAddedAt(\DateTimeInterface $addedAt): self
+    public function setAddedAt(DateTimeInterface $addedAt): self
     {
         $this->addedAt = $addedAt;
 
@@ -309,26 +311,26 @@ class Stuff
     }
 
     /**
-     * @return Collection|PareOfWords[]
+     * @return Collection|PairOfWords[]
      */
-    public function getPareOfWords(): Collection
+    public function getPairsOfWords(): Collection
     {
-        return $this->pareOfWords;
+        return $this->pairsOfWords;
     }
 
-    public function addPareOfWord(PareOfWords $pareOfWord): self
+    public function addPareOfWord(PairOfWords $pareOfWord): self
     {
-        if (!$this->pareOfWords->contains($pareOfWord)) {
-            $this->pareOfWords[] = $pareOfWord;
+        if (!$this->pairsOfWords->contains($pareOfWord)) {
+            $this->pairsOfWords[] = $pareOfWord;
             $pareOfWord->setStuff($this);
         }
 
         return $this;
     }
 
-    public function removePareOfWord(PareOfWords $pareOfWord): self
+    public function removePareOfWord(PairOfWords $pareOfWord): self
     {
-        if ($this->pareOfWords->removeElement($pareOfWord)) {
+        if ($this->pairsOfWords->removeElement($pareOfWord)) {
             // set the owning side to null (unless already changed)
             if ($pareOfWord->getStuff() === $this) {
                 $pareOfWord->setStuff(null);

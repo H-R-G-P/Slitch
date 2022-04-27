@@ -23,20 +23,20 @@ class DictionaryController extends AbstractController
             return $this->redirectToRoute('show_all_stuffs');
         }
 
-        $dictionary = $stuff->getdictionary();
-        if ($dictionary === null){
-            return $this->redirectToRoute('create_dictionary', ['stuffId' => $stuff->getId()]);
+        $pairsOfWords = $stuff->getPairsOfWords();
+        if ($pairsOfWords->count() === 0){
+            return $this->redirectToRoute('homepage');
         }
 
         /*======== START SORTING  ========*/
         $uniqWords = $textProcessor->getUniqWords(mb_strtolower($stuff->getText()), $stuff->getLanguage());
-        if(!$pareOfWords = $dictionary->getPareOfWords()){
-            $pareOfWords = [];
+        if(!$pairsOfWords){
+            $pairsOfWords = [];
         }
         $originalWords = [];
-        foreach ($pareOfWords as $pare){
-            if($pare !== null){
-                $originalWords[] = $pare->getOriginal();
+        foreach ($pairsOfWords as $pair){
+            if($pair !== null){
+                $originalWords[] = $pair->getOriginal();
             }
         }
 
@@ -55,10 +55,10 @@ class DictionaryController extends AbstractController
         }
 
         $sortedWords = array_merge($textWords, $ownerWords);
-        foreach ($pareOfWords as $pare) {
-            $key = array_search($pare->getOriginal(), $sortedWords);
+        foreach ($pairsOfWords as $pair) {
+            $key = array_search($pair->getOriginal(), $sortedWords);
             if ($key !== false){
-                $sortedWords[$key] = $pare;
+                $sortedWords[$key] = $pair;
             }
         }
         /*======== END SORTING  ========*/
