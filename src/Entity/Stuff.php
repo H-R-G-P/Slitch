@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -124,9 +126,14 @@ class Stuff
     private ?bool $isHandled;
 
     /**
-     * @ORM\OneToOne(targetEntity=Dictionary::class, mappedBy="stuff", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=PareOfWords::class, mappedBy="stuff")
      */
-    private ?Dictionary $dictionary;
+    private $pareOfWords;
+
+    public function __construct()
+    {
+        $this->pareOfWords = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -301,19 +308,32 @@ class Stuff
         return $this;
     }
 
-    public function getDictionary(): ?Dictionary
+    /**
+     * @return Collection|PareOfWords[]
+     */
+    public function getPareOfWords(): Collection
     {
-        return $this->dictionary;
+        return $this->pareOfWords;
     }
 
-    public function setDictionary(Dictionary $dictionary): self
+    public function addPareOfWord(PareOfWords $pareOfWord): self
     {
-        // set the owning side of the relation if necessary
-        if ($dictionary->getStuff() !== $this) {
-            $dictionary->setStuff($this);
+        if (!$this->pareOfWords->contains($pareOfWord)) {
+            $this->pareOfWords[] = $pareOfWord;
+            $pareOfWord->setStuff($this);
         }
 
-        $this->dictionary = $dictionary;
+        return $this;
+    }
+
+    public function removePareOfWord(PareOfWords $pareOfWord): self
+    {
+        if ($this->pareOfWords->removeElement($pareOfWord)) {
+            // set the owning side to null (unless already changed)
+            if ($pareOfWord->getStuff() === $this) {
+                $pareOfWord->setStuff(null);
+            }
+        }
 
         return $this;
     }

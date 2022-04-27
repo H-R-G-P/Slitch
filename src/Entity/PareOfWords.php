@@ -28,10 +28,9 @@ class PareOfWords
     private ?string $translation;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Dictionary::class, inversedBy="pareOfWords")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=Stuff::class, inversedBy="pareOfWords")
      */
-    private ?Dictionary $dictionary;
+    private $stuff;
 
     public function getId(): ?int
     {
@@ -62,14 +61,14 @@ class PareOfWords
         return $this;
     }
 
-    public function getDictionary(): ?Dictionary
+    public function getStuff(): ?Stuff
     {
-        return $this->dictionary;
+        return $this->stuff;
     }
 
-    public function setDictionary(?Dictionary $dictionary): self
+    public function setStuff(?Stuff $stuff): self
     {
-        $this->dictionary = $dictionary;
+        $this->stuff = $stuff;
 
         return $this;
     }
