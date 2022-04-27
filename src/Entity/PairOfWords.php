@@ -32,10 +32,11 @@ class PairOfWords
      */
     private Stuff $stuff;
 
-    public function __construct(string $original, Stuff $stuff)
+    public function __construct(string $original, Stuff $stuff, ?string $translation=null)
     {
         $this->original = $original;
         $this->stuff = $stuff;
+        $this->translation = $translation;
     }
 
     public function getId(): int

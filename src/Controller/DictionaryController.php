@@ -2,8 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\PairOfWords;
 use App\Repository\StuffRepository;
-use App\Service\StatisticService;
+use App\Service\DictionaryService;
 use App\Service\TextProcessor;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DictionaryController extends AbstractController
 {
     #[Route('/dictionary/{stuffId}', name: 'dictionary')]
-    public function index(int $stuffId, StuffRepository $stuffRep, Request $request, TextProcessor $textProcessor, StatisticService $statServ): Response
+    public function index(int $stuffId, StuffRepository $stuffRep, Request $request, TextProcessor $textProcessor, DictionaryService $dictServ): Response
     {
         $stuff = $stuffRep->findOneBy([
             'id' => $stuffId,
@@ -23,43 +24,41 @@ class DictionaryController extends AbstractController
             return $this->redirectToRoute('show_all_stuffs');
         }
 
-        $pairsOfWords = $stuff->getPairsOfWords();
+        $pairsOfWordsFromDict = $stuff->getPairsOfWords();
+        $sortedWordsFromText = $textProcessor->getUniqWords(mb_strtolower($stuff->getText()), $stuff->getLanguage());
 
-        /*======== START SORTING  ========*/
-        $uniqWords = $textProcessor->getUniqWords(mb_strtolower($stuff->getText()), $stuff->getLanguage());
-        if($pairsOfWords->count() === 0){
-            $pairsOfWords = [];
-        }
-        $originalWords = [];
-        foreach ($pairsOfWords as $pair){
-            if($pair !== null){
-                $originalWords[] = $pair->getOriginal();
+        if($pairsOfWordsFromDict->count() === 0){
+            foreach ($sortedWordsFromText as $uniqWord) {
+                $pairsOfWordsFromDict->add(new PairOfWords($uniqWord, $stuff));
+            }
+
+            $originalWordsFromDict = $sortedWordsFromText;
+        }else {
+            $originalWordsFromDict = [];
+            foreach ($pairsOfWordsFromDict as $pair){
+                if($pair !== null){
+                    $originalWordsFromDict[] = $pair->getOriginal();
+                }
             }
         }
 
-        $ownerWords = array_diff($originalWords, $uniqWords);
+        $usersWords = array_diff($originalWordsFromDict, $sortedWordsFromText);
+
         if ($request->query->get('sortBy') === 'quantityRepeats'){
-            $words = $textProcessor->getWords(mb_strtolower($stuff->getText()), $stuff->getLanguage());
-            $wordsRepeats = $statServ->countRepeats($words);
-            arsort($wordsRepeats, SORT_NUMERIC);
-            $uniqWords = [];
-            foreach ($wordsRepeats as $word => $repeats) {
-                $uniqWords[] = $word;
-            }
-            $textWords = array_intersect($uniqWords, $originalWords);
+            $sortedWordsFromText = $dictServ->sortByQuantityRepeats($stuff);
+
+            $textWords = array_intersect($sortedWordsFromText, $originalWordsFromDict);
         }else{
-            $textWords = array_intersect($uniqWords, $originalWords);
+            $textWords = array_intersect($sortedWordsFromText, $originalWordsFromDict);
         }
 
-        $sortedWords = array_merge($textWords, $ownerWords);
-        foreach ($pairsOfWords as $pair) {
+        $sortedWords = array_merge($textWords, $usersWords);
+        foreach ($pairsOfWordsFromDict as $pair) {
             $key = array_search($pair->getOriginal(), $sortedWords);
             if ($key !== false){
                 $sortedWords[$key] = $pair;
             }
         }
-        /*======== END SORTING  ========*/
-//        TODO: remove comments above and move code to somewhere
 
         return $this->render('dictionary/index.html.twig', [
             'pairs_of_words' => $sortedWords,
