@@ -128,9 +128,9 @@ class Stuff
     /**
      * @ORM\OneToMany(targetEntity=PairOfWords::class, mappedBy="stuff")
      *
-     * @var ArrayCollection<int, PairOfWords> $pairsOfWords
+     * @var Collection<int, PairOfWords> $pairsOfWords
      */
-    private ArrayCollection $pairsOfWords;
+    private Collection $pairsOfWords;
 
     public function __construct()
     {

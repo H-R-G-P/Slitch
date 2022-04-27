@@ -24,13 +24,10 @@ class DictionaryController extends AbstractController
         }
 
         $pairsOfWords = $stuff->getPairsOfWords();
-        if ($pairsOfWords->count() === 0){
-            return $this->redirectToRoute('homepage');
-        }
 
         /*======== START SORTING  ========*/
         $uniqWords = $textProcessor->getUniqWords(mb_strtolower($stuff->getText()), $stuff->getLanguage());
-        if(!$pairsOfWords){
+        if($pairsOfWords->count() === 0){
             $pairsOfWords = [];
         }
         $originalWords = [];
