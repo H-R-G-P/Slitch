@@ -25,14 +25,14 @@ class DictionaryController extends AbstractController
         }
 
         $pairsOfWordsFromDict = $stuff->getPairsOfWords();
-        $sortedWordsFromText = $textProcessor->getUniqWords(mb_strtolower($stuff->getText()), $stuff->getLanguage());
+        $wordsFromText = $textProcessor->getUniqWords(mb_strtolower($stuff->getText()), $stuff->getLanguage());
 
         if($pairsOfWordsFromDict->count() === 0){
-            foreach ($sortedWordsFromText as $uniqWord) {
+            foreach ($wordsFromText as $uniqWord) {
                 $pairsOfWordsFromDict->add(new PairOfWords($uniqWord, $stuff));
             }
 
-            $originalWordsFromDict = $sortedWordsFromText;
+            $originalWordsFromDict = $wordsFromText;
         }else {
             $originalWordsFromDict = [];
             foreach ($pairsOfWordsFromDict as $pair){
@@ -42,14 +42,14 @@ class DictionaryController extends AbstractController
             }
         }
 
-        $usersWords = array_diff($originalWordsFromDict, $sortedWordsFromText);
+        $usersWords = array_diff($originalWordsFromDict, $wordsFromText);
 
         if ($request->query->get('sortBy') === 'quantityRepeats'){
             $sortedWordsFromText = $dictServ->sortByQuantityRepeats($stuff);
 
             $textWords = array_intersect($sortedWordsFromText, $originalWordsFromDict);
         }else{
-            $textWords = array_intersect($sortedWordsFromText, $originalWordsFromDict);
+            $textWords = array_intersect($wordsFromText, $originalWordsFromDict);
         }
 
         $sortedWords = array_merge($textWords, $usersWords);
