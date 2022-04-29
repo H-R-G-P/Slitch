@@ -31,8 +31,8 @@
             <tbody>
                 {% for pair in pairs_of_words %}
                     <tr>
-                        <td style="border-right: 4px solid; border-bottom: 1px solid">{{ pair.original }}</td>
-                        <td style="border-bottom: 1px solid">{{ pair.translation }}</td>
+                        <td style="border-right: 4px solid; border-bottom: 1px solid"><input type="text" value="{{ pair.original }}"></td>
+                        <td style="border-bottom: 1px solid"><input type="text" value="{{ pair.translation }}"></td>
                     </tr>
                 {% endfor %}
             </tbody>
