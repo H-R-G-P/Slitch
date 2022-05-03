@@ -28,7 +28,7 @@ class PairOfWords
     private ?string $translation;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Stuff::class, inversedBy="pairOfWords")
+     * @ORM\ManyToOne(targetEntity=Stuff::class, inversedBy="pairsOfWords")
      */
     private Stuff $stuff;
 

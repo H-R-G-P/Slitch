@@ -7,6 +7,8 @@ namespace App\Service;
 use App\Dto\TypeOfSortingDTO;
 use App\Entity\PairOfWords;
 use App\Entity\Stuff;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Persistence\ObjectManager;
 
 class DictionaryService
 {
@@ -30,23 +32,23 @@ class DictionaryService
         return $sortedWords;
     }
 
-    public function getSortedWords(Stuff $stuff, TypeOfSortingDTO $typeOfSortingDTO): array
+    /**
+     * @param Stuff $stuff
+     * @param TypeOfSortingDTO $typeOfSortingDTO
+     * @param Collection<int, PairOfWords> $pairsOfWordsFromDict
+     *
+     * @return array<int, PairOfWords>
+     *
+     * @throws \Exception
+     */
+    public function getSortedWords(Stuff $stuff, TypeOfSortingDTO $typeOfSortingDTO, Collection $pairsOfWordsFromDict): array
     {
-        $pairsOfWordsFromDict = $stuff->getPairsOfWords();
         $wordsFromText = (new TextProcessor())->getUniqWords(mb_strtolower($stuff->getText()), $stuff->getLanguage());
 
-        if($pairsOfWordsFromDict->count() === 0){
-            foreach ($wordsFromText as $uniqWord) {
-                $pairsOfWordsFromDict->add(new PairOfWords($uniqWord, $stuff));
-            }
-
-            $originalWordsFromDict = $wordsFromText;
-        }else {
-            $originalWordsFromDict = [];
-            foreach ($pairsOfWordsFromDict as $pair){
-                if($pair !== null){
-                    $originalWordsFromDict[] = $pair->getOriginal();
-                }
+        $originalWordsFromDict = [];
+        foreach ($pairsOfWordsFromDict as $pair){
+            if($pair !== null){
+                $originalWordsFromDict[] = $pair->getOriginal();
             }
         }
 
@@ -71,5 +73,18 @@ class DictionaryService
         }
 
         return $sortedWords;
+    }
+
+    public function setDictionaryFromText(Stuff $stuff, ObjectManager $em): void
+    {
+        $wordsFromText = (new TextProcessor())->getUniqWords(mb_strtolower($stuff->getText()), $stuff->getLanguage());
+
+        foreach ($wordsFromText as $uniqWord) {
+            $newPair = new PairOfWords($uniqWord, $stuff);
+            $stuff->getPairsOfWords()->add($newPair);
+            $em->persist($newPair);
+        }
+
+        $em->flush();
     }
 }
