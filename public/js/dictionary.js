@@ -24,6 +24,11 @@ for (let wordElement of words) {
                 data: {'orig': wordElement.value},
                 error: function () {
                     alert('Some error and word not saved :(')
+                },
+                success: function (data) {
+                    if (data === 'refresh') {
+                        document.location.reload();
+                    }
                 }
             });
         }else {
@@ -37,4 +42,31 @@ for (let wordElement of words) {
             })
         }
     })
+}
+
+let pairs = document.getElementsByClassName('pair-of-words');
+for (let pairElement of pairs) {
+    pairElement.addEventListener('mouseenter', () => {
+        let btn = document.getElementById('delete-btn-' + pairElement.id)
+        btn.hidden = false;
+    });
+    pairElement.addEventListener('mouseleave', () => {
+        let btn = document.getElementById('delete-btn-' + pairElement.id)
+        btn.hidden = true;
+    });
+}
+
+function deletePair(pairId) {
+    if (window.confirm('Do you want delete pair of words?')) {
+        $.ajax('/dictionary/delete/' + pairId, {
+            type: 'DELETE',
+            dataType: 'text',
+            error: function () {
+                alert('Some error and word not deleted :(')
+            },
+            success: function () {
+                document.location.reload();
+            }
+        })
+    }
 }

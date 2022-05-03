@@ -21,7 +21,7 @@
             <a href="{{ path('show_dictionary_pdf', {'stuffId': stuff.id}) }}" class="btn btn-default">Get PDF</a>
 {#            <a href="{{ path('edit_dictionary', {'stuffId': stuff.id}) }}" class="btn btn-default">Edit</a>#}
         </div>
-        <table class="table table-light" style="border: 3px #0a0a0a solid">
+        <table class="table table-light table-hover" style="border: 3px #0a0a0a solid">
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">original</th>
@@ -30,14 +30,16 @@
             </thead>
             <tbody>
                 {% for pair in pairs_of_words %}
-                    <tr>
+                    <tr id="{{ pair.id }}" class="pair-of-words">
                         <td style="border-right: 4px solid; border-bottom: 1px solid">
                             <input id="orig-{{ pair.id }}" type="text" class="words original" value="{{ pair.original }}">
                             <label for="orig-{{ pair.id }}" hidden>{{ pair.id }}</label>
                         </td>
-                        <td style="border-bottom: 1px solid">
-                            <input id="trans-{{ pair.id }}" type="text" class="words translation" value="{{ pair.translation }}">
+                        <td style="border-bottom: 1px solid" class="d-flex">
+                            <input id="trans-{{ pair.id }}" type="text" class="words translation mr-auto" value="{{ pair.translation }}">
                             <label for="trans-{{ pair.id }}" hidden>{{ pair.id }}</label>
+                            <span hidden id="delete-btn-{{ pair.id }}" class="btn btn-danger py-0 px-3 ml-auto" onclick="deletePair({{ pair.id }})">x</span>
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>

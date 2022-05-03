@@ -110,10 +110,15 @@ class DictionaryController extends AbstractController
             return new Response("");
         }else{
             $em = $this->getDoctrine()->getManager();
-            $pair->setOriginal($updatedWord);
+
             if (trim($updatedWord) === '') {
                 $em->remove($pair);
+                $em->flush();
+
+                return new Response('refresh');
             }
+
+            $pair->setOriginal($updatedWord);
             $em->flush();
 
             return new Response("");
@@ -149,5 +154,29 @@ class DictionaryController extends AbstractController
 
             return new Response("");
         }
+    }
+
+    /**
+     * @Route("/dictionary/delete/{pairId}", name="delete_pair_of_words", methods={"DELETE"}), requirements={"pairId"="%app.id_regex%"})
+     *
+     * @param int $pairId
+     * @param PairOfWordsRepository<PairOfWords> $pairOfWordsRep
+     *
+     * @return Response
+     */
+    public function deletePair(int $pairId, PairOfWordsRepository $pairOfWordsRep): Response
+    {
+        $pair = $pairOfWordsRep->findOneBy([
+            'id' => $pairId
+        ]);
+        if (!$pair) {
+            return new Response("Pair of words with id: $pairId does not exist");
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($pair);
+        $em->flush();
+
+        return new Response("");
     }
 }
