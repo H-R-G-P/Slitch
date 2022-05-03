@@ -111,6 +111,9 @@ class DictionaryController extends AbstractController
         }else{
             $em = $this->getDoctrine()->getManager();
             $pair->setOriginal($updatedWord);
+            if (trim($updatedWord) === '') {
+                $em->remove($pair);
+            }
             $em->flush();
 
             return new Response("");
