@@ -59,10 +59,14 @@ class DictionaryController extends AbstractController
 
     /**
      * @Route("/dictionary/show-pdf/{stuffId}", name="show_dictionary_pdf", requirements={"stuffId"="%app.id_regex%"})
+     *
+     * @param int $stuffId
+     *
+     * @return Response
      */
-    public function showPdf()
+    public function showPdf(int $stuffId): Response
     {
-
+        return new Response('PDF');
     }
 
     /**
