@@ -58,27 +58,6 @@ class DictionaryController extends AbstractController
     }
 
     /**
-     * @Route("/dictionary/create/{stuffId}", name="create_dictionary", requirements={"stuffId"="%app.id_regex%"})
-     *
-     * @param int $stuffId
-     * @param StuffRepository<Stuff> $stuffRep
-     *
-     * @return Response
-     */
-    public function create(int $stuffId, StuffRepository $stuffRep): Response
-    {
-        $stuff = $stuffRep->findOneBy([
-            'id' => $stuffId,
-        ]);
-        if (!$stuff) {
-            $this->addFlash('info', "Stuff with id: $stuffId does not exist");
-            return $this->redirectToRoute('show_all_stuffs');
-        }
-
-        return new Response("Create new dictionary");
-    }
-
-    /**
      * @Route("/dictionary/show-pdf/{stuffId}", name="show_dictionary_pdf", requirements={"stuffId"="%app.id_regex%"})
      */
     public function showPdf()
