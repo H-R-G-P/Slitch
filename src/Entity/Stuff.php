@@ -123,7 +123,7 @@ class Stuff
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private ?bool $isHandled;
+    private ?bool $hasDictionary;
 
     /**
      * @ORM\OneToMany(targetEntity=PairOfWords::class, mappedBy="stuff")
@@ -298,27 +298,27 @@ class Stuff
         return $this;
     }
 
-    public function getIsHandled(): ?bool
+    public function getHasDictionary(): ?bool
     {
-        return $this->isHandled;
+        return $this->hasDictionary;
     }
 
-    public function setIsHandled(?bool $isHandled): self
+    public function setHasDictionary(?bool $hasDictionary): self
     {
-        $this->isHandled = $isHandled;
+        $this->hasDictionary = $hasDictionary;
 
         return $this;
     }
 
     /**
-     * @return Collection|PairOfWords[]
+     * @return Collection<int, PairOfWords>
      */
     public function getPairsOfWords(): Collection
     {
         return $this->pairsOfWords;
     }
 
-    public function addPareOfWord(PairOfWords $pareOfWord): self
+    public function addPairOfWord(PairOfWords $pareOfWord): self
     {
         if (!$this->pairsOfWords->contains($pareOfWord)) {
             $this->pairsOfWords[] = $pareOfWord;
@@ -328,7 +328,7 @@ class Stuff
         return $this;
     }
 
-    public function removePareOfWord(PairOfWords $pareOfWord): self
+    public function removePairOfWord(PairOfWords $pareOfWord): self
     {
         if ($this->pairsOfWords->removeElement($pareOfWord)) {
             // set the owning side to null (unless already changed)
