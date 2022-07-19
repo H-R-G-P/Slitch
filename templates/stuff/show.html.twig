@@ -25,10 +25,10 @@
                 <p>Not learned word count: {{ count_not_learned_words }}</p>
                 <p>Number of views: {{ stuff.numberOfViews }}</p>
                 <p>
-                    {% if stuff.isHandled %}
-                        Handled: yes
+                    {% if stuff.hasDictionary %}
+                        Has dictionary: yes
                     {% else %}
-                        Handled: no
+                        Has dictionary: no
                     {% endif %}
                 </p>
                 <p>Added at: {{ stuff.addedAt.format('d-m-Y') }}</p>
