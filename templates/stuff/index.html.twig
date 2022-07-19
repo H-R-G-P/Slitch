@@ -47,9 +47,9 @@
                                                 Dictionary
                                             </a>
                                         {% else %}
-{#                                            <a href="{{ path('create_dictionary', {"id": stuffs[k+i].id}) }}" class="btn btn-sm btn-outline-primary">#}
-{#                                                Create Dict#}
-{#                                            </a>#}
+                                            <a href="{{ path('handle_stuff', {"id": stuffs[k+i].id}) }}" class="btn btn-sm btn-outline-primary">
+                                                Create Dict
+                                            </a>
                                         {% endif %}
                                     </div>
                                     <small class="text-muted">{{ stuffs[k+i].addedAt.format('d-m-Y') }}</small>
