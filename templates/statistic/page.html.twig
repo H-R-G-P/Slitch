@@ -28,7 +28,7 @@
 
                 <hr>
 
-                <div class="row">
+                <div>
                     <div id="email-fields-list"
                          data-prototype="{{ form_widget(texts_form.texts.vars.prototype)|e }}"
                          data-widget-tags="{{ '<div></div>'|e }}"
@@ -37,16 +37,15 @@
                             <div>
                                 {{ form_errors(text_area) }}
                                 {{ form_widget(text_area) }}
-
-                                <button class="btn btn-outline-danger mb-3 delete_text_btn" onclick="this.parentElement.remove();">Delete</button>
                             </div>
+                            <button class="btn btn-outline-danger mb-3 delete_text_btn mt-3" onclick="this.parentElement.remove();">Delete</button>
                         {% endfor %}
                     </div>
                 </div>
 
                 {{ form_end(texts_form) }}
 
-                <button id="hidden_btn" class="btn btn-outline-danger mb-3 delete_text_btn" hidden onclick="this.parentElement.remove();">Delete</button>
+                <button id="hidden_btn" class="btn btn-outline-danger my-3 delete_text_btn" hidden onclick="this.parentElement.remove();">Delete</button>
             </div>
             <div class="col-8">
                 <div class="card card-body">
