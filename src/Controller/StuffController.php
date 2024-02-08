@@ -3,8 +3,10 @@
 
 namespace App\Controller;
 
+use App\Entity\LearnedWords;
+use App\Entity\PairOfWords;
 use App\Entity\Stuff;
-use App\Entity\Users;
+use App\Entity\UntranslatableWords;
 use App\Form\StuffType;
 use App\Repository\LearnedWordsRepository;
 use App\Repository\StuffRepository;
@@ -12,6 +14,8 @@ use App\Repository\UntranslatableWordsRepository;
 use App\Service\StuffControllerService;
 use App\Service\TextProcessor;
 use DateTime;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -269,23 +273,65 @@ class StuffController extends AbstractController
     }
 
     /**
-     * @Route("/toggle-is-handled/{stuff-obj}", name="toggle_is_handled_stuff", methods={"GET"})
+     * @Route("/handled/{id}", name="set_stuff_handled", methods={"PUT"})
      *
-     * @param Stuff $stuff
+     * @param int $id
+     * @param EntityManagerInterface $em
+     * @param StuffRepository<Stuff> $stuffRep
      *
      * @return Response
      */
-    public function toggleIsHandled(Stuff $stuff) : Response
+    public function setStuffHandled(int $id, EntityManagerInterface $em, StuffRepository $stuffRep) : Response
     {
-        $em = $this->getDoctrine()->getManager();
-
-        if ($stuff->getIsHandled()) {
-            $stuff->setIsHandled(false);
-        }else {
-            $stuff->setIsHandled(true);
+        $stuff = $stuffRep->findOneBy([
+            'id' => $id,
+        ]);
+        if (!$stuff) {
+            $this->addFlash('info', "Stuff with id: $id does not exist");
+            return $this->redirectToRoute('show_all_stuffs');
         }
 
+        $stuff->setHasDictionary(true);
         $em->flush();
+
+        return new Response('');
+    }
+
+    /**
+     * @Route("/translate/{stuff}", name="translate", methods={"PUT"})
+     *
+     * @param Stuff $stuff
+     * @param Request $request
+     * @param EntityManager $em
+     * @param LearnedWordsRepository<LearnedWords> $lwr
+     * @param UntranslatableWordsRepository<UntranslatableWords> $uwr
+     *
+     * @return Response
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function translate(Stuff $stuff, Request $request, EntityManager $em, LearnedWordsRepository $lwr, UntranslatableWordsRepository $uwr) : Response
+    {
+        $service = new StuffControllerService();
+        try {
+            $notLearnedWords = array_values($service->getNotLearnedWords($stuff, $lwr, $uwr));
+        }catch (Exception $e) {
+            $this->addFlash('danger', $e->getMessage());
+            return $this->redirectToRoute('show_all_stuffs');
+        }
+
+        if ($stuff->getPairsOfWords()->count() === 0) {
+            $translates = [];
+            foreach ($notLearnedWords as $key => $word) {
+                $newPair = new PairOfWords($word, $stuff, $translates[$key]);
+                $stuff->getPairsOfWords()->add($newPair);
+                $em->persist($newPair);
+            }
+
+            $em->flush();
+        }
+
 
         return new Response();
     }

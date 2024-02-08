@@ -4,21 +4,51 @@
 
 {% block body %}
     <div class="container">
-        <table class="table">
-            <thead>
+        <h2 class="text-center font-weight-bold">Dictionary for {{ stuff.name }}</h2>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="select-sorting">Sorting by</label>
+            </div>
+            <select class="custom-select" id="select-sorting">
+                {% if selected_sorting == 'quantityRepeats' %}
+                    <option value="textOrder">text order</option>
+                    <option value="quantityRepeats" selected>quantity repeats</option>
+                {% else %}
+                    <option value="textOrder" selected>text order</option>
+                    <option value="quantityRepeats">quantity repeats</option>
+                {% endif %}
+            </select>
+            <a href="{{ path('show_dictionary_pdf', {'stuffId': stuff.id}) }}" class="btn btn-default">Get PDF</a>
+{#            <a href="{{ path('edit_dictionary', {'stuffId': stuff.id}) }}" class="btn btn-default">Edit</a>#}
+        </div>
+        <table class="table table-light table-hover" style="border: 3px #0a0a0a solid">
+            <thead class="thead-dark">
                 <tr>
                     <th scope="col">original</th>
                     <th scope="col">translation</th>
                 </tr>
             </thead>
             <tbody>
-                {% for pare_of_words in dictionary.pareOfWords %}
-                    <tr>
-                        <td>{{ pare_of_words.original }}</td>
-                        <td>{{ pare_of_words.translation }}</td>
+                {% for pair in pairs_of_words %}
+                    <tr id="{{ pair.id }}" class="pair-of-words">
+                        <td style="border-right: 4px solid; border-bottom: 1px solid">
+                            <input id="orig-{{ pair.id }}" type="text" class="words original" value="{{ pair.original }}">
+                            <label for="orig-{{ pair.id }}" hidden>{{ pair.id }}</label>
+                        </td>
+                        <td style="border-bottom: 1px solid" class="d-flex">
+                            <input id="trans-{{ pair.id }}" type="text" class="words translation mr-auto" value="{{ pair.translation }}">
+                            <label for="trans-{{ pair.id }}" hidden>{{ pair.id }}</label>
+                            <span hidden id="delete-btn-{{ pair.id }}" class="btn btn-danger py-0 px-3 ml-auto" onclick="deletePair({{ pair.id }})">x</span>
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('js/dictionary.js') }}"></script>
 {% endblock %}

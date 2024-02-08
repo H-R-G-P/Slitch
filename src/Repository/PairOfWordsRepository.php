@@ -2,28 +2,28 @@
 
 namespace App\Repository;
 
-use App\Entity\PareOfWords;
+use App\Entity\PairOfWords;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method PareOfWords|null find($id, $lockMode = null, $lockVersion = null)
- * @method PareOfWords|null findOneBy(array $criteria, array $orderBy = null)
- * @method PareOfWords[]    findAll()
- * @method PareOfWords[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method PairOfWords|null find($id, $lockMode = null, $lockVersion = null)
+ * @method PairOfWords|null findOneBy(array $criteria, array $orderBy = null)
+ * @method PairOfWords[]    findAll()
+ * @method PairOfWords[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  *
- * @template PareOfWords
- * @extends ServiceEntityRepository<PareOfWords::class>
+ * @template PairOfWords
+ * @extends ServiceEntityRepository<PairOfWords::class>
  */
-class PareOfWordsRepository extends ServiceEntityRepository
+class PairOfWordsRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, PareOfWords::class);
+        parent::__construct($registry, PairOfWords::class);
     }
 
     // /**
-    //  * @return PareOfWords[] Returns an array of PareOfWords objects
+    //  * @return PairOfWords[] Returns an array of PairOfWords objects
     //  */
     /*
     public function findByExampleField($value)
@@ -40,7 +40,7 @@ class PareOfWordsRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?PareOfWords
+    public function findOneBySomeField($value): ?PairOfWords
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.exampleField = :val')

@@ -2,25 +2,25 @@
 
 namespace App\Entity;
 
-use App\Repository\PareOfWordsRepository;
+use App\Repository\PairOfWordsRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=PareOfWordsRepository::class)
+ * @ORM\Entity(repositoryClass=PairOfWordsRepository::class)
  */
-class PareOfWords
+class PairOfWords
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private ?int $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=25)
      */
-    private ?string $original;
+    private string $original;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
@@ -28,17 +28,23 @@ class PareOfWords
     private ?string $translation;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Dictionary::class, inversedBy="pareOfWords")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=Stuff::class, inversedBy="pairsOfWords")
      */
-    private ?Dictionary $dictionary;
+    private Stuff $stuff;
 
-    public function getId(): ?int
+    public function __construct(string $original, Stuff $stuff, ?string $translation=null)
+    {
+        $this->original = $original;
+        $this->stuff = $stuff;
+        $this->translation = $translation;
+    }
+
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getOriginal(): ?string
+    public function getOriginal(): string
     {
         return $this->original;
     }
@@ -62,14 +68,14 @@ class PareOfWords
         return $this;
     }
 
-    public function getDictionary(): ?Dictionary
+    public function getStuff(): Stuff
     {
-        return $this->dictionary;
+        return $this->stuff;
     }
 
-    public function setDictionary(?Dictionary $dictionary): self
+    public function setStuff(Stuff $stuff): self
     {
-        $this->dictionary = $dictionary;
+        $this->stuff = $stuff;
 
         return $this;
     }

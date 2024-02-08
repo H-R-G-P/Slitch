@@ -2,8 +2,10 @@
 
 namespace App\Entity;
 
+use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Stuff
@@ -121,12 +123,19 @@ class Stuff
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private ?bool $isHandled;
+    private ?bool $hasDictionary;
 
     /**
-     * @ORM\OneToOne(targetEntity=Dictionary::class, mappedBy="stuff", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=PairOfWords::class, mappedBy="stuff")
+     *
+     * @var Collection<int, PairOfWords> $pairsOfWords
      */
-    private ?Dictionary $dictionary;
+    private Collection $pairsOfWords;
+
+    public function __construct()
+    {
+        $this->pairsOfWords = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -217,12 +226,12 @@ class Stuff
         return $this;
     }
 
-    public function getAddedAt(): ?\DateTimeInterface
+    public function getAddedAt(): ?DateTimeInterface
     {
         return $this->addedAt;
     }
 
-    public function setAddedAt(\DateTimeInterface $addedAt): self
+    public function setAddedAt(DateTimeInterface $addedAt): self
     {
         $this->addedAt = $addedAt;
 
@@ -289,31 +298,44 @@ class Stuff
         return $this;
     }
 
-    public function getIsHandled(): ?bool
+    public function getHasDictionary(): ?bool
     {
-        return $this->isHandled;
+        return $this->hasDictionary;
     }
 
-    public function setIsHandled(?bool $isHandled): self
+    public function setHasDictionary(?bool $hasDictionary): self
     {
-        $this->isHandled = $isHandled;
+        $this->hasDictionary = $hasDictionary;
 
         return $this;
     }
 
-    public function getDictionary(): ?Dictionary
+    /**
+     * @return Collection<int, PairOfWords>
+     */
+    public function getPairsOfWords(): Collection
     {
-        return $this->dictionary;
+        return $this->pairsOfWords;
     }
 
-    public function setDictionary(Dictionary $dictionary): self
+    public function addPairOfWord(PairOfWords $pareOfWord): self
     {
-        // set the owning side of the relation if necessary
-        if ($dictionary->getStuff() !== $this) {
-            $dictionary->setStuff($this);
+        if (!$this->pairsOfWords->contains($pareOfWord)) {
+            $this->pairsOfWords[] = $pareOfWord;
+            $pareOfWord->setStuff($this);
         }
 
-        $this->dictionary = $dictionary;
+        return $this;
+    }
+
+    public function removePairOfWord(PairOfWords $pareOfWord): self
+    {
+        if ($this->pairsOfWords->removeElement($pareOfWord)) {
+            // set the owning side to null (unless already changed)
+            if ($pareOfWord->getStuff() === $this) {
+                $pareOfWord->setStuff(null);
+            }
+        }
 
         return $this;
     }

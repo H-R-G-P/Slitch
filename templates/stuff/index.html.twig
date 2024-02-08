@@ -15,7 +15,7 @@
             <div class="card-deck">
                 {% for i in 0..2 %}
                     {% if stuffs[k+i] is defined %}
-                        {% if stuffs[k+i].isHandled %}
+                        {% if stuffs[k+i].hasDictionary %}
                             <div class="card mb-4 box-shadow" style="background-color: #b5f1a7;">
                         {% else %}
                             <div class="card mb-4 box-shadow" style="background-color: #E9ECEF;">
@@ -42,13 +42,13 @@
                                         <a href="{{ path('show_stuff', {"id": stuffs[k+i].id}) }}" class="btn btn-sm btn-outline-secondary">
                                             More
                                         </a>
-                                        {% if stuffs[k+i].isHandled %}
+                                        {% if stuffs[k+i].hasDictionary %}
                                             <a href="{{ path('dictionary', {"stuffId": stuffs[k+i].id}) }}" class="btn btn-sm btn-outline-secondary">
                                                 Dictionary
                                             </a>
                                         {% else %}
-                                            <a href="{{ path('handle_stuff_form', {"id": stuffs[k+i].id}) }}" class="btn btn-sm btn-outline-secondary">
-                                                Handle
+                                            <a href="{{ path('handle_stuff', {"id": stuffs[k+i].id}) }}" class="btn btn-sm btn-outline-primary">
+                                                Create Dict
                                             </a>
                                         {% endif %}
                                     </div>
