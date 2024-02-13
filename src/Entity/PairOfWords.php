@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Repository\PairOfWordsRepository;
 use Doctrine\ORM\Mapping as ORM;
-use JetBrains\PhpStorm\Pure;
 
 /**
  * @ORM\Entity(repositoryClass=PairOfWordsRepository::class)
@@ -79,10 +78,5 @@ class PairOfWords
         $this->stuff = $stuff;
 
         return $this;
-    }
-
-    #[Pure] public function __toString(): string
-    {
-        return $this->getOriginal();
     }
 }

@@ -2,8 +2,6 @@
 
 namespace Tests\App\Service;
 
-use App\Entity\PairOfWords;
-use App\Entity\Stuff;
 use App\Service\Helper;
 use App\Vo\Word;
 use PHPUnit\Framework\TestCase;
@@ -747,20 +745,6 @@ class HelperTest extends TestCase
         $actual = $helper->array_diff_inLowercase($array1, $array2, $array3);
         $expected = array(
         );
-        self::assertSame($expected, $actual);
-
-        $stuff = $this->createStub(Stuff::class);
-        $pair1 = new PairOfWords('Exceptional', $stuff);
-        $pair2 = new PairOfWords('quest', $stuff);
-        $pair3 = new PairOfWords('Leave', $stuff);
-        $pair4 = new PairOfWords('fire', $stuff);
-        $pair5 = new PairOfWords('Stay', $stuff);
-        $pair6 = new PairOfWords('water', $stuff);
-        $array1 = array($pair1, $pair2, $pair3, $pair4, $pair5, $pair6);
-        $array2 = array("quest", "fire");
-        $array3 = array("water", "none");
-        $actual = $helper->array_diff_inLowercase($array1, $array2, $array3);
-        $expected = array($pair1, $pair3, $pair5);
         self::assertSame($expected, $actual);
     }
 
