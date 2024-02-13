@@ -3,15 +3,12 @@
 namespace App\Controller;
 
 use App\Dto\TypeOfSortingDTO;
-use App\Entity\LearnedWords;
 use App\Entity\PairOfWords;
 use App\Entity\Stuff;
-use App\Entity\UntranslatableWords;
 use App\Repository\PairOfWordsRepository;
 use App\Repository\StuffRepository;
 use App\Service\DictionaryService;
 use App\Service\FilterService;
-use App\Service\Helper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,9 +31,7 @@ class DictionaryController extends AbstractController
      */
     public function index(int $stuffId, StuffRepository $stuffRep, Request $request, TypeOfSortingDTO $typeOfSorting, DictionaryService $dictionaryService): Response
     {
-//        $learnWords = $this->getDoctrine()->getRepository(LearnedWords::class)->findAll();
-//        $noTransWords = $this->getDoctrine()->getRepository(UntranslatableWords::class)->findAll();
-        $em = $this->getDoctrine()->getManager();
+        $om = $this->getDoctrine()->getManager();
         $stuff = $stuffRep->findOneBy([
             'id' => $stuffId,
         ]);
@@ -52,14 +47,10 @@ class DictionaryController extends AbstractController
         }
 
         if($stuff->getPairsOfWords()->count() === 0) {
-            $dictionaryService->setDictionaryFromText($stuff, $em);
+            $dictionaryService->setDictionaryFromText($stuff, $om);
         }
 
-        /*$noLearnPairWords = (new Helper())->array_diff_inLowercase($stuff->getPairsOfWords(), $learnWords, $noTransWords);
-
-        $sortedWords = $dictionaryService->getSortedWords($stuff, $typeOfSorting, $noLearnPairWords);*/
-//        TODO: Changes in this file are example of how it will looks like in future. When issue #74 will be solved.
-        $noLearnPairWords = (new FilterService($em, $stuff))->getNotLearnWords();
+        $noLearnPairWords = (new FilterService($om, $stuff))->getNotLearnWords();
 
         $sortedWords = $dictionaryService->getSortedWords($stuff, $typeOfSorting, $noLearnPairWords);
 
