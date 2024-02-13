@@ -7,7 +7,6 @@ namespace App\Service;
 use App\Dto\TypeOfSortingDTO;
 use App\Entity\PairOfWords;
 use App\Entity\Stuff;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Persistence\ObjectManager;
 
 class DictionaryService
@@ -35,13 +34,13 @@ class DictionaryService
     /**
      * @param Stuff $stuff
      * @param TypeOfSortingDTO $typeOfSortingDTO
-     * @param Collection<int, PairOfWords> $pairsOfWordsFromDict
+     * @param array<int, PairOfWords> $pairsOfWordsFromDict
      *
      * @return array<int, PairOfWords>
      *
      * @throws \Exception
      */
-    public function getSortedWords(Stuff $stuff, TypeOfSortingDTO $typeOfSortingDTO, Collection $pairsOfWordsFromDict): array
+    public function getSortedWords(Stuff $stuff, TypeOfSortingDTO $typeOfSortingDTO, array $pairsOfWordsFromDict): array
     {
         $wordsFromText = (new TextProcessor())->getUniqWords(mb_strtolower($stuff->getText()), $stuff->getLanguage());
 

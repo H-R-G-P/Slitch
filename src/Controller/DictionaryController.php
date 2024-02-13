@@ -8,6 +8,7 @@ use App\Entity\Stuff;
 use App\Repository\PairOfWordsRepository;
 use App\Repository\StuffRepository;
 use App\Service\DictionaryService;
+use App\Service\FilterService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,6 +31,7 @@ class DictionaryController extends AbstractController
      */
     public function index(int $stuffId, StuffRepository $stuffRep, Request $request, TypeOfSortingDTO $typeOfSorting, DictionaryService $dictionaryService): Response
     {
+        $om = $this->getDoctrine()->getManager();
         $stuff = $stuffRep->findOneBy([
             'id' => $stuffId,
         ]);
@@ -45,10 +47,12 @@ class DictionaryController extends AbstractController
         }
 
         if($stuff->getPairsOfWords()->count() === 0) {
-            $dictionaryService->setDictionaryFromText($stuff, $this->getDoctrine()->getManager());
+            $dictionaryService->setDictionaryFromText($stuff, $om);
         }
 
-        $sortedWords = $dictionaryService->getSortedWords($stuff, $typeOfSorting, $stuff->getPairsOfWords());
+        $noLearnPairWords = (new FilterService($om, $stuff))->getNotLearnWords();
+
+        $sortedWords = $dictionaryService->getSortedWords($stuff, $typeOfSorting, $noLearnPairWords);
 
         return $this->render('dictionary/index.html.twig', [
             'pairs_of_words' => $sortedWords,
