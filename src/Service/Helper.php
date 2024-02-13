@@ -4,24 +4,31 @@
 namespace App\Service;
 
 
+use App\Entity\PairOfWords;
+
 class Helper
 {
     /**
      * Comparing values of arrays case insensitive
-     * @param array $array1
-     * @param array $array2
-     * @param array $array3
-     * @return array
+     * @param array<string|PairOfWords> $array1
+     * @param array<string> $array2
+     * @param array<string> $array3
+     * @return array<string|PairOfWords>
      */
     public function array_diff_inLowercase(array $array1, array $array2, array $array3) : array
     {
         $output = [];
         foreach ($array1 as $value) {
-            $value = preg_replace('/-/', '\-', $value);
-            if (count(preg_grep('/^'.$value.'$/i', $array2)) === 0 &&
-                count(preg_grep('/^'.$value.'$/i', $array3)) === 0)
+            $string = "$value";
+            $string = preg_replace('/-/', '\-', $string);
+            if (count(preg_grep('/^'.$string.'$/i', $array2)) === 0 &&
+                count(preg_grep('/^'.$string.'$/i', $array3)) === 0)
             {
-                $output[] = preg_replace('/\\\-/', '-', $value);
+                $string = preg_replace('/\\\-/', '-', $value);
+                if ($value instanceof PairOfWords) {
+                    $value->setOriginal($string);
+                    $output[] = $value;
+                }else $output[] = $string;
             }
         }
         return $output;
