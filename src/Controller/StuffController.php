@@ -15,7 +15,6 @@ use App\Service\StuffControllerService;
 use App\Service\TextProcessor;
 use DateTime;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -270,31 +269,6 @@ class StuffController extends AbstractController
         $service->addWordsToDb($request, $em, $id, $stuffRepository);
 
         return new Response();
-    }
-
-    /**
-     * @Route("/handled/{id}", name="set_stuff_handled", methods={"PUT"})
-     *
-     * @param int $id
-     * @param EntityManagerInterface $em
-     * @param StuffRepository<Stuff> $stuffRep
-     *
-     * @return Response
-     */
-    public function setStuffHandled(int $id, EntityManagerInterface $em, StuffRepository $stuffRep) : Response
-    {
-        $stuff = $stuffRep->findOneBy([
-            'id' => $id,
-        ]);
-        if (!$stuff) {
-            $this->addFlash('info', "Stuff with id: $id does not exist");
-            return $this->redirectToRoute('show_all_stuffs');
-        }
-
-        $stuff->setHasDictionary(true);
-        $em->flush();
-
-        return new Response('');
     }
 
     /**
