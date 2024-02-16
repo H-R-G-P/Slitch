@@ -166,4 +166,30 @@ class DictionaryController extends AbstractController
 
         return new Response("");
     }
+
+    /**
+     * @Route("/dictionary/create/{stuffId}", name="create_dictionary", methods={"GET"})
+     *
+     * @param int $stuffId
+     * @param StuffRepository<Stuff> $stuffRep
+     *
+     * @return Response
+     */
+    public function createDictionary(int $stuffId, StuffRepository $stuffRep): Response
+    {
+//        TODO: Did I have to create and save PairsOfWords here for Stuff?
+        $stuff = $stuffRep->findOneBy([
+            'id' => $stuffId,
+        ]);
+        if (!$stuff) {
+            $this->addFlash('info', "Stuff with id: $stuffId does not exist");
+            return $this->redirectToRoute('show_all_stuffs');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $stuff->setHasDictionary(true);
+        $em->flush();
+
+        return new Response('');
+    }
 }
